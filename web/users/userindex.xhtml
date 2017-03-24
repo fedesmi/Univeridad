@@ -6,17 +6,49 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
-           
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
     <head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
-     <h:body>
-        <h1>Hello Admin|User</h1>
-         
- 
-        <h:link outcome="/index" value="Back to Homepage" />
+    <h:body>
+        <h:form id="index">
+            <p:growl id="messages" showDetail="true" />
+            <!-- ######### BANNER ######### -->
+            <p:panel style="border-style: none; background-color: #dbdbdb; padding-bottom: 0;"> 
+            <p:graphicImage value="/resources/img/banner.png"  />
+           
+            <p:commandButton style="font-size: 12px; "  id="dynaButton2" value="usuario" type="button" icon="ui-icon-person" />
+            <p:tieredMenu overlay="true" trigger="dynaButton2" my="left top" at="left bottom" style=" font-size: 12px;">
+                <p:menuitem value="Cambiar Contraseña" outcome="/users/userindex" update="messages" icon="ui-icon-pencil" />
+                <p:menuitem value="Cerrar Sesion"  action="#{authorization.logout()}" update="messages" icon="ui-icon-closethick" />
+            </p:tieredMenu>
+            
+            
+            </p:panel>
+
+            
+            
+            <p:commandButton id="dynaButton" value="Show" type="button" icon="ui-icon-extlink" />
+    <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:200px">
+        <p:submenu label="Ajax Menuitems">
+            <p:menuitem value="Save" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk" />
+            <p:menuitem value="Update" actionListener="#{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w" />
+        </p:submenu>
+        <p:submenu label="Non-Ajax Menuitem">
+            <p:menuitem value="Delete" actionListener="#{menuView.delete}" update="messages" ajax="false" icon="ui-icon-close" />
+        </p:submenu>
+        <p:submenu label="Navigations" icon="ui-icon-extlink">
+            <p:submenu label="Prime Links">
+                <p:menuitem value="Prime" url="http://www.prime.com.tr" />
+                <p:menuitem value="PrimeFaces" url="http://www.primefaces.org" />
+            </p:submenu>
+            <p:menuitem value="Mobile" outcome="/users/userindex" />
+        </p:submenu>
+    </p:tieredMenu>
+        </h:form>
     </h:body>
 </html>
