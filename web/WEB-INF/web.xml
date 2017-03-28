@@ -58,4 +58,10 @@
   </security-constraint>
     
     
+    
+     <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>delta</param-value>
+    </context-param>
+    
 </web-app>

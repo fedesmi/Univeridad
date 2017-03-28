@@ -4,28 +4,30 @@
  * and open the template in the editor.
  */
 package dam;
-
-import javax.faces.application.FacesMessage;
+ 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+ 
  
 @ManagedBean
 public class MenuView {
      
-    public void save() {
-        addMessage("Success", "Data saved");
-    }
+    private String console;
+   
+   
      
-    public void update() {
-        addMessage("Success", "Data updated");
+    @PostConstruct
+    public void init() {
+      
     }
-     
-    public void delete() {
-        addMessage("Success", "Data deleted");
+ 
+    public String getConsole() {
+        return console;
     }
-     
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+ 
+    public void setConsole(String console) {
+        this.console = console;
     }
+ 
+   
 }

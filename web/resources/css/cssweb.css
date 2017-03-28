@@ -1,0 +1,93 @@
+/* 
+    Document   : cssweb
+    Created on : 22-jul-2014, 15:42:43
+    Author     : fmichel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+
+.banner tr, .banner td {
+    border: none;
+}
+
+.panelbox tr, panelbox td {
+    vertical-align: top;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.blueUserIcon
+{
+    background:url("/media/User-blue-icon.png") no-repeat !important;
+    width:20px;
+    height:20px;
+}
+
+.redUserIcon
+{
+    background:url("/media/User-red-icon.png") no-repeat !important;
+    width:20px;
+    height:20px;
+}
+
+.yellowUserIcon
+{
+    background:url("/media/User-yellow-icon.png") no-repeat !important;
+    width:20px;
+    height:20px;
+}
+
+.greenUserIcon
+{
+    background:url("/media/User-green-icon.png") no-repeat !important;
+    width:20px;
+    height:20px;
+}
+
+
+.alignTop {
+vertical-align: top;
+}
+
+.highlightTableRow {
+    background: #fe1c1c;
+    color: white;
+}
+
+
+.normalrow {
+   background: lightsalmon;
+}
+
+.boldRow {
+   background:gainsboro ;
+}
+
+.highlightTableRow {
+    background: #fa3737;
+    color: white;
+}
+
+.highlightTableRowYellow{
+    background: gold;
+}
+
+.highlightTableRowGreen{
+    background: lightgreen;
+}
+
+
+.autocompleteStyle .ui-autocomplete-multiple-container {
+  width: 800px;
+}
+
