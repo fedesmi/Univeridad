@@ -35,7 +35,7 @@ public class ConexionBaseDatos {
         driver="org.mariadb.jdbc.Driver"; //driver(programa)q se encarga de interactuar con el driver del motor de la bd
         
 	    conectado=false;
-        conectarBD("damuser","dam");
+        conectarBD("root","untdf");
         
     }
  public ConexionBaseDatos(String bdName) throws FileNotFoundException, IOException {

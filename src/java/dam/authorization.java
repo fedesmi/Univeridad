@@ -59,7 +59,7 @@ public class authorization {
         String sql;
          try {
             ConexionBaseDatos connMysql = new ConexionBaseDatos();
-             sql = "SELECT nombre, apellido FROM users u where username='"+userVar+"' ";
+             sql = "SELECT e.nombre, e.apellido FROM empleado e, usuario u where usuario='"+userVar+"' and u.legajo=e.legajo";
             
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
             
