@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -67,6 +68,7 @@ public class authorization {
                 while (resultado.next()) {
                     usr.setNombre(resultado.getString(1));
                     usr.setApellido(resultado.getString(2));
+                    usr.setUserName(userVar);
                 }
             } catch (java.sql.SQLException e) {
                 System.err.print(e);
@@ -85,31 +87,33 @@ public class authorization {
     }
 
     public void cambiarClave() {
-
         if (newpass.equals(newpass2)) {
             String sql;
-            String pass = "";
+            boolean passOk = false;
             try {
                 ConexionBaseDatos connMysql = new ConexionBaseDatos();
 
-                sql = "SELECT clave FROM usuario WHERE usuario.usuario='" + user + "' ";
+                sql = "SELECT count(*) FROM usuario WHERE usuario.usuario='" + user.getUserName() + "' AND usuario.clave=sha2('" + oldpass + "',256) ";
 
                 java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
 
                 try {
                     while (resultado.next()) {
-                        pass = resultado.getString(1);
+                        passOk = resultado.getInt(1) > 0;
                     }
                 } catch (java.sql.SQLException e) {
                     System.err.print(e);
                 }
-                if (oldpass.equals(pass)) {
-                    sql = "UPDATE usuario SET clave=sha2('" + newpass + "',256) WHERE usuario.usuario='" + user + "' ";
+                if (passOk) {
+                    sql = "UPDATE usuario SET clave=sha2('" + newpass + "',256) WHERE usuario.usuario='" + user.getUserName() + "' ";
 
                     connMysql.ejecutarUpDate(sql);
-
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Su clave fue actualizada con éxito"));
+                    
                 } else {
-                    //cartelito
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!!", "La clave ingresada es incorrecta"));
                 }
                 connMysql.cerrarConexion();
 
@@ -119,8 +123,8 @@ public class authorization {
                 Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-
-            //cartelito
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!!", "Las claves no coinciden"));
         }
 
     }

@@ -9,25 +9,29 @@
     </h:head>
     <h:body style="text-align: center; min-width: 400px;">
         <h:form>
-            <p:growl id="messages" showDetail="true" />
-            <p:panel style="border-style: none; background-color: #dbdbdb; padding-bottom: 0;"> 
-                <p:panelGrid columns="2" styleClass="banner" style="width:100%; margin-top: -10px;"     >
-                    
-                    <p:column style=" background-color: #dbdbdb; border-style: none; " >
+            
+            
+           <p:panelGrid  styleClass="banner" style="width:100%; margin-top: -10px;"     >
+                <p:row>
+                    <td style="background-color: #dbdbdb;">
                         <p:graphicImage value="/resources/img/banner.png"  style="background-color: #dbdbdb;"/>
-                    </p:column>
-                    <p:column style=" background-color: #dbdbdb; border-style: none; " >
-                        <p:commandButton style="font-size: 12px; "  id="dynaButton" value="#{authorization.user.nombre}" type="button" icon="ui-icon-person" />
+                    </td>
+
+                    <td style="background-color: #dbdbdb; vertical-align: bottom;">
+                        <p:commandButton  style="font-size: 12px; "  id="dynaButton" value="#{authorization.user.nombre}" type="button" icon="ui-icon-person" />
                         <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style=" font-size: 12px;">
-                            <p:menuitem value="Cambiar Contraseña"  update="messages" icon="ui-icon-pencil" />
+                            <p:menuitem value="Cambiar Contraseña" outcome="/users/cambioClave" update="messages" icon="ui-icon-pencil" />
                             <p:menuitem value="Cerrar Sesion"  action="#{authorization.logout()}" update="messages" icon="ui-icon-closethick" />
                         </p:tieredMenu>
-                    </p:column>
-                </p:panelGrid>
-            </p:panel>
+                    </td>
+                </p:row>
+            </p:panelGrid>
+            
+            
 
             <div align="center">
-            <p:panel>
+                <p:panel style="min-width: 1050px;" >
+                <p:growl id="messages" showDetail="true" />
                 <p:outputLabel style="color: #666666; font-size: 35px; " value="Modificación de clave personal" />
                 <p:panelGrid columns="2" style="margin-top: 30px; margin-bottom: 30px ">
                 Ingrese su clave actual
@@ -37,8 +41,8 @@
                 Reingrese su nueva clave
                 <p:password id="newpass2" value="#{authorization.newpass2}"/>
                 </p:panelGrid> 
-                <p:commandButton value="Aplicar cambios" action="#{authorization.cambiarClave()}"/>
-                <p:commandButton value="Cancelar"  />
+                <p:commandButton value="Aplicar cambios" action="#{authorization.cambiarClave()}" ajax="false" update="messages"/>
+                <p:commandButton value="Cancelar" action="/users/userIndex" />
             </p:panel>
                 </div>
             
