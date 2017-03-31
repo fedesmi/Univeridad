@@ -1,15 +1,4 @@
-/* 
-    Document   : cssweb
-    Created on : 22-jul-2014, 15:42:43
-    Author     : fmichel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
+    
 
 root { 
     display: block;
@@ -91,3 +80,10 @@ vertical-align: top;
   width: 800px;
 }
 
+
+.btnCreate {
+    background-image: url("../resources/img/car.png") !important;
+    width: 26px;
+    height: 26px;
+    background-position: 0px 0px;
+}

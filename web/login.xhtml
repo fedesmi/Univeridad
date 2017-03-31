@@ -17,10 +17,12 @@
         <p:panel   style="width: 400px; margin-left: 30%; padding: 20px; margin-top: 20px;" >
             <f:facet name="header">
                 <h:panelGrid columns="2">
-                    <p:graphicImage value="/resources/img/lock.png" />Ingreso a sistema DAM 
+                    <p:graphicImage value="/resources/img/lock.png" />Ingreso al sistema DAM 
                 </h:panelGrid>
             </f:facet>
             <form method='POST' action='j_security_check' style="text-align: right; ">
+                
+
                 <h:panelGrid columns="2">
                     <h:column>
                         <div>Usuario</div>
@@ -33,10 +35,13 @@
                         </div>
                     </h:column>
                 </h:panelGrid>
+                <h:form>
                 <p:panel style="border-style: none;">
-                    <input type='submit' value='Ingresar' />
-                    <input type='reset' value='Borrar' />
+                    <p:commandButton type='submit' value='Ingresar' ajax="false" />
+                    <p:commandButton type='reset' value='Borrar' /> 
+                   
                 </p:panel>
+                    </h:form>
             </form>
         </p:panel>
 

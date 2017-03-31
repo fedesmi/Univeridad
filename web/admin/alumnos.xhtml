@@ -9,7 +9,7 @@
     </h:head>
     <h:body style="min-width: 400px;">
         <h:form>
-        <p:growl id="messages" showDetail="true" />
+            <p:growl id="messages" showDetail="true" />
 
             <p:panelGrid  styleClass="banner" style="width:100%; margin-top: -10px;"     >
                 <p:row>
@@ -28,13 +28,28 @@
             </p:panelGrid>
 
 
-           <p:panel style="min-width: 1050px; min-height: 300px;" >
-               <p:button outcome="/users/userIndex" value="Volver" />
-               <div align="center">
-                <p:outputLabel style="font-size: 40px; color: #666666;" value="Alumnos" />
-                </div>
-                
-               
+            <p:panel style="min-width: 1050px; min-height: 400px;" header="Alumnos">
+                <p:button outcome="/users/userIndex" value="Volver" />
+                <p:layout style="min-width:400px;min-height:400px;"  >
+                    <p:layoutUnit position="west" resizable="false" size="320" collapsible="true" >
+                        <p:panelMenu style="width:300px">
+                            <p:submenu label="Datos Personales">
+                                <p:menuitem value="Inscribir Alumno" icon="ui-icon-contact" />
+                                <p:menuitem value="Modificar datos"  icon="ui-icon-pencil" />
+                            </p:submenu>
+                            <p:submenu label="Datos Financieros">
+                                <p:menuitem value="Registrar Pagos"   ajax="false" icon="ui-icon-suitcase"/>
+                            </p:submenu>
+                           
+                        </p:panelMenu>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="center">
+                        Center
+                    </p:layoutUnit>
+                </p:layout>
+
+
             </p:panel>
 
         </h:form>

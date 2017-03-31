@@ -6,11 +6,11 @@
       xmlns:p='http://primefaces.org/ui'
       xmlns:h='http://java.sun.com/jsf/html'>
     <head>
-                <title>Login Error!</title>
+                <title>Error de Login!</title>
     </head>
     <h:body>
-        <p:panel header="Login Error">
-            Sorry, you made an Error. Please try again: <a href="#{facesContext.externalContext.requestContextPath}/" >Login</a>
+        <p:panel header="Error de Login">
+            Usuario y/o clave invalidos, por favor reintente. <p:button outcome="/login" value="Volver" />
         </p:panel>
     </h:body>
 </html>

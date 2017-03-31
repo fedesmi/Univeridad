@@ -32,6 +32,12 @@
     </form-login-config>
     </login-config>
     
+    <error-page>
+    <error-code>403</error-code>
+    <location>/faces/403.xhtml</location>
+    </error-page>
+    
+    
     <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administrativos</web-resource-name>
@@ -75,7 +81,7 @@
     
      <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>delta</param-value>
+        <param-value>home</param-value>
     </context-param>
     
 </web-app>
