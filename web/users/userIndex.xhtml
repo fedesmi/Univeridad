@@ -8,7 +8,7 @@
         <title>DAM</title>
     </h:head>
     <h:body style="min-width: 400px;">
-        
+         <h:outputStylesheet library="css" name="cssweb.css" />
         <h:form>
             <h:outputStylesheet library="css" name="cssweb.css" />
             <p:growl id="messages" showDetail="true" />
@@ -40,9 +40,9 @@
                 <br/><br/>
                 
                     <p:panelGrid columns="1" styleClass="ui-noborder" >
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="ALUMNOS" icon="ui-icon-person"  />
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/clases" value="CLASES" icon="ui-icon-comment" />
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="VEHICULOS" icon="btnCreate" />
+                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="ALUMNOS" icon="btnAlumno"  />
+                        <p:button style="width: 250px; height: 70px;" outcome="/admin/clases" value="CLASES" icon="btnClase" />
+                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="VEHICULOS" icon="btnVehiculo" />
                     </p:panelGrid>
                 </div>
             </p:panel>
