@@ -81,9 +81,27 @@ vertical-align: top;
 }
 
 
-.btnCreate {
+.btnVehiculo {
     background-image: url("../resources/img/car.png") !important;
-    width: 26px;
-    height: 26px;
+    width: 40px;
+    height: 40px;
     background-position: 0px 0px;
+    margin-top: -20px !important;
+    
 }
+.btnClase {
+    background-image: url("../resources/img/book.png")!important;
+    width: 40px;
+    height: 40px;
+    background-position: 0px -5px;
+    margin-top: -15px !important;
+}
+.btnAlumno {
+    background-image: url("../resources/img/student.png") !important;
+    width: 40px;
+    height: 60px;
+    background-position: 0px -5px; 
+    margin-top: -15px !important;
+    
+}
+
