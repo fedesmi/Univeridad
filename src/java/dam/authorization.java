@@ -38,7 +38,7 @@ public class authorization {
     public void logout() throws IOException {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.invalidateSession();
-        ec.redirect(ec.getRequestContextPath() + "/faces/users/.xhtml");
+        ec.redirect(ec.getRequestContextPath() + "/faces/users/usuarioIndex.xhtml");
         user = new Usuario();
     }
 
