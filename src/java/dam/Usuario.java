@@ -15,6 +15,7 @@ public class Usuario {
     private String apellido;
     private String legajo;
     private String userName;
+    private String rol;
     
 
     /**
@@ -75,6 +76,20 @@ public class Usuario {
      */
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    /**
+     * @return the rol
+     */
+    public String getRol() {
+        return rol;
+    }
+
+    /**
+     * @param rol the rol to set
+     */
+    public void setRol(String rol) {
+        this.rol = rol;
     }
     
     

@@ -63,12 +63,24 @@ public class authorization {
             sql = "SELECT e.nombre, e.apellido FROM empleado e, usuario u where usuario='" + userVar + "' and u.legajo=e.legajo";
 
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
+            
 
             try {
                 while (resultado.next()) {
                     usr.setNombre(resultado.getString(1));
                     usr.setApellido(resultado.getString(2));
                     usr.setUserName(userVar);
+                }
+            } catch (java.sql.SQLException e) {
+                System.err.print(e);
+            }
+            
+            
+            sql = "SELECT rol FROM v_usuario_rol where usuario='" + userVar + "' ";
+            resultado = connMysql.ejecutarConsulta(sql);
+            try {
+                while (resultado.next()) {
+                    usr.setRol(resultado.getString(1));
                 }
             } catch (java.sql.SQLException e) {
                 System.err.print(e);
