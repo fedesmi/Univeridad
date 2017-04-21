@@ -1,0 +1,40 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+
+    <p:dialog header="Modificación de clave personal" widgetVar="dlg2" modal="true" resizable="false" height="250">
+        <p:panel >
+            <p:panelGrid columns="2" style="margin-top: 30px; margin-bottom: 30px ">
+                Ingrese su clave actual
+                <p:password id="oldPass" value="#{authorization.oldpass}"/>
+                Ingrese su nueva clave
+                <p:password id="newpass" value="#{authorization.newpass}"/>
+                Reingrese su nueva clave
+                <p:password id="newpass2" value="#{authorization.newpass2}"/>
+            </p:panelGrid> 
+            <p:commandButton value="Aplicar cambios" action="#{authorization.cambiarClave()}" ajax="false" update="messages"/>
+
+        </p:panel>
+    </p:dialog> 
+    <p:panelGrid  styleClass="banner" style="width:100%; margin-top: -10px;"     >
+        <p:row>
+            <td style="background-color: #dbdbdb;">
+                <p:graphicImage value="/resources/img/banner.png"  style="background-color: #dbdbdb;"/>
+            </td>
+
+            <td align="right" style="background-color: #dbdbdb; vertical-align: bottom;">
+                <p:commandButton  style="font-size: 12px; "  id="dynaButton" value="#{authorization.user.nombre}" type="button" icon="ui-icon-person" />
+                <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style=" font-size: 12px;">
+                    <p:menuitem value="Cambiar Contraseña" onclick="PF('dlg2').show();"   update="messages" icon="ui-icon-pencil" />
+                    <p:menuitem value="Cerrar Sesion"  action="#{authorization.logout()}" update="messages" icon="ui-icon-closethick" />
+                </p:tieredMenu>
+            </td>
+        </p:row>
+    </p:panelGrid>
+
+</ui:composition>
