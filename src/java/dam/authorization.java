@@ -13,6 +13,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -27,12 +29,15 @@ public class authorization {
     private String newpass;
     private String newpass2;
 
+    private String userName;
+    private String userPass;
+
     /**
      * Creates a new instance of auth
      */
     public authorization() {
 
-        user = getLoggedUserData(getLoggedUser());
+        //user = getLoggedUserData(getLoggedUser());
     }
 
     public void logout() throws IOException {
@@ -63,7 +68,6 @@ public class authorization {
             sql = "SELECT e.nombre, e.apellido FROM empleado e, usuario u where usuario='" + userVar + "' and u.legajo=e.legajo";
 
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
-            
 
             try {
                 while (resultado.next()) {
@@ -74,8 +78,7 @@ public class authorization {
             } catch (java.sql.SQLException e) {
                 System.err.print(e);
             }
-            
-            
+
             sql = "SELECT rol FROM v_usuario_rol where usuario='" + userVar + "' ";
             resultado = connMysql.ejecutarConsulta(sql);
             try {
@@ -122,7 +125,7 @@ public class authorization {
                     connMysql.ejecutarUpDate(sql);
                     FacesContext context = FacesContext.getCurrentInstance();
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Su clave fue actualizada con éxito"));
-                    
+
                 } else {
                     FacesContext context = FacesContext.getCurrentInstance();
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!!", "La clave ingresada es incorrecta"));
@@ -197,4 +200,54 @@ public class authorization {
         this.newpass2 = newpass2;
     }
 
+    public void login() throws IOException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+
+        try {
+            request.login(userName, userPass);
+            user = getLoggedUserData(getLoggedUser());
+            String redireccion=externalContext.getRequestContextPath() + "/faces/";
+            if (user.getRol().equals("gerente")) {
+                redireccion+="gerencia/gerenteIndex.xhtml";
+            } else if (user.getRol().equals("administrativo")) {
+                redireccion+="admin/administradorIndex.xhtml";
+            } else if (user.getRol().equals("instructor")) {
+                redireccion+="instructor/instructorIndex.xhtml";
+            }
+
+            externalContext.redirect(redireccion);
+        } catch (ServletException ex) {
+            Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * @return the userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * @param userName the userName to set
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * @return the userPass
+     */
+    public String getUserPass() {
+        return userPass;
+    }
+
+    /**
+     * @param userPass the userPass to set
+     */
+    public void setUserPass(String userPass) {
+        this.userPass = userPass;
+    }
 }
