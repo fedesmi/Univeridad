@@ -2,60 +2,84 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
         <title>DAM</title>
     </h:head>
-    <h:body style="min-width: 400px; ">
-        <h:outputStylesheet library="css" name="cssweb.css" />
+    <h:body style="min-width: 400px;">
         <h:form>
-            <h:outputStylesheet library="css" name="cssweb.css" />
             <p:growl id="messages" showDetail="true" />
+            
+            <p:dialog header="Modificación de clave personal" widgetVar="dlg2" modal="true" resizable="false" height="250">
+                <p:panel >
+                    <p:panelGrid columns="2" style="margin-top: 30px; margin-bottom: 30px ">
+                        Ingrese su clave actual
+                        <p:password id="oldPass" value="#{authorization.oldpass}"/>
+                        Ingrese su nueva clave
+                        <p:password id="newpass" value="#{authorization.newpass}"/>
+                        Reingrese su nueva clave
+                        <p:password id="newpass2" value="#{authorization.newpass2}"/>
+                    </p:panelGrid> 
+                    <p:commandButton value="Aplicar cambios" action="#{authorization.cambiarClave()}" ajax="false" update="messages"/>
 
-
-            <p:panelGrid  styleClass="banner" style="width:100%; height:115px; margin-top: -10px;"     >
+                </p:panel>
+            </p:dialog> 
+            <p:panelGrid  styleClass="banner" style="width:100%; margin-top: -10px;"     >
                 <p:row>
                     <td style="background-color: #dbdbdb;">
                         <p:graphicImage value="/resources/img/banner.png"  style="background-color: #dbdbdb;"/>
                     </td>
 
-                    
-                            <td align="right"  style="background-color: #dbdbdb; vertical-align: bottom;">
-                                <p:commandButton style="font-size: 12px; "  id="dynaButton" value="#{authorization.user.nombre}" type="button" icon="ui-icon-person" />
-                                <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style=" font-size: 12px;">
-                                    <p:menuitem value="Cambiar Contraseña" outcome="/users/cambioClave" update="messages" icon="ui-icon-pencil" />
-                                    <p:menuitem value="Cerrar Sesion"  action="#{authorization.logout()}" update="messages" icon="ui-icon-closethick" />
-                                </p:tieredMenu>
-                       
-
+                    <td align="right" style="background-color: #dbdbdb; vertical-align: bottom;">
+                        <p:commandButton  style="font-size: 12px; "  id="dynaButton" value="#{authorization.user.nombre}" type="button" icon="ui-icon-person" />
+                        <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style=" font-size: 12px;">
+                            <p:menuitem value="Cambiar Contraseña" onclick="PF('dlg2').show();"   update="messages" icon="ui-icon-pencil" />
+                            <p:menuitem value="Cerrar Sesion"  action="#{authorization.logout()}" update="messages" icon="ui-icon-closethick" />
+                        </p:tieredMenu>
                     </td>
                 </p:row>
             </p:panelGrid>
 
 
-            <p:panel style="min-width: 1050px;  " >
-                <f:facet name="footer">
-                    <p:outputLabel value="rol: #{authorization.user.rol}"/>
-                    
-                </f:facet>
-                <div align="center" >
-                    <br/>
-                    <p:outputLabel style="font-size: 40px; color: #666666;" value="Bienvenido GERENTE #{authorization.user.nombre}!" />
-                    <br/>
-                    <p:outputLabel style="font-size: 25px; color: #666666;" value="Seleccione una categoria:" />
-                    <br/><br/>
+            <p:panel header="Gerencia - Panel de Control" style="min-width: 1050px; min-height: 400px;" >
+                
+                <p:layout style="min-width:400px;min-height:400px;"  >
+                    <p:layoutUnit position="west" resizable="false" size="215" collapsible="true" >
+                        <p:panelMenu style="width:200px; font-size: 12px;">
+                            <p:submenu label="Empresa">
+                                <p:menuitem value="Autorizaciones Pendientes"  icon="ui-icon-contact" />
+                                <p:menuitem value="Reportes Financieros"  icon="ui-icon-pencil" />
+                                <p:menuitem value="Fijar Valores"  icon="ui-icon-pencil" />
+                            </p:submenu>
+                            <p:submenu label="Alumnos">
+                                <p:menuitem value="Nuevo Alumno"  icon="ui-icon-contact"  />
+                                <p:menuitem value="Modificar Datos"  icon="ui-icon-pencil" />
+                                <p:menuitem value="Registrar Pagos"   icon="ui-icon-suitcase"/>
+                            </p:submenu>
+                             <p:submenu label="Empleados">
+                                <p:menuitem value="Nuevo Empleado"   icon="ui-icon-suitcase"/>
+                                <p:menuitem value="Modificar Datos"  icon="ui-icon-pencil" />
+                            </p:submenu>
+                            <p:submenu label="Vehiculos">
+                                <p:menuitem value="Nuevo Vehiculo"  icon="ui-icon-contact" />
+                                <p:menuitem value="Modificar Datos"  icon="ui-icon-pencil" />
+                            </p:submenu>
+                              
 
-                    <p:panelGrid columns="2" styleClass="ui-noborder" style="margin-bottom: 50px;" >
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="ALUMNOS" icon="btnAlumno"  />
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/clases" value="CLASES" icon="btnClase" />
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="VEHICULOS" icon="btnVehiculo" />
-                        <p:button style="width: 250px; height: 70px;" outcome="/admin/alumnos" value="EMPLEADOS" icon="btnVehiculo" />
+                        </p:panelMenu>
+                    </p:layoutUnit>
 
-                    </p:panelGrid>
-                </div>
+                    <p:layoutUnit position="center">
+                        <ui:insert name="source" />
+                    </p:layoutUnit>
+                </p:layout>
+
+
             </p:panel>
+
         </h:form>
     </h:body>
 
