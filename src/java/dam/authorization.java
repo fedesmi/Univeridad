@@ -220,6 +220,7 @@ public class authorization {
             externalContext.redirect(redireccion);
         } catch (ServletException ex) {
             Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+            externalContext.redirect(externalContext.getRequestContextPath()+"/faces/loginError.xhtml");
         }
     }
 

@@ -62,14 +62,16 @@
                         <div style="margin-left: 10px;">
                             <p:inputText value="#{authorization.userName}" />
                             <p:password value="#{authorization.userPass}" />
+                            
                         </div>
                     </h:column>
                 </h:panelGrid>
                 
-                <p:panel style="border-style: none;">
+                <p:panel style="border-style: none; text-align: right;">
+                    
                     <p:commandButton action="#{authorization.login()}" value='Ingresar' ajax="false" />
                     <p:commandButton type='reset' value='Borrar' /> 
-                   
+                    
                 </p:panel>
             </h:form>
         </p:panel>
