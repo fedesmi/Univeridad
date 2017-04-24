@@ -3,10 +3,16 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    template="administradorIndex.xhtml">
+    template="administradorIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui">
      <ui:define name="source">
         <h:form>
-           <h2>Modificar Alumno</h2>
+            <p:outputLabel value="Alumnos" />
+            
+            <p:dataGrid columns="3" >
+                
+            </p:dataGrid>
+           
         </h:form>
     </ui:define>
 
