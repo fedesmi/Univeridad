@@ -5,22 +5,35 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     template="administradorIndex.xhtml"
     xmlns:p="http://primefaces.org/ui">
-    
-     <ui:define name="source">
+
+    <ui:define name="source">
         <h:form>
-           <p:outputLabel value="Empleados" />
-            
-           <br/>
-           <p:dataTable var="empleado" value=""  emptyMessage="sin registros" >
-               <f:facet name="header">
+            <p:outputLabel value="Empleados" />
+
+            <br/>
+            <p:dataTable var="emp" value="#{empleadoBean.empleados}"  emptyMessage="sin registros" >
+                <f:facet name="header">
                     Lista de Empleados
                 </f:facet>
-                
-           </p:dataTable>
-           
+                <p:column headerText="Legajo">
+                    <h:outputText value="#{emp.legajo}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{emp.nombre}" />
+                </p:column>
+                <p:column headerText="DNI">
+                    <h:outputText value="#{emp.dni}" />
+                </p:column>
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{emp.tipo_empleado.descripcion}" />
+                </p:column>
+
+
+            </p:dataTable>
+
         </h:form>
     </ui:define>
 
-    
-    
+
+
 </ui:composition>

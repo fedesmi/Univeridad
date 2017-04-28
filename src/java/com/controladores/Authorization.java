@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean
 @SessionScoped
-public class authorization {
+public class Authorization {
 
     private Usuario user;
     private String oldpass;
@@ -35,7 +35,7 @@ public class authorization {
     /**
      * Creates a new instance of auth
      */
-    public authorization() {
+    public Authorization() {
 
         //user = getLoggedUserData(getLoggedUser());
     }
@@ -92,9 +92,9 @@ public class authorization {
             connMysql.cerrarConexion();
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return usr;
@@ -133,9 +133,9 @@ public class authorization {
                 connMysql.cerrarConexion();
 
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -219,7 +219,7 @@ public class authorization {
 
             externalContext.redirect(redireccion);
         } catch (ServletException ex) {
-            Logger.getLogger(authorization.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
             externalContext.redirect(externalContext.getRequestContextPath()+"/faces/loginError.xhtml");
         }
     }
