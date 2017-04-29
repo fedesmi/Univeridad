@@ -5,7 +5,6 @@
  */
 package com.repositorios;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -45,23 +44,7 @@ public abstract class AbstractFacade<T> {
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
-
-    /*obtener lista actualizada*/
-    public List<T> refreshCollection(List<T> entityCollection)
-    {
-        List<T> result = new ArrayList<T>();
-        if (entityCollection != null && !entityCollection.isEmpty()) {
-            getEntityManager().getEntityManagerFactory().getCache().evict(entityCollection.get(0).getClass());
-            T mergedEntity;
-            for (T entity : entityCollection) {
-                mergedEntity = getEntityManager().merge(entity);
-                getEntityManager().refresh(mergedEntity);
-                result.add(mergedEntity);
-            }
-        }
-        return result;
-    }
-    
+ 
     public List<T> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));

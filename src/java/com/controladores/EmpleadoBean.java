@@ -26,8 +26,11 @@ public class EmpleadoBean implements Serializable {
     private int dni;
     private String nombre;
     private String apellido;
+    private Tipo_empleado tipoEmpleado;
     @Inject
     private EmpleadoFacade empleadoFacade;
+    @Inject
+    private Tipo_empleadoFacade templeadoFacade;
     
     /**
      * Creates a new instance of empleadoBean
@@ -108,6 +111,7 @@ public class EmpleadoBean implements Serializable {
            e.setDni(dni);
            e.setNombre(nombre);
            e.setApellido(apellido);
+           e.setTipo_empleado(tipoEmpleado);
            this.empleadoFacade.create(e);
            return "EmpleadoCreate";
           
@@ -115,8 +119,10 @@ public class EmpleadoBean implements Serializable {
      
     public List<Empleado> getEmpleados()
     {
-         
-        return this.empleadoFacade.refreshCollection(this.empleadoFacade.findAll());
+        
+        //this.templeadoFacade.refreshCollection(this.templeadoFacade.findAll());
+        //return this.empleadoFacade.refreshCollection(this.empleadoFacade.findAll());
+       return this.empleadoFacade.findAll();
         
     }  
     
@@ -142,6 +148,7 @@ public class EmpleadoBean implements Serializable {
         this.dni=e.getDni();
         this.nombre=e.getNombre();
         this.apellido=e.getApellido();
+        this.tipoEmpleado=e.getTipo_empleado();
         return "EmpleadoEdit";
     }
     public String GuardarEdicion(EmpleadoBean bp, Long legajo)
@@ -152,8 +159,23 @@ public class EmpleadoBean implements Serializable {
        e.setDni(bp.dni);
        e.setNombre(bp.nombre);
        e.setApellido(bp.apellido);
+       e.setTipo_empleado(bp.tipoEmpleado);
        this.empleadoFacade.edit(e);
        return "EmpleadoLista";
+    }
+
+    /**
+     * @return the tipoEmpleado
+     */
+    public Tipo_empleado getTipoEmpleado() {
+        return tipoEmpleado;
+    }
+
+    /**
+     * @param tipoEmpleado the tipoEmpleado to set
+     */
+    public void setTipoEmpleado(Tipo_empleado tipoEmpleado) {
+        this.tipoEmpleado = tipoEmpleado;
     }
 
    
