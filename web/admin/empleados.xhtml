@@ -11,28 +11,37 @@
             <p:outputLabel value="Empleados" />
 
             <br/>
-            <p:dataTable var="emp"  value="#{empleadoBean.empleados}"  emptyMessage="sin registros" >
+            <p:dataTable var="emp"  value="#{empleadoBean.empleados}"  paginator="true" rows="8" emptyMessage="sin registros" >
                 <f:facet name="header">
                     Lista de Empleados
                 </f:facet>
                 <p:column headerText="Legajo" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
                     <h:outputText value="#{emp.legajo}" />
+                    </div>
                 </p:column>
                 <p:column headerText="Nombre">
+                    <div style="text-align: center; font-size: 14px;" >
                     <h:outputText value="#{emp.nombre}" />
+                    </div>
                 </p:column>
                 <p:column headerText="Apellido" >
-                    <div style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
                         <h:outputText value="#{emp.apellido}" />
                     </div>
                 </p:column>
                 <p:column headerText="DNI" >
-                    <div style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
                     <h:outputText value="#{emp.dni}" />
                     </div>
                 </p:column>
+                <p:column headerText="Telefono" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.telefono}" />
+                    </div>
+                </p:column>
                 <p:column headerText="Tipo">
-                    <div  style="text-align: left;">
+                    <div  style="text-align: left; font-size: 14px;">
                     <h:outputText value="#{emp.tipo_empleado.descripcion}" />
                     </div>
                 </p:column>

@@ -9,10 +9,23 @@
     <ui:define name="source">
         <h:form>
             <p:outputLabel value="Nuevo Empleado" />
-            
-            <p:outputLabel value="nombre"  />
-            <p:inputText value="#{empleadoBean.nombre}" />
-
+            <br/>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Nombre"  />
+                <p:inputText value="#{empleadoBean.nombre}" />
+                <p:outputLabel value="Apellido"  />
+                <p:inputText value="#{empleadoBean.apellido}" />
+                <p:outputLabel value="DNI"  />
+                <p:inputText value="#{empleadoBean.dni}" />
+                <p:outputLabel value="Telefono"  />
+                <p:inputText value="#{empleadoBean.telefono}" />
+                <p:outputLabel value="TipoEmpleado"  />
+                <p:selectOneMenu value="#{empleadoBean.tipoEmpleado}" converter="omnifaces.SelectItemsConverter" >
+                    <f:selectItem itemLabel="Seleccionar..." itemValue="" />
+                    <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.descripcion}" itemValue="#{templeado}"  />
+                </p:selectOneMenu>
+            </p:panelGrid>
+            <p:commandButton ajax="false" value="Guardar" actionListener="#{empleadoBean.guardar()}" />
         </h:form>
     </ui:define>
 

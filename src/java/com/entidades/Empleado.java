@@ -26,7 +26,7 @@ import javax.persistence.Table;
 public class Empleado implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long legajo;
 
     @Column(name = "dni")
@@ -34,8 +34,11 @@ public class Empleado implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "Apellido")
-    private String Apellido;
-
+    private String apellido;
+    @Column(name = "Telefono")
+    private String telefono;
+    
+    
     @OneToOne
     @JoinColumn(name = "idTipoEmpleado")
     private Tipo_empleado tipo_empleado;
@@ -111,14 +114,14 @@ public class Empleado implements Serializable {
      * @return the Apellido
      */
     public String getApellido() {
-        return Apellido;
+        return apellido;
     }
 
     /**
      * @param Apellido the Apellido to set
      */
     public void setApellido(String Apellido) {
-        this.Apellido = Apellido;
+        this.apellido = Apellido;
     }
 
     /**
@@ -133,6 +136,20 @@ public class Empleado implements Serializable {
      */
     public void setTipo_empleado(Tipo_empleado tipo_empleado) {
         this.tipo_empleado = tipo_empleado;
+    }
+
+    /**
+     * @return the telefono
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * @param telefono the telefono to set
+     */
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 }

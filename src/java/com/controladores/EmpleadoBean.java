@@ -10,9 +10,12 @@ import java.io.Serializable;
 import com.repositorios.*;
 import com.entidades.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
 
 /**
  *
@@ -26,21 +29,20 @@ public class EmpleadoBean implements Serializable {
     private int dni;
     private String nombre;
     private String apellido;
+    private String telefono;
     private Tipo_empleado tipoEmpleado;
     @Inject
     private EmpleadoFacade empleadoFacade;
     @Inject
     private Tipo_empleadoFacade templeadoFacade;
-    
+
     /**
      * Creates a new instance of empleadoBean
      */
     public EmpleadoBean() {
-        
+
     }
-    
-    
-    
+
     /**
      * @return the legajo
      */
@@ -96,72 +98,80 @@ public class EmpleadoBean implements Serializable {
     public void setApellido(String Apellido) {
         this.apellido = Apellido;
     }
-    
- 
-    
-    
-    
-    
-    /***/
-    
-     public String guardar()
-    {
-           Empleado e = new Empleado();
-           e.setLegajo(legajo);
-           e.setDni(dni);
-           e.setNombre(nombre);
-           e.setApellido(apellido);
-           e.setTipo_empleado(tipoEmpleado);
-           this.empleadoFacade.create(e);
-           return "EmpleadoCreate";
-          
+
+    /**
+     * 
+     */
+    public void guardar() {
+        Empleado e = new Empleado();
+        // e.setLegajo(legajo);
+        e.setDni(dni);
+        e.setNombre(nombre);
+        e.setApellido(apellido);
+        e.setTelefono(telefono);
+        try {
+            e.setTipo_empleado(tipoEmpleado);
+        } catch (Exception ex) {
+            Logger.getLogger(EmpleadoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.out.println("tipo de empleado!!!   " + tipoEmpleado.getDescripcion());
+
+        this.empleadoFacade.create(e);
+
+        limpiarCampos();
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Empleado fue registrado exitosamente"));
+
     }
-     
-    public List<Empleado> getEmpleados()
-    {
-        
-        //this.templeadoFacade.refreshCollection(this.templeadoFacade.findAll());
-        //return this.empleadoFacade.refreshCollection(this.empleadoFacade.findAll());
-       return this.empleadoFacade.findAll();
-        
-    }  
-    
-    
-    
+
+    public List<Empleado> getEmpleados() {
+        return this.empleadoFacade.findAll();
+
+    }
+
+    public List<Tipo_empleado> getTipo_Empleados() {
+        return this.templeadoFacade.findAll();
+
+    }
 
     public String prepareList() {
         return "EmpleadoLista";
     }
+
     public String prepareCreate() {
         return "EmpleadoCreate";
     }
-    public String Eliminar(Long id)
-    {
-        Empleado e =  this.empleadoFacade.find(id);       
+
+    public String Eliminar(Long id) {
+        Empleado e = this.empleadoFacade.find(id);
         this.empleadoFacade.remove(e);
-       return "EmpleadoLista";
+        return "EmpleadoLista";
     }
-    public String Editar(Long id)
-    {
-        Empleado e =  this.empleadoFacade.find(id);       
-        this.legajo=e.getLegajo();
-        this.dni=e.getDni();
-        this.nombre=e.getNombre();
-        this.apellido=e.getApellido();
-        this.tipoEmpleado=e.getTipo_empleado();
+
+    public String Editar(Long id) {
+        Empleado e = this.empleadoFacade.find(id);
+        this.legajo = e.getLegajo();
+        this.dni = e.getDni();
+        this.nombre = e.getNombre();
+        this.apellido = e.getApellido();
+        this.telefono = e.getTelefono();
+        this.tipoEmpleado = e.getTipo_empleado();
         return "EmpleadoEdit";
     }
-    public String GuardarEdicion(EmpleadoBean bp, Long legajo)
-    {
-       Empleado e = new Empleado();
-       
-       e.setLegajo(legajo);
-       e.setDni(bp.dni);
-       e.setNombre(bp.nombre);
-       e.setApellido(bp.apellido);
-       e.setTipo_empleado(bp.tipoEmpleado);
-       this.empleadoFacade.edit(e);
-       return "EmpleadoLista";
+
+    public String GuardarEdicion(EmpleadoBean bp, Long legajo) {
+        Empleado e = new Empleado();
+
+        e.setLegajo(legajo);
+        e.setDni(bp.dni);
+        e.setNombre(bp.nombre);
+        e.setApellido(bp.apellido);
+        e.setTelefono(bp.telefono);
+        e.setTipo_empleado(bp.tipoEmpleado);
+        this.empleadoFacade.edit(e);
+        return "EmpleadoLista";
     }
 
     /**
@@ -178,7 +188,26 @@ public class EmpleadoBean implements Serializable {
         this.tipoEmpleado = tipoEmpleado;
     }
 
-   
-    
-    
+    private void limpiarCampos() {
+        dni = 0;
+        apellido = "";
+        nombre = "";
+        telefono="";
+        tipoEmpleado = null;
+    }
+
+    /**
+     * @return the telefono
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * @param telefono the telefono to set
+     */
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
 }
