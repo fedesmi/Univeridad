@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +38,8 @@ public class Empleado implements Serializable {
     private String apellido;
     @Column(name = "Telefono")
     private String telefono;
+     @Column(name = "FechaBaja")
+    private Date fechaBaja;
     
     
     @OneToOne
@@ -151,5 +154,21 @@ public class Empleado implements Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    /**
+     * @return the fechaBaja
+     */
+    public Date getFechaBaja() {
+        return fechaBaja;
+    }
+
+    /**
+     * @param fechaBaja the fechaBaja to set
+     */
+    public void setFechaBaja(Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+   
 
 }

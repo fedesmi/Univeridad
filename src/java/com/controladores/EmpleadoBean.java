@@ -9,6 +9,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import com.repositorios.*;
 import com.entidades.*;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ public class EmpleadoBean implements Serializable {
     private String nombre;
     private String apellido;
     private String telefono;
+    private Date fechaBaja;
     private Tipo_empleado tipoEmpleado;
     @Inject
     private EmpleadoFacade empleadoFacade;
@@ -130,6 +132,11 @@ public class EmpleadoBean implements Serializable {
         return this.empleadoFacade.findAll();
 
     }
+    
+    public List<Empleado> getEmpleadosAlta() {
+        return this.empleadoFacade.findWhere("t.fechaBaja  is null");
+
+    }
 
     public List<Tipo_empleado> getTipo_Empleados() {
         return this.templeadoFacade.findAll();
@@ -209,5 +216,21 @@ public class EmpleadoBean implements Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    /**
+     * @return the fechaBaja
+     */
+    public Date getFechaBaja() {
+        return fechaBaja;
+    }
+
+    /**
+     * @param fechaBaja the fechaBaja to set
+     */
+    public void setFechaBaja(Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+   
 
 }

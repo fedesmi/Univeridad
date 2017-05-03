@@ -7,6 +7,7 @@ package com.repositorios;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.Expression;
 
 /**
  *
@@ -43,6 +44,11 @@ public abstract class AbstractFacade<T> {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
+    }
+    
+    
+     public List<T> findWhere(String condition) {
+         return getEntityManager().createQuery("Select t from " + entityClass.getSimpleName() + " t where "+condition).getResultList();
     }
  
     public List<T> findRange(int[] range) {
