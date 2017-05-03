@@ -13,10 +13,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -44,6 +47,14 @@ public class EmpleadoBean implements Serializable {
     public EmpleadoBean() {
 
     }
+    
+    
+// This is the required method to get the datatable list.
+    @PostConstruct
+    public void init() {
+       
+    }
+
 
     /**
      * @return the legajo
@@ -127,7 +138,7 @@ public class EmpleadoBean implements Serializable {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Empleado fue registrado exitosamente"));
 
     }
-
+    
     public List<Empleado> getEmpleados() {
         return this.empleadoFacade.findAll();
 
@@ -172,9 +183,9 @@ public class EmpleadoBean implements Serializable {
         Empleado e = new Empleado();
 
         e.setLegajo(legajo);
-        e.setDni(bp.dni);
-        e.setNombre(bp.nombre);
-        e.setApellido(bp.apellido);
+        e.setDni(this.dni);
+        e.setNombre(this.nombre);
+        e.setApellido(this.apellido);
         e.setTelefono(bp.telefono);
         e.setTipo_empleado(bp.tipoEmpleado);
         this.empleadoFacade.edit(e);
@@ -231,6 +242,21 @@ public class EmpleadoBean implements Serializable {
         this.fechaBaja = fechaBaja;
     }
 
+    
+     public void onRowEdit(RowEditEvent event)  throws ValidatorException {
+        Empleado empVar = (Empleado) event.getObject();
+         //Editar(empVar.getLegajo());
+         System.out.println("nombre ahora "+empVar.getNombre());
+         //GuardarEdicion(, empVar.getLegajo());
+        FacesMessage msg = new FacesMessage("Empleado Editado", empVar.getLegajo().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edición Cancelada", ((Empleado) event.getObject()).getLegajo().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
    
 
 }

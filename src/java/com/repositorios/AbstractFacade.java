@@ -7,7 +7,6 @@ package com.repositorios;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.Expression;
 
 /**
  *
@@ -28,6 +27,7 @@ public abstract class AbstractFacade<T> {
     }
 
     public void edit(T entity) {
+        
         getEntityManager().merge(entity);
     }
 

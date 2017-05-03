@@ -7,46 +7,59 @@
     xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="source">
-        <h:form>
+        <h:form id="form1">
+         
+           <p:growl id="msgs" showDetail="true" />
             <p:outputLabel value="Empleados" />
 
             <br/>
-            <p:dataTable var="emp"  value="#{empleadoBean.empleadosAlta}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            
+            <p:dataTable var="emp" editable="true"  value="#{empleadoBean.empleadosAlta}"  paginator="true" rows="8" emptyMessage="sin registros" >
+                
                 <f:facet name="header">
                     Lista de Empleados
                 </f:facet>
-                
-                    <p:column   headerText="Legajo" style="text-align: center;" >
-                        <div style="text-align: center; font-size: 14px;" >
-                            <h:outputText value="#{emp.legajo}" />
-                        </div>
-                    </p:column>
-                    <p:column  headerText="Nombre">
-                        <div style="text-align: center; font-size: 14px;" >
-                            <h:outputText value="#{emp.nombre}" />
-                        </div>
-                    </p:column>
-                    <p:column headerText="Apellido" >
-                        <div style="text-align: center; font-size: 14px;" >
-                            <h:outputText value="#{emp.apellido}" />
-                        </div>
-                    </p:column>
-                    <p:column  headerText="DNI" >
-                        <div style="text-align: center; font-size: 14px;" >
-                            <h:outputText value="#{emp.dni}" />
-                        </div>
-                    </p:column>
-                    <p:column  headerText="Telefono" >
-                        <div style="text-align: center; font-size: 14px;" >
-                            <h:outputText value="#{emp.telefono}" />
-                        </div>
-                    </p:column>
-                    <p:column  headerText="Tipo">
-                        <div  style="text-align: left; font-size: 14px;">
-                            <h:outputText value="#{emp.tipo_empleado.descripcion}" />
-                        </div>
-                    </p:column>
+                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  />
+                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  />
 
+                <p:column   headerText="Legajo" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.legajo}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Nombre">
+                    <div style="text-align: center; font-size: 14px;" >
+                     <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
+                    </p:cellEditor>
+                       
+                    </div>
+                </p:column>
+                <p:column headerText="Apellido" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.apellido}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="DNI" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.dni}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Telefono" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.telefono}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Tipo">
+                    <div  style="text-align: left; font-size: 14px;">
+                        <h:outputText value="#{emp.tipo_empleado.descripcion}" />
+                    </div>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
                 
             </p:dataTable>
 
