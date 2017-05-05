@@ -6,7 +6,7 @@
     template="administradorIndex.xhtml"
     xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="source">
+    <ui:define name="source" id="define1">
         <h:form id="form1">
          
            <p:growl id="msgs" showDetail="true" />
@@ -14,13 +14,14 @@
 
             <br/>
             
-            <p:dataTable var="emp" editable="true"  value="#{empleadoBean.empleadosAlta}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            <p:dataTable id="tablaEmpleados" var="emp" editable="true"  value="#{empleadoBean.empleados}"  paginator="true" rows="8" emptyMessage="sin registros" >
                 
                 <f:facet name="header">
                     Lista de Empleados
                 </f:facet>
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  />
-                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  />
+                <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
+                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  update="formAdm:form1:tablaEmpleados" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
                 <p:column   headerText="Legajo" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >

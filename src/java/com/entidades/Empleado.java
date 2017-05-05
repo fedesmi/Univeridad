@@ -7,8 +7,11 @@ package com.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -26,10 +31,14 @@ import javax.persistence.Table;
 @Table(name = "Empleado")
 public class Empleado implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long legajo;
+   
+    
+    @EmbeddedId
+    private MiPk id;
+    
 
+    @Column(name = "legajo")
+    private int legajo;
     @Column(name = "dni")
     private int dni;
     @Column(name = "nombre")
@@ -49,7 +58,7 @@ public class Empleado implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (legajo != null ? legajo.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -60,7 +69,7 @@ public class Empleado implements Serializable {
             return false;
         }
         Empleado other = (Empleado) object;
-        if ((this.legajo == null && other.legajo != null) || (this.legajo != null && !this.legajo.equals(other.legajo))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -74,14 +83,14 @@ public class Empleado implements Serializable {
     /**
      * @return the legajo
      */
-    public Long getLegajo() {
+    public int getLegajo() {
         return legajo;
     }
 
     /**
      * @param legajo the legajo to set
      */
-    public void setLegajo(Long legajo) {
+    public void setLegajo(int legajo) {
         this.legajo = legajo;
     }
 
@@ -169,6 +178,28 @@ public class Empleado implements Serializable {
         this.fechaBaja = fechaBaja;
     }
 
+    /**
+     * @return the id
+     */
+    public MiPk getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(MiPk id) {
+        this.id = id;
+    }
+
    
 
+}
+ @Embeddable
+    class MiPk { 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long legajo;
+
+    @Column(name = "fechaAlta")
+    private Date fechaAlta;
 }

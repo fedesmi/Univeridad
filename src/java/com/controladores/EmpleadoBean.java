@@ -9,6 +9,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import com.repositorios.*;
 import com.entidades.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.primefaces.event.RowEditEvent;
 
@@ -29,7 +29,7 @@ import org.primefaces.event.RowEditEvent;
 @RequestScoped
 public class EmpleadoBean implements Serializable {
 
-    private Long legajo;
+    private int legajo;
     private int dni;
     private String nombre;
     private String apellido;
@@ -40,33 +40,34 @@ public class EmpleadoBean implements Serializable {
     private EmpleadoFacade empleadoFacade;
     @Inject
     private Tipo_empleadoFacade templeadoFacade;
+    private List<Empleado> empleados;
 
     /**
      * Creates a new instance of empleadoBean
      */
     public EmpleadoBean() {
-
+       
     }
     
     
 // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-       
+       empleados = getEmpleadosAltaDB();
     }
 
 
     /**
      * @return the legajo
      */
-    public Long getLegajo() {
+    public int getLegajo() {
         return legajo;
     }
 
     /**
      * @param legajo the legajo to set
      */
-    public void setLegajo(Long legajo) {
+    public void setLegajo(int legajo) {
         this.legajo = legajo;
     }
 
@@ -139,12 +140,12 @@ public class EmpleadoBean implements Serializable {
 
     }
     
-    public List<Empleado> getEmpleados() {
+    public List<Empleado> getEmpleadosDB() {
         return this.empleadoFacade.findAll();
 
     }
     
-    public List<Empleado> getEmpleadosAlta() {
+    public List<Empleado> getEmpleadosAltaDB() {
         return this.empleadoFacade.findWhere("t.fechaBaja  is null");
 
     }
@@ -179,15 +180,14 @@ public class EmpleadoBean implements Serializable {
         return "EmpleadoEdit";
     }
 
-    public String GuardarEdicion(EmpleadoBean bp, Long legajo) {
+    public String GuardarEdicion(Empleado bp) {
         Empleado e = new Empleado();
-
-        e.setLegajo(legajo);
-        e.setDni(this.dni);
-        e.setNombre(this.nombre);
-        e.setApellido(this.apellido);
-        e.setTelefono(bp.telefono);
-        e.setTipo_empleado(bp.tipoEmpleado);
+        e.setLegajo(bp.getLegajo());
+        e.setDni(bp.getDni());
+        e.setNombre(bp.getNombre());
+        e.setApellido(bp.getApellido());
+        e.setTelefono(bp.getTelefono());
+        e.setTipo_empleado(bp.getTipo_empleado());
         this.empleadoFacade.edit(e);
         return "EmpleadoLista";
     }
@@ -243,19 +243,35 @@ public class EmpleadoBean implements Serializable {
     }
 
     
-     public void onRowEdit(RowEditEvent event)  throws ValidatorException {
+     public void onRowEdit(RowEditEvent event)  {
         Empleado empVar = (Empleado) event.getObject();
-         //Editar(empVar.getLegajo());
-         System.out.println("nombre ahora "+empVar.getNombre());
-         //GuardarEdicion(, empVar.getLegajo());
-        FacesMessage msg = new FacesMessage("Empleado Editado", empVar.getLegajo().toString());
+        
+        GuardarEdicion(empVar);
+        FacesMessage msg = new FacesMessage("Empleado Editado", String.valueOf(empVar.getLegajo()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Edición Cancelada", ((Empleado) event.getObject()).getLegajo().toString());
+        Empleado empVar = (Empleado) event.getObject();
+        FacesMessage msg = new FacesMessage("Edición Cancelada",  String.valueOf(empVar.getLegajo()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+    /**
+     * @return the empleados
+     */
+    public List<Empleado> getEmpleados() {
+        return empleados;
+    }
+
+    /**
+     * @param empleados the empleados to set
+     */
+    public void setEmpleados(List<Empleado> empleados) {
+        this.empleados = empleados;
+    }
+
+   
      
    
 
