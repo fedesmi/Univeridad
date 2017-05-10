@@ -20,7 +20,7 @@
                     Lista de Empleados
                 </f:facet>
                 <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  update="formAdm:form1:tablaEmpleados" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  update="formAdm:form1:tablaEmpleados"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
                 <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
                 <p:column   headerText="Legajo" style="text-align: center;" >
@@ -63,7 +63,48 @@
                 </p:column>
                 
             </p:dataTable>
+            
+            
+            <br/>
+            <p:dataTable id="tablaEmpleadosSinAutorizar" var="emp"   value="#{empleadoBean.empleadosSinAutorizar}"  paginator="true" rows="8" emptyMessage="sin registros" >
+                
+                <f:facet name="header">
+                    Lista de Empleados a ser Autorizados
+                </f:facet>
+                
+                <p:column   headerText="Legajo" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.legajo}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Nombre">
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.nombre}" />
+                    </div>
+                </p:column>
+                <p:column headerText="Apellido" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.apellido}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="DNI" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.dni}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Telefono" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{emp.telefono}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Tipo">
+                    <div  style="text-align: left; font-size: 14px;">
+                        <h:outputText value="#{emp.tipo_empleado.descripcion}" />
+                    </div>
+                </p:column>
 
+                
+            </p:dataTable>
         </h:form>
     </ui:define>
 

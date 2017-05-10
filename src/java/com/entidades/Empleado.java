@@ -7,20 +7,17 @@ package com.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -29,13 +26,39 @@ import javax.persistence.TemporalType;
 @Entity
 @Cacheable(false)
 @Table(name = "Empleado")
+
+@NamedQueries({
+    @NamedQuery(name = "Empleado.todosAutorizados",
+            query = "SELECT m "
+            + "FROM Empleado m "
+            + "LEFT JOIN Empleado b "
+            + "ON m.legajo = b.legajo "
+            + "AND m.autorizo = b.autorizo "
+            + "AND m.fechaAlta < b.fechaAlta "
+            + "WHERE b.fechaAlta IS NULL  "
+            + "AND m.autorizo IS NOT NULL "
+            + "ORDER BY m.legajo "
+    ),
+    @NamedQuery(name = "Empleado.todosSinAutorizar",
+            query = "SELECT m "
+            + "FROM Empleado m "
+            + "LEFT JOIN Empleado b "
+            + "ON m.legajo = b.legajo "
+            + "AND m.fechaAlta < b.fechaAlta "
+            + "WHERE b.fechaAlta IS NULL and m.autorizo IS NULL"
+    ),
+
+    @NamedQuery(name = "Empleado.ultimoLegajo",
+            query = "SELECT MAX(m.legajo)+1 FROM Empleado m"
+    ),
+})
+
+
 public class Empleado implements Serializable {
 
-   
-    
-    @EmbeddedId
-    private MiPk id;
-    
+    @Column(name = "id")
+    @Id
+    private Long id;
 
     @Column(name = "legajo")
     private int legajo;
@@ -43,14 +66,19 @@ public class Empleado implements Serializable {
     private int dni;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "Apellido")
+    @Column(name = "apellido")
     private String apellido;
-    @Column(name = "Telefono")
+    @Column(name = "telefono")
     private String telefono;
-     @Column(name = "FechaBaja")
+    @Column(name = "fechaBaja")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fechaBaja;
-    
-    
+    @Column(name = "autorizo")
+    private String autorizo;
+    @Column(name = "fechaAlta")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date fechaAlta;
+
     @OneToOne
     @JoinColumn(name = "idTipoEmpleado")
     private Tipo_empleado tipo_empleado;
@@ -179,27 +207,45 @@ public class Empleado implements Serializable {
     }
 
     /**
+     * @return the autorizo
+     */
+    public String getAutorizo() {
+        return autorizo;
+    }
+
+    /**
+     * @param autorizo the autorizo to set
+     */
+    public void setAutorizo(String autorizo) {
+        this.autorizo = autorizo;
+    }
+
+    /**
      * @return the id
      */
-    public MiPk getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(MiPk id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-   
+    /**
+     * @return the fechaAlta
+     */
+    public Date getFechaAlta() {
+        return fechaAlta;
+    }
 
-}
- @Embeddable
-    class MiPk { 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long legajo;
+    /**
+     * @param fechaAlta the fechaAlta to set
+     */
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
 
-    @Column(name = "fechaAlta")
-    private Date fechaAlta;
 }

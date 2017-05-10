@@ -7,6 +7,7 @@ package com.repositorios;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 
 /**
  *
@@ -22,12 +23,13 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
+    
+    
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
 
     public void edit(T entity) {
-        
         getEntityManager().merge(entity);
     }
 
@@ -47,10 +49,17 @@ public abstract class AbstractFacade<T> {
     }
     
     
-     public List<T> findWhere(String condition) {
-         return getEntityManager().createQuery("Select t from " + entityClass.getSimpleName() + " t where "+condition).getResultList();
+     public List<T> buscarAutorizados() {
+         return getEntityManager().createNamedQuery("Empleado.todosAutorizados").getResultList();
     }
  
+     public List<T> buscarNoAutorizados() {
+         return getEntityManager().createNamedQuery("Empleado.todosSinAutorizar").getResultList();
+    }
+     
+    public int buscarUltimoLegajo() {
+         return (int) getEntityManager().createNamedQuery("Empleado.ultimoLegajo").getSingleResult();
+    }
     public List<T> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));

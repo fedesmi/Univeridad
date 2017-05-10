@@ -9,7 +9,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import com.repositorios.*;
 import com.entidades.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.event.RowEditEvent;
+
 
 /**
  *
@@ -35,12 +35,14 @@ public class EmpleadoBean implements Serializable {
     private String apellido;
     private String telefono;
     private Date fechaBaja;
+    private Date fechaAlta;
     private Tipo_empleado tipoEmpleado;
     @Inject
     private EmpleadoFacade empleadoFacade;
     @Inject
     private Tipo_empleadoFacade templeadoFacade;
     private List<Empleado> empleados;
+    private List<Empleado> empleadosSinAutorizar;
 
     /**
      * Creates a new instance of empleadoBean
@@ -53,7 +55,8 @@ public class EmpleadoBean implements Serializable {
 // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-       empleados = getEmpleadosAltaDB();
+       empleados = getEmpleadosAutorizadosDB();
+       empleadosSinAutorizar = getEmpleadosNoAutorizadosDB();
     }
 
 
@@ -123,6 +126,8 @@ public class EmpleadoBean implements Serializable {
         e.setNombre(nombre);
         e.setApellido(apellido);
         e.setTelefono(telefono);
+        e.setFechaAlta(new Date());
+        e.setLegajo(this.empleadoFacade.buscarUltimoLegajo());
         try {
             e.setTipo_empleado(tipoEmpleado);
         } catch (Exception ex) {
@@ -145,9 +150,12 @@ public class EmpleadoBean implements Serializable {
 
     }
     
-    public List<Empleado> getEmpleadosAltaDB() {
-        return this.empleadoFacade.findWhere("t.fechaBaja  is null");
-
+    public List<Empleado> getEmpleadosAutorizadosDB() { 
+        return this.empleadoFacade.buscarAutorizados();
+    }
+    
+    public List<Empleado> getEmpleadosNoAutorizadosDB() { 
+        return this.empleadoFacade.buscarNoAutorizados();
     }
 
     public List<Tipo_empleado> getTipo_Empleados() {
@@ -187,8 +195,10 @@ public class EmpleadoBean implements Serializable {
         e.setNombre(bp.getNombre());
         e.setApellido(bp.getApellido());
         e.setTelefono(bp.getTelefono());
+        e.setFechaAlta(new Date());
+        e.setLegajo(bp.getLegajo());
         e.setTipo_empleado(bp.getTipo_empleado());
-        this.empleadoFacade.edit(e);
+        this.empleadoFacade.create(e);
         return "EmpleadoLista";
     }
 
@@ -245,8 +255,8 @@ public class EmpleadoBean implements Serializable {
     
      public void onRowEdit(RowEditEvent event)  {
         Empleado empVar = (Empleado) event.getObject();
-        
-        GuardarEdicion(empVar);
+         GuardarEdicion(empVar);
+        //GuardarEdicion(empVar);
         FacesMessage msg = new FacesMessage("Empleado Editado", String.valueOf(empVar.getLegajo()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -269,6 +279,34 @@ public class EmpleadoBean implements Serializable {
      */
     public void setEmpleados(List<Empleado> empleados) {
         this.empleados = empleados;
+    }
+
+    /**
+     * @return the fechaAlta
+     */
+    public Date getFechaAlta() {
+        return fechaAlta;
+    }
+
+    /**
+     * @param fechaAlta the fechaAlta to set
+     */
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * @return the empleadosSinAutorizar
+     */
+    public List<Empleado> getEmpleadosSinAutorizar() {
+        return empleadosSinAutorizar;
+    }
+
+    /**
+     * @param empleadosSinAutorizar the empleadosSinAutorizar to set
+     */
+    public void setEmpleadosSinAutorizar(List<Empleado> empleadosSinAutorizar) {
+        this.empleadosSinAutorizar = empleadosSinAutorizar;
     }
 
    
