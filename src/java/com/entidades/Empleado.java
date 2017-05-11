@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -33,7 +32,6 @@ import javax.persistence.Temporal;
             + "FROM Empleado m "
             + "LEFT JOIN Empleado b "
             + "ON m.legajo = b.legajo "
-            + "AND m.autorizo = b.autorizo "
             + "AND m.fechaAlta < b.fechaAlta "
             + "WHERE b.fechaAlta IS NULL  "
             + "AND m.autorizo IS NOT NULL "
@@ -50,6 +48,10 @@ import javax.persistence.Temporal;
 
     @NamedQuery(name = "Empleado.ultimoLegajo",
             query = "SELECT MAX(m.legajo)+1 FROM Empleado m"
+    ),
+    @NamedQuery(name = "Empleado.autorizarCambio",
+            query = "UPDATE Empleado t SET t.autorizo=:legajo Where t.id=:id"
+            
     ),
 })
 

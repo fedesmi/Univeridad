@@ -29,6 +29,20 @@ import org.primefaces.event.RowEditEvent;
 @RequestScoped
 public class EmpleadoBean implements Serializable {
 
+    /**
+     * @return the empleadoSeleccionado
+     */
+    public Empleado getEmpleadoSeleccionado() {
+        return empleadoSeleccionado;
+    }
+
+    /**
+     * @param empleadoSeleccionado the empleadoSeleccionado to set
+     */
+    public void setEmpleadoSeleccionado(Empleado empleadoSeleccionado) {
+        this.empleadoSeleccionado = empleadoSeleccionado;
+    }
+
     private int legajo;
     private int dni;
     private String nombre;
@@ -44,6 +58,8 @@ public class EmpleadoBean implements Serializable {
     private List<Empleado> empleados;
     private List<Empleado> empleadosSinAutorizar;
 
+    private Empleado empleadoSeleccionado;
+    
     /**
      * Creates a new instance of empleadoBean
      */
@@ -309,7 +325,10 @@ public class EmpleadoBean implements Serializable {
         this.empleadosSinAutorizar = empleadosSinAutorizar;
     }
 
-   
+    public void autorizarEdicionEmpleado(int legajo) {
+        this.empleadoFacade.autorizarCambiosEmpleado(legajo, empleadoSeleccionado.getId());
+        
+    }
      
    
 

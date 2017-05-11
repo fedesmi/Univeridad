@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dam;
+package com.controladores;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Usuario {
  
     private String nombre;
     private String apellido;
-    private String legajo;
+    private int legajo;
     private String userName;
     private String rol;
     
@@ -49,14 +49,14 @@ public class Usuario {
     /**
      * @return the legajo
      */
-    public String getLegajo() {
+    public int getLegajo() {
         return legajo;
     }
 
     /**
      * @param legajo the legajo to set
      */
-    public void setLegajo(String legajo) {
+    public void setLegajo(int legajo) {
         this.legajo = legajo;
     }
     

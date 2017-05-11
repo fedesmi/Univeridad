@@ -1,6 +1,6 @@
 
 
-package dam;
+package com.controladores;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

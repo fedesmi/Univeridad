@@ -1,4 +1,4 @@
-package dam;
+package com.controladores;
 
 /*
  * To change this template, choose Tools | Templates
@@ -28,7 +28,7 @@ public class Authorization {
     private String oldpass;
     private String newpass;
     private String newpass2;
-
+    private int legajo;
     private String userName;
     private String userPass;
 
@@ -60,25 +60,24 @@ public class Authorization {
 
     public Usuario getLoggedUserData(String userVar) {
 
-        Usuario usr = new Usuario();
-
-        String sql;
-        try {
+       
+            
+            Usuario usr = new Usuario();
+             try {
+            String sql;
             ConexionBaseDatos connMysql = new ConexionBaseDatos();
-            sql = "SELECT e.nombre, e.apellido FROM empleado e, usuario u where usuario='" + userVar + "' and u.legajo=e.legajo";
-
+            sql = "SELECT e.nombre, e.apellido, e.legajo FROM empleado e, usuario u where usuario='" + userVar + "' and u.legajo=e.legajo";
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
-
             try {
                 while (resultado.next()) {
                     usr.setNombre(resultado.getString(1));
                     usr.setApellido(resultado.getString(2));
                     usr.setUserName(userVar);
+                    usr.setLegajo(resultado.getInt(3));
                 }
             } catch (java.sql.SQLException e) {
                 System.err.print(e);
             }
-
             sql = "SELECT rol FROM v_usuario_rol where usuario='" + userVar + "' ";
             resultado = connMysql.ejecutarConsulta(sql);
             try {
@@ -88,30 +87,24 @@ public class Authorization {
             } catch (java.sql.SQLException e) {
                 System.err.print(e);
             }
-
             connMysql.cerrarConexion();
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
+            
+           
+            
         } catch (IOException ex) {
-            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null,ex);
         }
-
         return usr;
-
     }
 
     public void cambiarClave() {
         if (newpass.equals(newpass2)) {
-            String sql;
-            boolean passOk = false;
             try {
+                String sql;
+                boolean passOk = false;
                 ConexionBaseDatos connMysql = new ConexionBaseDatos();
-
                 sql = "SELECT count(*) FROM usuario WHERE usuario.usuario='" + user.getUserName() + "' AND usuario.clave=sha2('" + oldpass + "',256) ";
-
                 java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
-
                 try {
                     while (resultado.next()) {
                         passOk = resultado.getInt(1) > 0;
@@ -121,21 +114,18 @@ public class Authorization {
                 }
                 if (passOk) {
                     sql = "UPDATE usuario SET clave=sha2('" + newpass + "',256) WHERE usuario.usuario='" + user.getUserName() + "' ";
-
+                    
                     connMysql.ejecutarUpDate(sql);
                     FacesContext context = FacesContext.getCurrentInstance();
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Su clave fue actualizada con éxito"));
-
+                    
                 } else {
                     FacesContext context = FacesContext.getCurrentInstance();
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!!", "La clave ingresada es incorrecta"));
                 }
                 connMysql.cerrarConexion();
-
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null,ex);
             }
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -250,5 +240,19 @@ public class Authorization {
      */
     public void setUserPass(String userPass) {
         this.userPass = userPass;
+    }
+
+    /**
+     * @return the legajo
+     */
+    public int getLegajo() {
+        return legajo;
+    }
+
+    /**
+     * @param legajo the legajo to set
+     */
+    public void setLegajo(int legajo) {
+        this.legajo = legajo;
     }
 }

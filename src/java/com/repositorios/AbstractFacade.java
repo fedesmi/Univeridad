@@ -7,7 +7,6 @@ package com.repositorios;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 
 /**
  *
@@ -55,6 +54,10 @@ public abstract class AbstractFacade<T> {
  
      public List<T> buscarNoAutorizados() {
          return getEntityManager().createNamedQuery("Empleado.todosSinAutorizar").getResultList();
+    }
+     
+       public void autorizarCambiosEmpleado(int legajo, Long id) {  
+         getEntityManager().createNamedQuery("Empleado.autorizarCambio").setParameter("legajo", String.valueOf(legajo)).setParameter("id", id).executeUpdate();
     }
      
     public int buscarUltimoLegajo() {

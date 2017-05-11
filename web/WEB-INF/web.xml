@@ -65,6 +65,19 @@
   
   <security-constraint>
     <web-resource-collection>
+      <web-resource-name>Instructores</web-resource-name>
+      <url-pattern>/faces/instructor/*</url-pattern>
+      <http-method>GET</http-method>
+          <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>instructor</role-name>
+      <role-name>gerente</role-name>
+    </auth-constraint>
+  </security-constraint>
+  
+  <security-constraint>
+    <web-resource-collection>
       <web-resource-name>Usuarios</web-resource-name>
       <url-pattern>/faces/users/*</url-pattern>
       <http-method>GET</http-method>

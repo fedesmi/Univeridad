@@ -10,7 +10,7 @@
         <title>DAM</title>
     </h:head>
     <h:body style="min-width: 400px;">
-        <h:form>
+        <h:form id="formGer">
             <p:growl id="messages" showDetail="true" />
             
             
@@ -27,14 +27,16 @@
                                 <p:menuitem value="Reportes Financieros"  icon="ui-icon-pencil" />
                                 <p:menuitem value="Fijar Valores"  icon="ui-icon-pencil" />
                             </p:submenu>
-                            <p:submenu label="Alumnos">
+                            <p:submenu label="Alumnos"> 
                                 <p:menuitem value="Nuevo Alumno"  icon="ui-icon-contact"  />
                                 <p:menuitem value="Modificar Datos"  icon="ui-icon-pencil" />
                                 <p:menuitem value="Registrar Pagos"   icon="ui-icon-suitcase"/>
                             </p:submenu>
                              <p:submenu label="Empleados">
-                                <p:menuitem value="Nuevo Empleado"   icon="ui-icon-suitcase"/>
-                                <p:menuitem value="Modificar Datos"  icon="ui-icon-pencil" />
+                                <p:menuitem value="Lista"  outcome="empleados" icon="ui-icon-contact"/>
+                                <p:menuitem value="Nuevo"   outcome="nuevoEmpleado" icon="ui-icon-contact"/>
+                                <p:menuitem value="Autorizar"  outcome="autorizarEmpleados" icon="ui-icon-contact"/>
+                                <p:menuitem value="Fijar Sueldo"  outcome="sueldos" icon="ui-icon-contact"/>
                             </p:submenu>
                             <p:submenu label="Vehiculos">
                                 <p:menuitem value="Nuevo Vehiculo"  icon="ui-icon-contact" />
