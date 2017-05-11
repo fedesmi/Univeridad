@@ -25,7 +25,6 @@ import javax.persistence.Temporal;
 @Entity
 @Cacheable(false)
 @Table(name = "Empleado")
-
 @NamedQueries({
     @NamedQuery(name = "Empleado.todosAutorizados",
             query = "SELECT m "

@@ -273,13 +273,13 @@ public class EmpleadoBean implements Serializable {
         Empleado empVar = (Empleado) event.getObject();
          GuardarEdicion(empVar);
         //GuardarEdicion(empVar);
-        FacesMessage msg = new FacesMessage("Empleado Editado", String.valueOf(empVar.getLegajo()));
+        FacesMessage msg = new FacesMessage("Empleado Editado", "Legajo: "+String.valueOf(empVar.getLegajo()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
     public void onRowCancel(RowEditEvent event) {
         Empleado empVar = (Empleado) event.getObject();
-        FacesMessage msg = new FacesMessage("Edición Cancelada",  String.valueOf(empVar.getLegajo()));
+        FacesMessage msg = new FacesMessage("Edición Cancelada",  "Legajo: "+String.valueOf(empVar.getLegajo()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

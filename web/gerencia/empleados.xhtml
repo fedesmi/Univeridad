@@ -20,8 +20,8 @@
                     Lista de Empleados
                 </f:facet>
                 <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}" oncomplete="PF('empleadosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
-                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
+                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}" update="formGer:form1:msgs" oncomplete="PF('empleadosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}" update="formGer:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
                 <p:column   headerText="Legajo" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >

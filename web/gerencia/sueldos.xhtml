@@ -14,9 +14,45 @@
 
             <br/>
 
-          
+            <p:dataTable id="tablaValores" widgetVar="valoresWidget" var="templeado" editable="true"  value="#{tipoEmpleadoBean.tipoDeEmpleados}"  emptyMessage="sin registros" >
+                 <f:facet name="header">
+                    Lista de Valores
+                </f:facet>
+                <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
+                <p:ajax event="rowEdit" listener="#{tipoEmpleadoBean.onRowEdit}" update="formGer:formSueldos:msgs" oncomplete="PF('valoresWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{tipoEmpleadoBean.onRowCancel}" update="formGer:formSueldos:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
+                <p:column   headerText="Tipo" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                    <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{templeado.descripcion}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{templeado.descripcion}" /></f:facet>
+                    </p:cellEditor>
+                    </div>
+                </p:column>
+                <p:column   headerText="Sueldo Base" style="text-align: center;" >
+                      <div style="text-align: center; font-size: 14px;" >
+                    <p:cellEditor>
+                        <f:facet name="output"> <h:outputText  value="#{templeado.sueldoBase}" ><f:convertNumber type="currency" currencySymbol="$" locale="es_AR" /></h:outputText></f:facet>
+                        <f:facet name="input"><p:inputText value="#{templeado.sueldoBase}" /></f:facet>
+                    </p:cellEditor>
+                    </div>  
+                </p:column>
+                <p:column   headerText="% por Clase" style="text-align: center;" >
+                      <div style="text-align: center; font-size: 14px;" >
+                    <p:cellEditor>
+                        <f:facet name="output"> <h:outputText value="#{templeado.porcentajePorClase}%" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{templeado.porcentajePorClase}" /></f:facet>
+                    </p:cellEditor>
+                    </div>
+                </p:column>
+                
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
 
+ 
         </h:form>
     </ui:define>
 

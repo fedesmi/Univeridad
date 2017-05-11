@@ -48,21 +48,7 @@ public abstract class AbstractFacade<T> {
     }
     
     
-     public List<T> buscarAutorizados() {
-         return getEntityManager().createNamedQuery("Empleado.todosAutorizados").getResultList();
-    }
- 
-     public List<T> buscarNoAutorizados() {
-         return getEntityManager().createNamedQuery("Empleado.todosSinAutorizar").getResultList();
-    }
      
-       public void autorizarCambiosEmpleado(int legajo, Long id) {  
-         getEntityManager().createNamedQuery("Empleado.autorizarCambio").setParameter("legajo", String.valueOf(legajo)).setParameter("id", id).executeUpdate();
-    }
-     
-    public int buscarUltimoLegajo() {
-         return (int) getEntityManager().createNamedQuery("Empleado.ultimoLegajo").getSingleResult();
-    }
     public List<T> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
