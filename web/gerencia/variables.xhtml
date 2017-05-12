@@ -1,0 +1,53 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="variablesDefine">
+        <h:form id="formVariables">
+
+            <p:growl id="msgs" showDetail="true" />
+            <p:outputLabel value="Configuración" />
+
+            <br/>
+
+            <p:dataTable id="tablaValores" widgetVar="varWidget" var="variable" editable="true"  value="#{variablesBean.variables}"  emptyMessage="sin registros" >
+                 <f:facet name="header">
+                    Lista de Valores
+                </f:facet>
+                <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
+                <p:ajax event="rowEdit" listener="#{variablesBean.onRowEdit}" update="formGer:formVariables:msgs" oncomplete="PF('varWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{variablesBean.onRowCancel}" update="formGer:formVariables:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
+
+                <p:column   headerText="Descripcion" style="text-align: center;" >
+                      <div style="text-align: center; font-size: 14px;" >
+                    <p:cellEditor>
+                        <f:facet name="output"> <h:outputText  value="#{variable.descripcion}" ></h:outputText></f:facet>
+                        <f:facet name="input"><p:inputText value="#{variable.descripcion}" /></f:facet>
+                    </p:cellEditor>
+                    </div>  
+                </p:column>
+                <p:column   headerText="Valor" style="text-align: center;" >
+                      <div style="text-align: center; font-size: 14px;" >
+                    <p:cellEditor>
+                        <f:facet name="output"> <h:outputText value="#{variable.valor}" ></h:outputText></f:facet>
+                        <f:facet name="input"><p:inputText value="#{variable.valor}" /></f:facet> 
+                    </p:cellEditor>
+                    </div>
+                </p:column>
+                
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+
+ 
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>
