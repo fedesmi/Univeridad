@@ -62,13 +62,13 @@ public class TipoEmpleadoBean {
         public void onRowEdit(RowEditEvent event)  {
         Tipo_empleado tempVar = (Tipo_empleado) event.getObject();
         this.templeadoFacade.edit(tempVar);
-        FacesMessage msg = new FacesMessage("Empleado Editado", "Tipo: "+String.valueOf(tempVar.getDescripcion()));
+        FacesMessage msg = new FacesMessage("Empleado Editado", "Tipo: "+String.valueOf(tempVar.getRol()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
     public void onRowCancel(RowEditEvent event) {
         Tipo_empleado tempVar = (Tipo_empleado) event.getObject();
-        FacesMessage msg = new FacesMessage("Edición Cancelada",  "Tipo: "+String.valueOf(tempVar.getDescripcion()));
+        FacesMessage msg = new FacesMessage("Edición Cancelada",  "Tipo: "+String.valueOf(tempVar.getRol()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     

@@ -22,19 +22,7 @@ import javax.persistence.OneToOne;
 @Cacheable(false)
 public class Tipo_empleado implements Serializable {
 
-    /**
-     * @return the descripcion
-     */
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    /**
-     * @param descripcion the descripcion to set
-     */
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+  
 
     /**
      * @return the sueldoBase
@@ -69,7 +57,7 @@ public class Tipo_empleado implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
-    private String descripcion;
+    private String rol;
     private int sueldoBase;
     private int porcentajePorClase;
 
@@ -121,6 +109,20 @@ public class Tipo_empleado implements Serializable {
      */
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
+    }
+
+    /**
+     * @return the rol
+     */
+    public String getRol() {
+        return  rol.toUpperCase();
+    }
+
+    /**
+     * @param rol the rol to set
+     */
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
 }

@@ -24,10 +24,9 @@
 
                 <p:column   headerText="Tipo" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >
-                    <p:cellEditor>
-                            <f:facet name="output"> <h:outputText value="#{templeado.descripcion}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{templeado.descripcion}" /></f:facet>
-                    </p:cellEditor>
+                   
+                   <h:outputText value="#{templeado.rol}" />
+                   
                     </div>
                 </p:column>
                 <p:column   headerText="Sueldo Base" style="text-align: center;" >
