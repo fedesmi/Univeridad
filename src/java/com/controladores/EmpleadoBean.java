@@ -149,9 +149,6 @@ public class EmpleadoBean implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(EmpleadoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        System.out.println("tipo de empleado!!!   " + tipoEmpleado.getRol());
-
         this.empleadoFacade.create(e);
 
         limpiarCampos();

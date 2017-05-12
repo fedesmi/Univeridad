@@ -20,8 +20,8 @@
                     Lista de Empleados
                 </f:facet>
                 <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  update="formAdm:form1:tablaEmpleados"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
-                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
+                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  update="formAdm:form1:tablaEmpleados,formAdm:form1:msgs" oncomplete="PF('empleadosWidget').filter(),PF('empleadosAWidget').filter() "  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  update="formAdm:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
                 <p:column   headerText="Legajo" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >
@@ -39,18 +39,23 @@
                 </p:column>
                 <p:column headerText="Apellido" >
                     <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.apellido}" />
+                        <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
+                    </p:cellEditor>
                     </div>
                 </p:column>
                 <p:column  headerText="DNI" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.dni}" />
-                    </div>
+                    <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column  headerText="Telefono" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.telefono}" />
-                    </div>
+                   <p:cellEditor>
+                       <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column  headerText="Tipo">
                     <div  style="text-align: left; font-size: 14px;">
@@ -66,7 +71,7 @@
             
             
             <br/>
-            <p:dataTable id="tablaEmpleadosSinAutorizar" var="emp"   value="#{empleadoBean.empleadosSinAutorizar}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            <p:dataTable id="tablaEmpleadosSinAutorizar" var="emp"  widgetVar="empleadosAWidget" value="#{empleadoBean.empleadosSinAutorizar}"  paginator="true" rows="8" emptyMessage="sin registros" >
                 
                 <f:facet name="header">
                     Lista de Empleados a ser Autorizados

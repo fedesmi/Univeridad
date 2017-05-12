@@ -28,29 +28,34 @@
                         <h:outputText value="#{emp.legajo}" />
                     </div>
                 </p:column>
-                <p:column  headerText="Nombre">
+                 <p:column  headerText="Nombre">
                     <div style="text-align: center; font-size: 14px;" >
-                        <p:cellEditor>
-                            <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
-                        </p:cellEditor>
-
+                     <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
+                    </p:cellEditor>
+                       
                     </div>
                 </p:column>
                 <p:column headerText="Apellido" >
                     <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.apellido}" />
+                        <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
+                    </p:cellEditor>
                     </div>
                 </p:column>
                 <p:column  headerText="DNI" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.dni}" />
-                    </div>
+                    <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column  headerText="Telefono" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.telefono}" />
-                    </div>
+                   <p:cellEditor>
+                       <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column  headerText="Tipo">
                     <div  style="text-align: left; font-size: 14px;">
