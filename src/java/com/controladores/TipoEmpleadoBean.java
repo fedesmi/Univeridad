@@ -5,7 +5,6 @@
  */
 package com.controladores;
 
-import com.entidades.Empleado;
 import com.entidades.Tipo_empleado;
 import com.repositorios.Tipo_empleadoFacade;
 import java.util.List;

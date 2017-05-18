@@ -5,7 +5,6 @@
  */
 package com.controladores;
 
-import com.entidades.Empleado;
 import com.entidades.Variable;
 import com.repositorios.VariableFacade;
 import java.util.List;
