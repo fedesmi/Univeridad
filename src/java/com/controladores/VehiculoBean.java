@@ -11,7 +11,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -23,9 +26,11 @@ public class VehiculoBean {
 
 @Inject
     private VehiculoFacade vehiculoFacade;
-
+    private Vehiculo vehiculoVar;
     
      private List<Vehiculo> vehiculos;
+    
+     
     /**
      * Creates a new instance of VehiculoBean
      */
@@ -37,6 +42,8 @@ public class VehiculoBean {
     @PostConstruct
     public void init() {
       vehiculos = getVehiculosDB();
+      vehiculoVar = new Vehiculo();
+      
 
     }
     
@@ -58,6 +65,45 @@ public class VehiculoBean {
         return this.vehiculoFacade.findAll();
     }
     
+    
+     public void onRowEdit(RowEditEvent event)  {
+        Vehiculo vehVar = (Vehiculo) event.getObject();
+        this.vehiculoFacade.edit(vehVar);
+        FacesMessage msg = new FacesMessage("Vehiculo Editado", "Patente: "+vehVar.getPatente());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        Vehiculo vehVar = (Vehiculo) event.getObject();
+        FacesMessage msg = new FacesMessage("Edición Cancelada",  "Patente: "+vehVar.getPatente());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    /**
+     * @return the vehiculoVar
+     */
+    public Vehiculo getVehiculoVar() {
+        return vehiculoVar;
+    }
+
+    /**
+     * @param vehiculoVar the vehiculoVar to set
+     */
+    public void setVehiculoVar(Vehiculo vehiculoVar) {
+        this.vehiculoVar = vehiculoVar;
+    }
+    
+     public void guardar() {
+        
+        this.vehiculoFacade.create(vehiculoVar);
+
+        vehiculoVar = null;
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Vehiculo fue registrado exitosamente"));
+
+    }
+
     
     
 }

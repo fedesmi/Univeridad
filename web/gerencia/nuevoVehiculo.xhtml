@@ -4,72 +4,30 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     template="gerenteIndex.xhtml"
-    xmlns:p="http://primefaces.org/ui"> 
+    xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="source"  id="define1">
-        <h:form id="form1">
-
-            <p:growl id="msgs" showDetail="true" />
-            <p:outputLabel value="Empleados" />
-
+    <ui:define name="source">
+        <h:form>
+            <p:outputLabel value="Vehiculos" />
             <br/>
-
-            <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{empleadoBean.empleados}"  paginator="true" rows="8" emptyMessage="sin registros" >
-
-                <f:facet name="header">
-                    Lista de Empleados
-                </f:facet>
-                <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}" update="formGer:form1:msgs" oncomplete="PF('empleadosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
-                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}" update="formGer:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
-
-                <p:column   headerText="Legajo" style="text-align: center;" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.legajo}" />
-                    </div>
-                </p:column>
-                 <p:column  headerText="Nombre">
-                    <div style="text-align: center; font-size: 14px;" >
-                     <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
-                    </p:cellEditor>
-                       
-                    </div>
-                </p:column>
-                <p:column headerText="Apellido" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
-                    </p:cellEditor>
-                    </div>
-                </p:column>
-                <p:column  headerText="DNI" >
-                    <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column  headerText="Telefono" >
-                   <p:cellEditor>
-                       <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column  headerText="Tipo">
-                    <div  style="text-align: left; font-size: 14px;">
-                        <h:outputText value="#{emp.tipo_empleado.rol}" />
-                    </div>
-                </p:column>
-                <p:column style="width:32px">
-                    <p:rowEditor />
-                </p:column>
-
-            </p:dataTable>
-
-
-
+            <p:panelGrid columns="2" style="font-size: 14px;">
+                <p:outputLabel value="Patente"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.patente}" />
+                <p:outputLabel value="Marca"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.marca}" />
+                <p:outputLabel value="Modelo"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.modelo}" />
+                <p:outputLabel value="Número de Chasis"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.numeroChasis}" />
+                <p:outputLabel value="Número de Motor"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.numeroMotor}" />
+                 <p:outputLabel value="Año"  />
+                 <p:inputText value="#{vehiculoBean.vehiculoVar.year}" />
+                <br/>
+                <p:commandButton  ajax="false" value="Guardar Nuevo" actionListener="#{vehiculoBean.guardar()}" />
+                 
+            </p:panelGrid>
+           
         </h:form>
     </ui:define>
 

@@ -23,13 +23,11 @@
                     <p:layoutUnit position="west" resizable="false" size="215" collapsible="true" >
                         <p:panelMenu style="width:200px; font-size: 12px;">
                             <p:submenu label="Empresa">
-                                <p:menuitem value="Autorizaciones Pendientes"  icon="ui-icon-contact" />
                                 <p:menuitem value="Reportes Financieros"  icon="ui-icon-pencil" />
-                                <p:menuitem value="Fijar Valores"  icon="ui-icon-pencil" />
+                                <p:menuitem value="Configurar Variables" outcome="variables"  icon="ui-icon-contact" />
                             </p:submenu>
                             <p:submenu label="Alumnos"> 
-                                <p:menuitem value="Nuevo Alumno"  icon="ui-icon-contact"  />
-                                <p:menuitem value="Modificar Datos"  icon="ui-icon-pencil" />
+                                <p:menuitem value="Nuevo"  icon="ui-icon-contact"  />
                                 <p:menuitem value="Registrar Pagos"   icon="ui-icon-suitcase"/>
                             </p:submenu>
                              <p:submenu label="Empleados">
@@ -39,12 +37,11 @@
                                 <p:menuitem value="Fijar Sueldos"  outcome="sueldos" icon="ui-icon-pencil"/>
                             </p:submenu>
                             <p:submenu label="Vehiculos">
-                                <p:menuitem value="Lista Vehiculo" outcome="vehiculos" icon="ui-icon-contact" />
-                                <p:menuitem value="Nuevo Vehiculo" outcome="nuevoVehiculo" icon="ui-icon-pencil" />
+                                <p:menuitem value="Lista" outcome="vehiculos" icon="ui-icon-contact" />
+                                <p:menuitem value="Nuevo" outcome="nuevoVehiculo" icon="ui-icon-pencil" />
+                                <p:menuitem value="Mantenimientos" outcome="nuevoVehiculo" icon="ui-icon-pencil" />
                             </p:submenu>
-                            <p:submenu label="Otros">
-                                <p:menuitem value="Configurar Variables" outcome="variables"  icon="ui-icon-contact" />
-                            </p:submenu>
+                           
                               
 
                         </p:panelMenu>
@@ -54,7 +51,7 @@
                         <ui:insert name="source" />
                     </p:layoutUnit>
                 </p:layout>
-
+                 
 
             </p:panel>
 

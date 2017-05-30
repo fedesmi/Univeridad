@@ -6,6 +6,7 @@
 package com.repositorios;
 
 import com.entidades.Mantenimiento;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,5 +30,8 @@ public class MantenimientoFacade extends AbstractFacade<Mantenimiento> {
         super(Mantenimiento.class);
     }
     
+      public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) {  
+         return getEntityManager().createNamedQuery("Mantenimiento.findById").setParameter("id", idVehiculo).getResultList();
+    }
    
 }

@@ -8,59 +8,93 @@
 
     <ui:define name="source"  id="define1">
         <h:form id="form1">
-
+            <h:outputStylesheet library="css" name="cssweb.css" />
             <p:growl id="msgs" showDetail="true" />
-            <p:outputLabel value="Empleados" />
+            <p:outputLabel value="Vehiculos" />
 
             <br/>
 
-            <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{vehiculoBean.vehiculos}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            <p:dataTable id="tablaVehiculos" widgetVar="vehiculosWidget" var="veh"
+                         editable="true"  value="#{vehiculoBean.vehiculos}"  paginator="true" rows="8"
+                         emptyMessage="sin registros"
+                         rowStyleClass="#{veh.apto==1?'highlightTableRow':''}">
 
                 <f:facet name="header">
-                    Lista de Empleados
+                    Lista de Vehiculos
                 </f:facet>
                 <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}" update="formGer:form1:msgs" oncomplete="PF('empleadosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
-                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}" update="formGer:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
+                <p:ajax event="rowEdit" listener="#{vehiculoBean.onRowEdit}" update="formGer:form1:msgs" oncomplete="PF('vehiculosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{vehiculoBean.onRowCancel}" update="formGer:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
-                <p:column   headerText="Legajo" style="text-align: center;" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.legajo}" />
-                    </div>
-                </p:column>
-                 <p:column  headerText="Nombre">
-                    <div style="text-align: center; font-size: 14px;" >
-                     <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
-                    </p:cellEditor>
-                       
-                    </div>
-                </p:column>
-                <p:column headerText="Apellido" >
+                <p:column   headerText="Patente" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >
                         <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
-                    </p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.patente}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{veh.patente}" /></f:facet>
+                        </p:cellEditor>
+
                     </div>
                 </p:column>
-                <p:column  headerText="DNI" >
-                    <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column  headerText="Telefono" >
-                   <p:cellEditor>
-                       <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column  headerText="Tipo">
-                    <div  style="text-align: left; font-size: 14px;">
-                        <h:outputText value="#{emp.tipo_empleado.rol}" />
+                <p:column  headerText="Marca">
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.marca}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{veh.marca}" /></f:facet>
+                        </p:cellEditor>
                     </div>
+                </p:column>
+                <p:column headerText="Modelo" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.modelo}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{veh.modelo}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>
+                <p:column  headerText="Chasis" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.numeroChasis}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{veh.numeroChasis}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>
+                <p:column  headerText="Motor" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.numeroMotor}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{veh.numeroMotor}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>  
+                <p:column  headerText="Año" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.year}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{veh.year}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>  
+                <p:column  headerText="Apto" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{veh.apto==0 ? 'SI' : 'NO'}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="console" value="#{veh.apto}">
+                                    <f:selectItem itemLabel="SI" itemValue="0" />
+                                    <f:selectItem itemLabel="NO" itemValue="1" />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>
+                <p:column style="width:40px"  headerText="Mant. y Desp.">
+                    <p:commandButton icon="ui-icon-search" type="button" onclick="PF('dlgDesperfecto').show();" />
+
+                   
+
+
+
                 </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />
@@ -68,11 +102,11 @@
 
             </p:dataTable>
 
-
+                
+             
 
         </h:form>
     </ui:define>
-
 
 
 </ui:composition>
