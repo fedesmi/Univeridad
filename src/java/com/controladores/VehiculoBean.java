@@ -7,6 +7,7 @@ package com.controladores;
 
 import com.entidades.Vehiculo;
 import com.repositorios.VehiculoFacade;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -20,15 +21,16 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author fmichel
  */
-@Named(value = "vehiculoBean")
+@Named(value = "vehiculoBean") 
 @RequestScoped
-public class VehiculoBean {
+public class VehiculoBean implements Serializable {
 
 @Inject
     private VehiculoFacade vehiculoFacade;
     private Vehiculo vehiculoVar;
+    private Vehiculo vehiculoSelected;
+    private List<Vehiculo> vehiculos;
     
-     private List<Vehiculo> vehiculos;
     
      
     /**
@@ -41,6 +43,7 @@ public class VehiculoBean {
     // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
+        
       vehiculos = getVehiculosDB();
       vehiculoVar = new Vehiculo();
       
@@ -89,8 +92,9 @@ public class VehiculoBean {
     /**
      * @param vehiculoVar the vehiculoVar to set
      */
-    public void setVehiculoVar(Vehiculo vehiculoVar) {
-        this.vehiculoVar = vehiculoVar;
+    public void setVehiculoVar(Vehiculo vehiculoPar) {
+        
+        this.vehiculoVar = vehiculoPar;
     }
     
      public void guardar() {
@@ -102,6 +106,22 @@ public class VehiculoBean {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Vehiculo fue registrado exitosamente"));
 
+    }
+
+    
+
+    /**
+     * @return the vehiculoSelected
+     */
+    public Vehiculo getVehiculoSelected() {
+        return vehiculoSelected;
+    }
+
+    /**
+     * @param vehiculoSelected the vehiculoSelected to set
+     */
+    public void setVehiculoSelected(Vehiculo vehiculoSelected) {
+        this.vehiculoSelected = vehiculoSelected;
     }
 
     

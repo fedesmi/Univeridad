@@ -89,12 +89,10 @@
                     </div>
                 </p:column>
                 <p:column style="width:40px"  headerText="Mant. y Desp.">
-                    <p:commandButton icon="ui-icon-search" type="button" onclick="PF('dlgDesperfecto').show();" />
-
-                   
-
-
-
+                    <p:commandButton icon="ui-icon-search" ajax="true" update="formGer:form1:detail" oncomplete="PF('dlgDesperfecto').show();">
+                    <f:setPropertyActionListener value="#{veh}" target="#{vehiculoBean.vehiculoSelected}" />
+                    </p:commandButton>
+            
                 </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />
@@ -102,8 +100,19 @@
 
             </p:dataTable>
 
-                
-             
+ 
+
+
+            <p:dialog header="Mantenimientos y Desperfectos" widgetVar="dlgDesperfecto" modal="false" resizable="false" width="600">
+                <p:outputPanel id="detail" style="text-align:center;">
+                    <h:outputText value="#{vehiculoBean.vehiculoSelected.marca}" />
+                    <h:outputText value="#{vehiculoBean.vehiculoSelected.modelo}" />
+                    
+               </p:outputPanel>
+            </p:dialog>
+
+
+
 
         </h:form>
     </ui:define>
