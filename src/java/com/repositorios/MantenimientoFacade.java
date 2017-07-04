@@ -30,7 +30,7 @@ public class MantenimientoFacade extends AbstractFacade<Mantenimiento> {
         super(Mantenimiento.class);
     }
     
-      public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) {  
+      public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) { 
          return getEntityManager().createNamedQuery("Mantenimiento.findById").setParameter("id", idVehiculo).getResultList();
     }
    

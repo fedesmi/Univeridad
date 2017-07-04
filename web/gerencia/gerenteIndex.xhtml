@@ -12,13 +12,13 @@
     <h:body style="min-width: 400px;">
         <h:form id="formGer">
             <p:growl id="messages" showDetail="true" />
-            
-            
+
+
             <ui:include src="../banner.xhtml" />
-           
-           
+
+
             <p:panel header="Gerencia - Panel de Control" style="min-width: 1050px; min-height: 400px;" >
-                
+
                 <p:layout style="min-width:400px;min-height:400px;"  >
                     <p:layoutUnit position="west" resizable="false" size="215" collapsible="true" >
                         <p:panelMenu style="width:200px; font-size: 12px;">
@@ -30,7 +30,7 @@
                                 <p:menuitem value="Nuevo"  icon="ui-icon-contact"  />
                                 <p:menuitem value="Registrar Pagos"   icon="ui-icon-suitcase"/>
                             </p:submenu>
-                             <p:submenu label="Empleados">
+                            <p:submenu label="Empleados">
                                 <p:menuitem value="Lista"  outcome="empleados" icon="ui-icon-contact"/>
                                 <p:menuitem value="Nuevo"   outcome="nuevoEmpleado" icon="ui-icon-contact"/>
                                 <p:menuitem value="Autorizar"  outcome="autorizarEmpleados" icon="ui-icon-pencil"/>
@@ -41,8 +41,8 @@
                                 <p:menuitem value="Nuevo" outcome="nuevoVehiculo" icon="ui-icon-pencil" />
                                 <p:menuitem value="Mantenimientos" outcome="nuevoVehiculo" icon="ui-icon-pencil" />
                             </p:submenu>
-                           
-                              
+
+
 
                         </p:panelMenu>
                     </p:layoutUnit>
@@ -51,8 +51,8 @@
                         <ui:insert name="source" />
                     </p:layoutUnit>
                 </p:layout>
-                 
-
+ 
+                
             </p:panel>
 
         </h:form>

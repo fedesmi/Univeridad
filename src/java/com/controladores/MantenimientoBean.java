@@ -44,7 +44,7 @@ public class MantenimientoBean {
      * @return the mantenimientosDeVehiculo
      */
     public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) {
-        return mantenimientosDeVehiculo;
+        return  this.mantenimientoFacade.getMantenimientosDeVehiculo(idVehiculo);
     }
 
     /**

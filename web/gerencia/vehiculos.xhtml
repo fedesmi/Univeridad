@@ -90,9 +90,9 @@
                 </p:column>
                 <p:column style="width:40px"  headerText="Mant. y Desp.">
                     <p:commandButton icon="ui-icon-search" ajax="true" update="formGer:form1:detail" oncomplete="PF('dlgDesperfecto').show();">
-                    <f:setPropertyActionListener value="#{veh}" target="#{vehiculoBean.vehiculoSelected}" />
+                        <f:setPropertyActionListener value="#{veh}" target="#{vehiculoBean.vehiculoSelected}" />
                     </p:commandButton>
-            
+
                 </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />
@@ -100,15 +100,85 @@
 
             </p:dataTable>
 
- 
+
 
 
             <p:dialog header="Mantenimientos y Desperfectos" widgetVar="dlgDesperfecto" modal="false" resizable="false" width="600">
                 <p:outputPanel id="detail" style="text-align:center;">
-                    <h:outputText value="#{vehiculoBean.vehiculoSelected.marca}" />
-                    <h:outputText value="#{vehiculoBean.vehiculoSelected.modelo}" />
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Marca: " />
+                        <h:outputText value="#{vehiculoBean.vehiculoSelected.marca}" />
+                        <h:outputText value="Modelo: " />
+                        <h:outputText value="#{vehiculoBean.vehiculoSelected.modelo}" />
+                        <h:outputText value="Patente: " />
+                        <h:outputText value="#{vehiculoBean.vehiculoSelected.patente}" />
+                         
+                    </p:panelGrid>
                     
-               </p:outputPanel>
+                    <br/>
+                    <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="man"
+                                  value="#{mantenimientosBean.getMantenimientosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"  rows="8"
+                                 emptyMessage="sin registros">
+
+                         <f:facet name="header">
+                            Desperfectos
+                        </f:facet>
+                        
+                        <p:column  headerText="fecha">
+                            <h:outputText value="#{man.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                         <p:column  headerText="Lugar">
+                             <h:outputText value="#{man.lugar}" />
+                        </p:column>
+
+                        <p:column  headerText="Valor">
+                            <h:outputText value="#{man.valor}" >
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  headerText="Factura">
+                             <h:outputText value="#{man.factura}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                     <p:dataTable id="tablaMantenimientos" widgetVar="mantenimientosWidget" var="man"
+                                  value="#{mantenimientosBean.getMantenimientosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"  rows="8"
+                                 emptyMessage="sin registros">
+
+                         <f:facet name="header">
+                            Mantenimientos
+                        </f:facet>
+                        
+                        <p:column  headerText="fecha">
+                            <h:outputText value="#{man.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                         <p:column  headerText="Lugar">
+                             <h:outputText value="#{man.lugar}" />
+                        </p:column>
+
+                        <p:column  headerText="Valor">
+                            <h:outputText value="#{man.valor}" >
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  headerText="Factura">
+                             <h:outputText value="#{man.factura}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+
+
+                </p:outputPanel>
             </p:dialog>
 
 
