@@ -116,8 +116,9 @@
                     </p:panelGrid>
                     
                     <br/>
-                    <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="man"
-                                  value="#{mantenimientosBean.getMantenimientosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"  rows="8"
+                    <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
+                                 value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
+                                 rows="8" editable="true" 
                                  emptyMessage="sin registros">
 
                          <f:facet name="header">
@@ -125,24 +126,15 @@
                         </f:facet>
                         
                         <p:column  headerText="fecha">
-                            <h:outputText value="#{man.fecha}" >
+                            <h:outputText value="#{des.fecha}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
                         
-                         <p:column  headerText="Lugar">
-                             <h:outputText value="#{man.lugar}" />
+                         <p:column  headerText="Descripción">
+                             <h:outputText value="#{des.descripcion}" />
                         </p:column>
 
-                        <p:column  headerText="Valor">
-                            <h:outputText value="#{man.valor}" >
-                            <f:convertNumber type="currency" currencySymbol="$" />
-                            </h:outputText>
-                        </p:column>
-
-                        <p:column  headerText="Factura">
-                             <h:outputText value="#{man.factura}" />
-                        </p:column>
 
                     </p:dataTable>
 

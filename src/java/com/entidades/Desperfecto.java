@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,22 +23,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.persistence.Cacheable;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fmichel
+ * @author Usuario
  */
 @Entity
 @Cacheable(false)
-@Table(name = "solicitud_reparacion")
+@Table(name = "desperfecto")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SolicitudReparacion.findAll", query = "SELECT s FROM SolicitudReparacion s")
-    , @NamedQuery(name = "SolicitudReparacion.findById", query = "SELECT s FROM SolicitudReparacion s WHERE s.id = :id")
-    , @NamedQuery(name = "SolicitudReparacion.findByFecha", query = "SELECT s FROM SolicitudReparacion s WHERE s.fecha = :fecha")
-    , @NamedQuery(name = "SolicitudReparacion.findByDescripcion", query = "SELECT s FROM SolicitudReparacion s WHERE s.descripcion = :descripcion")
-    , @NamedQuery(name = "SolicitudReparacion.findByAutorizado", query = "SELECT s FROM SolicitudReparacion s WHERE s.autorizado = :autorizado")})
-public class SolicitudReparacion implements Serializable {
+    @NamedQuery(name = "Desperfecto.findAll", query = "SELECT d FROM Desperfecto d")
+    , @NamedQuery(name = "Desperfecto.findById", query = "SELECT d FROM Desperfecto d WHERE d.id = :id")
+    , @NamedQuery(name = "Desperfecto.findByFecha", query = "SELECT d FROM Desperfecto d WHERE d.fecha = :fecha")
+    , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")})
+public class Desperfecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,31 +51,23 @@ public class SolicitudReparacion implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "autorizado")
-    private int autorizado;
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Vehiculo idVehiculo;
 
-    public SolicitudReparacion() {
+    public Desperfecto() {
     }
 
-    public SolicitudReparacion(Integer id) {
+    public Desperfecto(Integer id) {
         this.id = id;
     }
 
-    public SolicitudReparacion(Integer id, Date fecha, String descripcion, int autorizado) {
+    public Desperfecto(Integer id, Date fecha) {
         this.id = id;
         this.fecha = fecha;
-        this.descripcion = descripcion;
-        this.autorizado = autorizado;
     }
 
     public Integer getId() {
@@ -101,14 +94,6 @@ public class SolicitudReparacion implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public int getAutorizado() {
-        return autorizado;
-    }
-
-    public void setAutorizado(int autorizado) {
-        this.autorizado = autorizado;
-    }
-
     public Vehiculo getIdVehiculo() {
         return idVehiculo;
     }
@@ -127,10 +112,10 @@ public class SolicitudReparacion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SolicitudReparacion)) {
+        if (!(object instanceof Desperfecto)) {
             return false;
         }
-        SolicitudReparacion other = (SolicitudReparacion) object;
+        Desperfecto other = (Desperfecto) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -139,7 +124,7 @@ public class SolicitudReparacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.entidades.SolicitudReparacion[ id=" + id + " ]";
+        return "com.entidades.Desperfecto[ id=" + id + " ]";
     }
     
 }

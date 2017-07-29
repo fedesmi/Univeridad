@@ -12,12 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Cacheable;
 
 /**
  *
  * @author fmichel
  */
 @Entity
+@Cacheable(false)
 @Table(name = "Variable")
 public class Variable implements Serializable {
 
