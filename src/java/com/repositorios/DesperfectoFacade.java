@@ -31,7 +31,7 @@ public class DesperfectoFacade extends AbstractFacade<Desperfecto> {
     }
     
       public List<Desperfecto> getDesperfectosDeVehiculo(int idVehiculo) { 
-         return getEntityManager().createNamedQuery("Desperfecto.findById").setParameter("id", idVehiculo).getResultList();
+         return getEntityManager().createNamedQuery("Desperfecto.findByIdVehiculo").setParameter("id", idVehiculo).getResultList();
     }
    
 }

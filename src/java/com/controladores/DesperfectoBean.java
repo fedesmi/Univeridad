@@ -62,6 +62,7 @@ public class DesperfectoBean{
 
     /**
      * @return the desperfectosDeVehiculo
+     * @param idVehiculo the idVehiculo to set
      */
     public List<Desperfecto> getDesperfectosDeVehiculo(int idVehiculo) {
          return  this.desperfectoFacade.getDesperfectosDeVehiculo(idVehiculo);

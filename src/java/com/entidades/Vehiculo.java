@@ -44,11 +44,14 @@ import javax.persistence.Cacheable;
     , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")})
 public class Vehiculo implements Serializable {
 
+    @Column(name = "year")
+    private Short year;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
+    private Collection<Mantenimiento> mantenimientoCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculo")
     private Collection<Desperfecto> desperfectoCollection;
 
-    @Column(name = "year")
-    private Integer year;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
    
 
@@ -187,13 +190,6 @@ public class Vehiculo implements Serializable {
         return "com.entidades.Vehiculo[ id=" + id + " ]";
     }
 
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
 
   
 
@@ -204,6 +200,23 @@ public class Vehiculo implements Serializable {
 
     public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
         this.desperfectoCollection = desperfectoCollection;
+    }
+
+    public Short getYear() {
+        return year;
+    }
+
+    public void setYear(Short year) {
+        this.year = year;
+    }
+
+    @XmlTransient
+    public Collection<Mantenimiento> getMantenimientoCollection() {
+        return mantenimientoCollection;
+    }
+
+    public void setMantenimientoCollection(Collection<Mantenimiento> mantenimientoCollection) {
+        this.mantenimientoCollection = mantenimientoCollection;
     }
     
 }

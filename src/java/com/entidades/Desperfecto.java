@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Desperfecto.findAll", query = "SELECT d FROM Desperfecto d")
     , @NamedQuery(name = "Desperfecto.findById", query = "SELECT d FROM Desperfecto d WHERE d.id = :id")
+    , @NamedQuery(name = "Desperfecto.findByIdVehiculo", query = "SELECT d FROM Desperfecto d WHERE d.id_vehiculo = :id")
     , @NamedQuery(name = "Desperfecto.findByFecha", query = "SELECT d FROM Desperfecto d WHERE d.fecha = :fecha")
     , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")})
 public class Desperfecto implements Serializable {
@@ -56,7 +57,10 @@ public class Desperfecto implements Serializable {
     private String descripcion;
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Vehiculo idVehiculo;
+    private Vehiculo vehiculo;
+    
+    @Column(name = "id_vehiculo" , insertable = false, updatable = false)
+    private Integer id_vehiculo;
 
     public Desperfecto() {
     }
@@ -94,12 +98,12 @@ public class Desperfecto implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Vehiculo getIdVehiculo() {
-        return idVehiculo;
+    public Vehiculo getVehiculo() {
+        return vehiculo;
     }
 
-    public void setIdVehiculo(Vehiculo idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public void setVehiculo(Vehiculo idVehiculo) {
+        this.vehiculo = idVehiculo;
     }
 
     @Override
@@ -125,6 +129,20 @@ public class Desperfecto implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Desperfecto[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the id_vehiculo
+     */
+    public Integer getId_vehiculo() {
+        return id_vehiculo;
+    }
+
+    /**
+     * @param id_vehiculo the id_vehiculo to set
+     */
+    public void setId_vehiculo(Integer id_vehiculo) {
+        this.id_vehiculo = id_vehiculo;
     }
     
 }

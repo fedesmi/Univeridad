@@ -105,3 +105,6 @@ vertical-align: top;
     
 }
 
+.disable-scroll .ui-dialog-content {
+  overflow: hidden !important;
+}

@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -21,19 +23,18 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.persistence.Cacheable;
 
 /**
  *
  * @author fmichel
  */
 @Entity
-@Cacheable(false)
 @Table(name = "mantenimiento")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Mantenimiento.findAll", query = "SELECT m FROM Mantenimiento m")
     , @NamedQuery(name = "Mantenimiento.findById", query = "SELECT m FROM Mantenimiento m WHERE m.id = :id")
+    , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT m FROM Mantenimiento m WHERE m.id_vehiculo = :id")
     , @NamedQuery(name = "Mantenimiento.findByFecha", query = "SELECT m FROM Mantenimiento m WHERE m.fecha = :fecha")
     , @NamedQuery(name = "Mantenimiento.findByLugar", query = "SELECT m FROM Mantenimiento m WHERE m.lugar = :lugar")
     , @NamedQuery(name = "Mantenimiento.findByValor", query = "SELECT m FROM Mantenimiento m WHERE m.valor = :valor")
@@ -42,7 +43,7 @@ import javax.persistence.Cacheable;
     , @NamedQuery(name = "Mantenimiento.findByObservacion", query = "SELECT m FROM Mantenimiento m WHERE m.observacion = :observacion")})
 public class Mantenimiento implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -76,7 +77,14 @@ public class Mantenimiento implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "observacion")
     private String observacion;
+    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Vehiculo idVehiculo;
 
+  
+      @Column(name = "id_vehiculo" , insertable = false, updatable = false)
+    private Integer id_vehiculo;
+    
     public Mantenimiento() {
     }
 
@@ -150,6 +158,14 @@ public class Mantenimiento implements Serializable {
         this.observacion = observacion;
     }
 
+    public Vehiculo getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(Vehiculo idVehiculo) {
+        this.idVehiculo = idVehiculo;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -173,6 +189,20 @@ public class Mantenimiento implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Mantenimiento[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the id_vehiculo
+     */
+    public Integer getId_vehiculo() {
+        return id_vehiculo;
+    }
+
+    /**
+     * @param id_vehiculo the id_vehiculo to set
+     */
+    public void setId_vehiculo(Integer id_vehiculo) {
+        this.id_vehiculo = id_vehiculo;
     }
     
 }
