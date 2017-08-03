@@ -6,9 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,20 +14,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.persistence.Cacheable;
 
 /**
  *
  * @author fmichel
  */
 @Entity
-@Cacheable(false)
 @Table(name = "vehiculo")
 @XmlRootElement
 @NamedQueries({
@@ -43,17 +37,6 @@ import javax.persistence.Cacheable;
     , @NamedQuery(name = "Vehiculo.findByYear", query = "SELECT v FROM Vehiculo v WHERE v.year = :year")
     , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")})
 public class Vehiculo implements Serializable {
-
-    @Column(name = "year")
-    private Short year;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
-    private Collection<Mantenimiento> mantenimientoCollection;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehiculo")
-    private Collection<Desperfecto> desperfectoCollection;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
-   
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -86,6 +69,8 @@ public class Vehiculo implements Serializable {
     @Size(min = 1, max = 15)
     @Column(name = "numero_motor")
     private String numeroMotor;
+    @Column(name = "year")
+    private Short year;
     @Basic(optional = false)
     @NotNull
     @Column(name = "apto")
@@ -156,6 +141,13 @@ public class Vehiculo implements Serializable {
         this.numeroMotor = numeroMotor;
     }
 
+    public Short getYear() {
+        return year;
+    }
+
+    public void setYear(Short year) {
+        this.year = year;
+    }
 
     public short getApto() {
         return apto;
@@ -188,35 +180,6 @@ public class Vehiculo implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Vehiculo[ id=" + id + " ]";
-    }
-
-
-  
-
-    @XmlTransient
-    public Collection<Desperfecto> getDesperfectoCollection() {
-        return desperfectoCollection;
-    }
-
-    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
-        this.desperfectoCollection = desperfectoCollection;
-    }
-
-    public Short getYear() {
-        return year;
-    }
-
-    public void setYear(Short year) {
-        this.year = year;
-    }
-
-    @XmlTransient
-    public Collection<Mantenimiento> getMantenimientoCollection() {
-        return mantenimientoCollection;
-    }
-
-    public void setMantenimientoCollection(Collection<Mantenimiento> mantenimientoCollection) {
-        this.mantenimientoCollection = mantenimientoCollection;
     }
     
 }

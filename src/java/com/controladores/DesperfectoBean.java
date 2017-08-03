@@ -7,11 +7,15 @@ package com.controladores;
 
 import com.entidades.Desperfecto;
 import com.repositorios.DesperfectoFacade;
-import java.io.Serializable;
+
+import java.util.Date;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -19,18 +23,36 @@ import java.util.List;
  */
 @Named(value = "desperfectosBean")
 @RequestScoped
-public class DesperfectoBean{
+public class DesperfectoBean {
+
+    /**
+     * @return the idVehiculoSeleccionado
+     */
+    public int getIdVehiculoSeleccionado() {
+        return idVehiculoSeleccionado;
+    }
+
+    /**
+     * @param idVehiculoSeleccionado the idVehiculoSeleccionado to set
+     */
+    public void setIdVehiculoSeleccionado(int idVehiculoSeleccionado) {
+        this.idVehiculoSeleccionado = idVehiculoSeleccionado;
+    }
 
     @Inject
     private DesperfectoFacade desperfectoFacade;
-    private Desperfecto desperfectoVar;
-    
-     private List<Desperfecto> desperfectosDeVehiculo;
+    private Desperfecto desperfectoVar=new Desperfecto();
+    private int idVehiculoSeleccionado;
+
+    private List<Desperfecto> desperfectosDeVehiculo;
+
     /**
      * Creates a new instance of DesperfectosBean
      */
     public DesperfectoBean() {
     }
+
+   
 
     /**
      * @return the desperfectoFacade
@@ -65,7 +87,7 @@ public class DesperfectoBean{
      * @param idVehiculo the idVehiculo to set
      */
     public List<Desperfecto> getDesperfectosDeVehiculo(int idVehiculo) {
-         return  this.desperfectoFacade.getDesperfectosDeVehiculo(idVehiculo);
+        return this.desperfectoFacade.getDesperfectosDeVehiculo(idVehiculo);
     }
 
     /**
@@ -74,5 +96,29 @@ public class DesperfectoBean{
     public void setDesperfectosDeVehiculo(List<Desperfecto> desperfectosDeVehiculo) {
         this.desperfectosDeVehiculo = desperfectosDeVehiculo;
     }
-    
+
+    public void guardar(int idvehiculo) {
+        
+        
+        desperfectoVar.setFecha(new Date());
+        desperfectoVar.setIdVehiculo(idVehiculoSeleccionado);
+       
+        
+        
+        this.desperfectoFacade.create(desperfectoVar);
+
+        desperfectoVar = null;
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El desperfecto fue registrado exitosamente"));
+
+    }
+
+    public void guardarId(int id) {
+        System.out.println("id guar"+id );
+        setIdVehiculoSeleccionado(id);
+    }
+
+
+ 
 }

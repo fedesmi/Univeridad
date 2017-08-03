@@ -9,36 +9,31 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Usuario
+ * @author fmichel
  */
 @Entity
-@Cacheable(false)
 @Table(name = "desperfecto")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Desperfecto.findAll", query = "SELECT d FROM Desperfecto d")
     , @NamedQuery(name = "Desperfecto.findById", query = "SELECT d FROM Desperfecto d WHERE d.id = :id")
-    , @NamedQuery(name = "Desperfecto.findByIdVehiculo", query = "SELECT d FROM Desperfecto d WHERE d.id_vehiculo = :id")
     , @NamedQuery(name = "Desperfecto.findByFecha", query = "SELECT d FROM Desperfecto d WHERE d.fecha = :fecha")
-    , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")})
+    , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")
+    , @NamedQuery(name = "Desperfecto.findByIdVehiculo", query = "SELECT d FROM Desperfecto d WHERE d.idVehiculo = :idVehiculo")})
 public class Desperfecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,31 +42,20 @@ public class Desperfecto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Vehiculo vehiculo;
-    
-    @Column(name = "id_vehiculo" , insertable = false, updatable = false)
-    private Integer id_vehiculo;
+    @Column(name = "id_vehiculo")
+    private Integer idVehiculo;
 
     public Desperfecto() {
     }
 
     public Desperfecto(Integer id) {
         this.id = id;
-    }
-
-    public Desperfecto(Integer id, Date fecha) {
-        this.id = id;
-        this.fecha = fecha;
     }
 
     public Integer getId() {
@@ -98,12 +82,12 @@ public class Desperfecto implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Vehiculo getVehiculo() {
-        return vehiculo;
+    public Integer getIdVehiculo() {
+        return idVehiculo;
     }
 
-    public void setVehiculo(Vehiculo idVehiculo) {
-        this.vehiculo = idVehiculo;
+    public void setIdVehiculo(Integer idVehiculo) {
+        this.idVehiculo = idVehiculo;
     }
 
     @Override
@@ -129,20 +113,6 @@ public class Desperfecto implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Desperfecto[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the id_vehiculo
-     */
-    public Integer getId_vehiculo() {
-        return id_vehiculo;
-    }
-
-    /**
-     * @param id_vehiculo the id_vehiculo to set
-     */
-    public void setId_vehiculo(Integer id_vehiculo) {
-        this.id_vehiculo = id_vehiculo;
     }
     
 }

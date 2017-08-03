@@ -104,9 +104,9 @@
 
 
             <p:dialog header="Mantenimientos y Desperfectos"  
-                      widgetVar="dlgDesperfecto" modal="false" resizable="false" height="200" width="700" style="font-size: 12px;">
-                <p:outputPanel id="detail" style="text-align:center;">
-                    <p:panelGrid columns="2" styleClass="ui-noborder">
+                      widgetVar="dlgDesperfecto" modal="false" resizable="false" height="300" width="700" style="font-size: 12px;">
+                <p:outputPanel id="detail" >
+                    <p:panelGrid columns="6" >
                         <h:outputText value="Marca: " />
                         <h:outputText value="#{vehiculoBean.vehiculoSelected.marca}" />
                         <h:outputText value="Modelo: " />
@@ -119,7 +119,10 @@
                     <h:panelGrid columns="2" border="0" >
                         <p:panel style="border-style: none; height: 200px;">
                             <div style="text-align: right;">
-                                <p:commandButton value="agregar" />   
+                                <p:commandButton icon="ui-icon-plus" ajax="true"  oncomplete="PF('dlgAgregarD').show();"  >
+                                    <f:setPropertyActionListener value="#{vehiculoBean.vehiculoSelected.id}" target="#{desperfectosBean.idVehiculoSeleccionado}" />
+                                </p:commandButton>
+
                             </div>
                             <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
                                          value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
@@ -146,7 +149,7 @@
 
                         <p:panel style="border-style: none; height: 200px; ">
                             <div style="text-align: right;">
-                                <p:commandButton value="agregar" />   
+                                <p:commandButton icon="ui-icon-plus" ajax="true"  oncomplete="PF('dlgAgregarM').show();" />
                             </div>
                             <p:dataTable id="tablaMantenimientos" widgetVar="mantenimientosWidget" var="man"
                                          value="#{mantenimientosBean.getMantenimientosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"  rows="8"
@@ -175,20 +178,40 @@
                                 <p:column  headerText="Factura">
                                     <h:outputText value="#{man.factura}" />
                                 </p:column>
-
-
-
                             </p:dataTable>
                         </p:panel>
                     </h:panelGrid>
 
 
+
+
+
+                    <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto"  
+                              widgetVar="dlgAgregarD" modal="false" resizable="false" height="200" width="400" style="font-size: 12px;">
+                       
+                            <p:outputPanel id="abmDesperfectos" >
+
+                                <p:outputLabel value="Descripcion"  />
+                                <br/>
+                                <p:inputTextarea autoResize="true" cols="50" rows="5" counter="counterR" maxlength="255"  value="#{desperfectosBean.desperfectoVar.descripcion}" />
+                                <br/>
+                                <p:outputLabel id="counterR" />
+                                <br/>
+                                <p:outputLabel id="inputlbl" value="#{vehiculoBean.vehiculoSelected.id}" />
+                                <br/>
+                                <p:commandButton    value="Guardar"  action="#{desperfectosBean.guardar(vehiculoBean.vehiculoSelected.id)}" />
+
+
+                            </p:outputPanel>
+                    </p:dialog>
+
+                    <p:dialog header="Nuevo registro de mantenimiento"  
+                              widgetVar="dlgAgregarM" modal="false" resizable="false" height="200" width="400" style="font-size: 12px;">
+                        <p:outputPanel id="abmMantenimientos" style="text-align:center;">
+                        </p:outputPanel>
+                    </p:dialog>
                 </p:outputPanel>
             </p:dialog>
-
-
-
-
         </h:form>
     </ui:define>
 
