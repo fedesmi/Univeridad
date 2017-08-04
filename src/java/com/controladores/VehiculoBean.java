@@ -13,8 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.event.RowEditEvent;
@@ -45,7 +43,6 @@ public class VehiculoBean implements Serializable {
     // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-        
       vehiculos = getVehiculosDB();
       vehiculoVar = new Vehiculo();
       
@@ -92,7 +89,7 @@ public class VehiculoBean implements Serializable {
     }
 
     /**
-     * @param vehiculoVar the vehiculoVar to set
+     * @param vehiculoPar the vehiculoVar to set
      */
     public void setVehiculoVar(Vehiculo vehiculoPar) {
         

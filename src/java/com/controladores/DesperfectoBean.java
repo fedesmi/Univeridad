@@ -6,6 +6,7 @@
 package com.controladores;
 
 import com.entidades.Desperfecto;
+import com.entidades.Vehiculo;
 import com.repositorios.DesperfectoFacade;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -25,24 +27,11 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 public class DesperfectoBean {
 
-    /**
-     * @return the idVehiculoSeleccionado
-     */
-    public int getIdVehiculoSeleccionado() {
-        return idVehiculoSeleccionado;
-    }
-
-    /**
-     * @param idVehiculoSeleccionado the idVehiculoSeleccionado to set
-     */
-    public void setIdVehiculoSeleccionado(int idVehiculoSeleccionado) {
-        this.idVehiculoSeleccionado = idVehiculoSeleccionado;
-    }
+    
 
     @Inject
     private DesperfectoFacade desperfectoFacade;
-    private Desperfecto desperfectoVar=new Desperfecto();
-    private int idVehiculoSeleccionado;
+    private Desperfecto desperfectoVar;
 
     private List<Desperfecto> desperfectosDeVehiculo;
 
@@ -52,7 +41,11 @@ public class DesperfectoBean {
     public DesperfectoBean() {
     }
 
-   
+    @PostConstruct
+    public void init() {
+        desperfectoVar = new Desperfecto();
+
+    }
 
     /**
      * @return the desperfectoFacade
@@ -97,28 +90,20 @@ public class DesperfectoBean {
         this.desperfectosDeVehiculo = desperfectosDeVehiculo;
     }
 
-    public void guardar(int idvehiculo) {
-        
-        
-        desperfectoVar.setFecha(new Date());
-        desperfectoVar.setIdVehiculo(idVehiculoSeleccionado);
+    public void guardar() {
+        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String  propiedad= request.getParameter("propiedadVal");
+  
        
-        
-        
+        desperfectoVar.setFecha(new Date());
+        desperfectoVar.setIdVehiculo(Integer.valueOf(propiedad));
         this.desperfectoFacade.create(desperfectoVar);
-
+        
         desperfectoVar = null;
-
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El desperfecto fue registrado exitosamente"));
-
-    }
-
-    public void guardarId(int id) {
-        System.out.println("id guar"+id );
-        setIdVehiculoSeleccionado(id);
+        
     }
 
 
- 
 }

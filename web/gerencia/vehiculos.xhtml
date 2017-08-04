@@ -104,7 +104,8 @@
 
 
             <p:dialog header="Mantenimientos y Desperfectos"  
-                      widgetVar="dlgDesperfecto" modal="false" resizable="false" height="300" width="700" style="font-size: 12px;">
+                      widgetVar="dlgDesperfecto" modal="false" resizable="false" height="300" width="850" style="font-size: 12px;">
+
                 <p:outputPanel id="detail" >
                     <p:panelGrid columns="6" >
                         <h:outputText value="Marca: " />
@@ -119,15 +120,13 @@
                     <h:panelGrid columns="2" border="0" >
                         <p:panel style="border-style: none; height: 200px;">
                             <div style="text-align: right;">
-                                <p:commandButton icon="ui-icon-plus" ajax="true"  oncomplete="PF('dlgAgregarD').show();"  >
-                                    <f:setPropertyActionListener value="#{vehiculoBean.vehiculoSelected.id}" target="#{desperfectosBean.idVehiculoSeleccionado}" />
-                                </p:commandButton>
-
+                                <p:commandButton icon="ui-icon-plus" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
                             </div>
+
                             <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
                                          value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
-                                         rows="8" editable="true" 
-                                         emptyMessage="sin registros"  scrollable="true"    >
+                                         scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                         emptyMessage="sin registros"      >
 
                                 <f:facet name="header">
                                     Desperfectos
@@ -144,15 +143,16 @@
                                     <h:outputText value="#{des.descripcion}" />
                                 </p:column>
 
-                            </p:dataTable>
+                            </p:dataTable> 
                         </p:panel>
 
-                        <p:panel style="border-style: none; height: 200px; ">
+                        <p:panel style="border-style: none; height: 200px; width: 450px;">
                             <div style="text-align: right;">
                                 <p:commandButton icon="ui-icon-plus" ajax="true"  oncomplete="PF('dlgAgregarM').show();" />
                             </div>
                             <p:dataTable id="tablaMantenimientos" widgetVar="mantenimientosWidget" var="man"
                                          value="#{mantenimientosBean.getMantenimientosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"  rows="8"
+                                         scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
                                          emptyMessage="sin registros">
 
                                 <f:facet name="header">
@@ -180,36 +180,40 @@
                                 </p:column>
                             </p:dataTable>
                         </p:panel>
+
+
+
+
+
+                        <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto"  
+                                  widgetVar="dlgAgregarD" modal="false" resizable="false" height="170" width="400" style="font-size: 12px;">
+
+                            <p:outputPanel id="abmDesperfectos" >
+                                <p:outputLabel value="Descripcion"  />
+                                <br/>
+                                <br/>
+                                <div style="text-align: right;">
+                                <p:inputTextarea autoResize="true" cols="50" rows="5" maxlength="255"  value="#{desperfectosBean.desperfectoVar.descripcion}" />
+                                </div>
+                                <br/>
+                                <input type="text" hidden="true" id="propiedadVal" name="propiedadVal" value="#{vehiculoBean.vehiculoSelected.id}"  />
+                                <br/>
+                                <div style="text-align: right;">
+                                <p:commandButton   ajax="false"  value="Guardar"   action="#{desperfectosBean.guardar()}" />
+                                </div>
+                            </p:outputPanel>
+
+                        </p:dialog>
+
+                        <p:dialog header="Nuevo registro de mantenimiento"  
+                                  widgetVar="dlgAgregarM" modal="false" resizable="false" height="200" width="400" style="font-size: 12px;">
+                            <p:outputPanel id="abmMantenimientos" style="text-align:center;">
+                            </p:outputPanel>
+                        </p:dialog>
+
                     </h:panelGrid>
 
 
-
-
-
-                    <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto"  
-                              widgetVar="dlgAgregarD" modal="false" resizable="false" height="200" width="400" style="font-size: 12px;">
-                       
-                            <p:outputPanel id="abmDesperfectos" >
-
-                                <p:outputLabel value="Descripcion"  />
-                                <br/>
-                                <p:inputTextarea autoResize="true" cols="50" rows="5" counter="counterR" maxlength="255"  value="#{desperfectosBean.desperfectoVar.descripcion}" />
-                                <br/>
-                                <p:outputLabel id="counterR" />
-                                <br/>
-                                <p:outputLabel id="inputlbl" value="#{vehiculoBean.vehiculoSelected.id}" />
-                                <br/>
-                                <p:commandButton    value="Guardar"  action="#{desperfectosBean.guardar(vehiculoBean.vehiculoSelected.id)}" />
-
-
-                            </p:outputPanel>
-                    </p:dialog>
-
-                    <p:dialog header="Nuevo registro de mantenimiento"  
-                              widgetVar="dlgAgregarM" modal="false" resizable="false" height="200" width="400" style="font-size: 12px;">
-                        <p:outputPanel id="abmMantenimientos" style="text-align:center;">
-                        </p:outputPanel>
-                    </p:dialog>
                 </p:outputPanel>
             </p:dialog>
         </h:form>
