@@ -13,8 +13,10 @@
             <p:outputLabel value="Empleados" />
 
             <br/>
-
-            <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{empleadoBean.empleados}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            
+            <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{empleadoBean.empleados}" 
+                         paginator="false" scrollable="true" scrollHeight="390" emptyMessage="sin registros"
+                         style="height: 300px;">
 
                 <f:facet name="header">
                     Lista de Empleados
@@ -59,7 +61,7 @@
                 </p:column>
                 <p:column  headerText="Tipo">
                     <div  style="text-align: left; font-size: 14px;">
-                        <h:outputText value="#{emp.tipo_empleado.rol}" />
+                        <h:outputText value="#{emp.idTipoEmpleado.rol}" />
                     </div>
                 </p:column>
                 <p:column style="width:32px">

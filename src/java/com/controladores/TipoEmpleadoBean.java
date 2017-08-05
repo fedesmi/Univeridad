@@ -5,8 +5,8 @@
  */
 package com.controladores;
 
-import com.entidades.Tipo_empleado;
-import com.repositorios.Tipo_empleadoFacade;
+import com.entidades.TipoEmpleado;
+import com.repositorios.TipoEmpleadoFacade;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -24,9 +24,9 @@ import org.primefaces.event.RowEditEvent;
 @RequestScoped
 public class TipoEmpleadoBean {
 
-     private List<Tipo_empleado> tipoDeEmpleados;
+     private List<TipoEmpleado> tipoDeEmpleados;
      @Inject
-    private Tipo_empleadoFacade templeadoFacade;
+    private TipoEmpleadoFacade templeadoFacade;
     /**
      * Creates a new instance of TipoEmpleadoBean
      */
@@ -43,30 +43,30 @@ public class TipoEmpleadoBean {
     /**
      * @return the tipoDeEmpleados
      */
-    public List<Tipo_empleado> getTipoDeEmpleados() {
+    public List<TipoEmpleado> getTipoDeEmpleados() {
         return tipoDeEmpleados;
     }
 
     /**
      * @param tipoDeEmpleados the tipoDeEmpleados to set
      */
-    public void setTipoDeEmpleados(List<Tipo_empleado> tipoDeEmpleados) {
+    public void setTipoDeEmpleados(List<TipoEmpleado> tipoDeEmpleados) {
         this.tipoDeEmpleados = tipoDeEmpleados;
     }
 
-    private List<Tipo_empleado> getTipoDeEmpleadosDB() {
+    private List<TipoEmpleado> getTipoDeEmpleadosDB() {
          return this.templeadoFacade.findAll();
     }
     
         public void onRowEdit(RowEditEvent event)  {
-        Tipo_empleado tempVar = (Tipo_empleado) event.getObject();
+        TipoEmpleado tempVar = (TipoEmpleado) event.getObject();
         this.templeadoFacade.edit(tempVar);
         FacesMessage msg = new FacesMessage("Empleado Editado", "Tipo: "+String.valueOf(tempVar.getRol()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
     public void onRowCancel(RowEditEvent event) {
-        Tipo_empleado tempVar = (Tipo_empleado) event.getObject();
+        TipoEmpleado tempVar = (TipoEmpleado) event.getObject();
         FacesMessage msg = new FacesMessage("Edición Cancelada",  "Tipo: "+String.valueOf(tempVar.getRol()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

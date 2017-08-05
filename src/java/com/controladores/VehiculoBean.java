@@ -5,6 +5,7 @@
  */
 package com.controladores;
 
+import com.entidades.Mantenimiento;
 import com.entidades.Vehiculo;
 import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
@@ -122,6 +123,8 @@ public class VehiculoBean implements Serializable {
     public void setVehiculoSelected(Vehiculo vehiculoSelected) {
         this.vehiculoSelected = vehiculoSelected;
     }
+
+    
 
     
     

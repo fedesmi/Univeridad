@@ -6,8 +6,8 @@
 package com.controladores;
 
 import com.entidades.Desperfecto;
-import com.entidades.Vehiculo;
 import com.repositorios.DesperfectoFacade;
+import java.io.Serializable;
 
 import java.util.Date;
 import javax.inject.Named;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Named(value = "desperfectosBean")
 @RequestScoped
-public class DesperfectoBean {
+public class DesperfectoBean implements Serializable {
 
     
 

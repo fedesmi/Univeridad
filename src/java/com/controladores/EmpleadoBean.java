@@ -50,11 +50,11 @@ public class EmpleadoBean implements Serializable {
     private String telefono;
     private Date fechaBaja;
     private Date fechaAlta;
-    private Tipo_empleado tipoEmpleado;
+    private TipoEmpleado tipoEmpleado;
     @Inject
     private EmpleadoFacade empleadoFacade;
     @Inject
-    private Tipo_empleadoFacade templeadoFacade;
+    private TipoEmpleadoFacade templeadoFacade;
     private List<Empleado> empleados;
     private List<Empleado> empleadosSinAutorizar;
 
@@ -145,7 +145,7 @@ public class EmpleadoBean implements Serializable {
         e.setFechaAlta(new Date());
         e.setLegajo(this.empleadoFacade.buscarUltimoLegajo());
         try {
-            e.setTipo_empleado(tipoEmpleado);
+            e.setIdTipoEmpleado(tipoEmpleado);
         } catch (Exception ex) {
             Logger.getLogger(EmpleadoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -171,7 +171,7 @@ public class EmpleadoBean implements Serializable {
         return this.empleadoFacade.buscarNoAutorizados();
     }
 
-    public List<Tipo_empleado> getTipo_Empleados() {
+    public List<TipoEmpleado> getTipo_Empleados() {
         return this.templeadoFacade.findAll();
 
     }
@@ -197,7 +197,7 @@ public class EmpleadoBean implements Serializable {
         this.nombre = e.getNombre();
         this.apellido = e.getApellido();
         this.telefono = e.getTelefono();
-        this.tipoEmpleado = e.getTipo_empleado();
+        this.tipoEmpleado = e.getIdTipoEmpleado();
         return "EmpleadoEdit";
     }
 
@@ -210,7 +210,7 @@ public class EmpleadoBean implements Serializable {
         e.setTelefono(bp.getTelefono());
         e.setFechaAlta(new Date());
         e.setLegajo(bp.getLegajo());
-        e.setTipo_empleado(bp.getTipo_empleado());
+        e.setIdTipoEmpleado(bp.getIdTipoEmpleado());
         this.empleadoFacade.create(e);
         return "EmpleadoLista";
     }
@@ -218,14 +218,14 @@ public class EmpleadoBean implements Serializable {
     /**
      * @return the tipoEmpleado
      */
-    public Tipo_empleado getTipoEmpleado() {
+    public TipoEmpleado getTipoEmpleado() {
         return tipoEmpleado;
     }
 
     /**
      * @param tipoEmpleado the tipoEmpleado to set
      */
-    public void setTipoEmpleado(Tipo_empleado tipoEmpleado) {
+    public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
         this.tipoEmpleado = tipoEmpleado;
     }
 
@@ -323,7 +323,7 @@ public class EmpleadoBean implements Serializable {
     }
 
     public void autorizarEdicionEmpleado(int legajo) {
-        this.empleadoFacade.autorizarCambiosEmpleado(legajo, empleadoSeleccionado.getId());
+        this.empleadoFacade.autorizarCambiosEmpleado(legajo, empleadoSeleccionado.getId().longValue());
         
     }
      

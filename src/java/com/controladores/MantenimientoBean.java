@@ -7,51 +7,52 @@ package com.controladores;
 
 import com.entidades.Mantenimiento;
 import com.repositorios.MantenimientoFacade;
-import java.util.List;
-import javax.annotation.PostConstruct;
+import java.io.Serializable;
+
+import java.util.Date;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author fmichel
+ * @author Usuario
  */
-@Named(value = "mantenimientosBean")
+@Named(value = "mantenimientosBean") 
 @RequestScoped
-public class MantenimientoBean {
+public class MantenimientoBean implements Serializable {
+
+    
 
     @Inject
     private MantenimientoFacade mantenimientoFacade;
     private Mantenimiento mantenimientoVar;
+   
+    private Date fecha;
+    private String lugar;
+    private int valor;
+    private String factura;
+    private int kilometraje;
+    private String descripcion;
     
-     private List<Mantenimiento> mantenimientosDeVehiculo;
+    
+    private List<Mantenimiento> mantenimientosDeVehiculo;
+
     /**
-     * Creates a new instance of Mantenimientos
+     * Creates a new instance of MantenimientosBean
      */
     public MantenimientoBean() {
     }
-    
-     // This is the required method to get the datatable list.
+
     @PostConstruct
     public void init() {
+        mantenimientoVar = new Mantenimiento();
 
-    }
-
-   
-
-    /**
-     * @return the mantenimientosDeVehiculo
-     */
-    public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) {
-        return  this.mantenimientoFacade.getMantenimientosDeVehiculo(idVehiculo);
-    }
-
-    /**
-     * @param mantenimientosDeVehiculo the mantenimientosDeVehiculo to set
-     */
-    public void setMantenimientosDeVehiculo(List<Mantenimiento> mantenimientosDeVehiculo) {
-        this.mantenimientosDeVehiculo = mantenimientosDeVehiculo;
     }
 
     /**
@@ -81,5 +82,147 @@ public class MantenimientoBean {
     public void setMantenimientoVar(Mantenimiento mantenimientoVar) {
         this.mantenimientoVar = mantenimientoVar;
     }
+
+    /**
+     * @return the mantenimientosDeVehiculo
+     * @param idVehiculo the idVehiculo to set
+     */
+    public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) {
+        return this.mantenimientoFacade.getMantenimientosDeVehiculo(idVehiculo);
+    }
+
+    /**
+     * @param mantenimientosDeVehiculo the mantenimientosDeVehiculo to set
+     */
+    public void setMantenimientosDeVehiculo(List<Mantenimiento> mantenimientosDeVehiculo) {
+        this.mantenimientosDeVehiculo = mantenimientosDeVehiculo;
+    }
+
+    public void guardar() {
+        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String  propiedad= request.getParameter("propiedadVal2");
+  
+        mantenimientoVar.setIdVehiculo(Integer.valueOf(propiedad));
+        mantenimientoVar.setFactura(factura);
+        mantenimientoVar.setFecha(fecha);
+        mantenimientoVar.setLugar(lugar);
+        mantenimientoVar.setDescripcion(descripcion);
+        mantenimientoVar.setKilometraje(kilometraje);
+        mantenimientoVar.setValor(valor);
+        
+        
+        this.mantenimientoFacade.create(mantenimientoVar);
+        
+        mantenimientoVar = null;
+        borrarVariables();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El mantenimiento fue registrado exitosamente"));
+        
+    }
+
+    /**
+     * @return the fecha
+     */
+    public Date getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the lugar
+     */
+    public String getLugar() {
+        return lugar;
+    }
+
+    /**
+     * @param lugar the lugar to set
+     */
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
+    /**
+     * @return the valor
+     */
+    public int getValor() {
+        return valor;
+    }
+
+    /**
+     * @param valor the valor to set
+     */
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+
+    /**
+     * @return the factura
+     */
+    public String getFactura() {
+        return factura;
+    }
+
+    /**
+     * @param factura the factura to set
+     */
+    public void setFactura(String factura) {
+        this.factura = factura;
+    }
+
+    /**
+     * @return the kilometraje
+     */
+    public int getKilometraje() {
+        return kilometraje;
+    }
+
+    /**
+     * @param kilometraje the kilometraje to set
+     */
+    public void setKilometraje(int kilometraje) {
+        this.kilometraje = kilometraje;
+    }
+
+    /**
+     * @return the descripcion
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * @param descripcion the descripcion to set
+     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     
+
+    /**
+     * @return the mantenimientosDeVehiculo
+     */
+    public List<Mantenimiento> getMantenimientosDeVehiculo() {
+        return mantenimientosDeVehiculo;
+    }
+
+    private void borrarVariables() {
+        this.setFactura("");
+        this.setFecha(null);
+        this.setLugar("");
+        this.setDescripcion("");
+        this.setKilometraje(0);
+        this.setValor(0);
+    }
+
+   
+
+
 }

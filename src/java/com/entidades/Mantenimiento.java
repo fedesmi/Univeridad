@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -34,16 +32,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Mantenimiento.findAll", query = "SELECT m FROM Mantenimiento m")
     , @NamedQuery(name = "Mantenimiento.findById", query = "SELECT m FROM Mantenimiento m WHERE m.id = :id")
-    , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT m FROM Mantenimiento m WHERE m.id_vehiculo = :id")
     , @NamedQuery(name = "Mantenimiento.findByFecha", query = "SELECT m FROM Mantenimiento m WHERE m.fecha = :fecha")
     , @NamedQuery(name = "Mantenimiento.findByLugar", query = "SELECT m FROM Mantenimiento m WHERE m.lugar = :lugar")
     , @NamedQuery(name = "Mantenimiento.findByValor", query = "SELECT m FROM Mantenimiento m WHERE m.valor = :valor")
     , @NamedQuery(name = "Mantenimiento.findByFactura", query = "SELECT m FROM Mantenimiento m WHERE m.factura = :factura")
     , @NamedQuery(name = "Mantenimiento.findByKilometraje", query = "SELECT m FROM Mantenimiento m WHERE m.kilometraje = :kilometraje")
-    , @NamedQuery(name = "Mantenimiento.findByObservacion", query = "SELECT m FROM Mantenimiento m WHERE m.observacion = :observacion")})
+    , @NamedQuery(name = "Mantenimiento.findByDescripcion", query = "SELECT m FROM Mantenimiento m WHERE m.descripcion = :descripcion")
+    , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT d FROM Mantenimiento d WHERE d.idVehiculo = :idVehiculo")})
 public class Mantenimiento implements Serializable {
 
-    private static final long serialVersionUID = 1L; 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -75,16 +73,12 @@ public class Mantenimiento implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "observacion")
-    private String observacion;
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Vehiculo idVehiculo;
-
-  
-      @Column(name = "id_vehiculo" , insertable = false, updatable = false)
-    private Integer id_vehiculo;
+    @Column(name = "descripcion")
+    private String descripcion;
     
+    @Column(name = "id_vehiculo")
+    private Integer idVehiculo;
+
     public Mantenimiento() {
     }
 
@@ -92,14 +86,14 @@ public class Mantenimiento implements Serializable {
         this.id = id;
     }
 
-    public Mantenimiento(Integer id, Date fecha, String lugar, int valor, String factura, int kilometraje, String observacion) {
+    public Mantenimiento(Integer id, Date fecha, String lugar, int valor, String factura, int kilometraje, String descripcion) {
         this.id = id;
         this.fecha = fecha;
         this.lugar = lugar;
         this.valor = valor;
         this.factura = factura;
         this.kilometraje = kilometraje;
-        this.observacion = observacion;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -150,20 +144,12 @@ public class Mantenimiento implements Serializable {
         this.kilometraje = kilometraje;
     }
 
-    public String getObservacion() {
-        return observacion;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
-
-    public Vehiculo getIdVehiculo() {
-        return idVehiculo;
-    }
-
-    public void setIdVehiculo(Vehiculo idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @Override
@@ -192,17 +178,17 @@ public class Mantenimiento implements Serializable {
     }
 
     /**
-     * @return the id_vehiculo
+     * @return the idVehiculo
      */
-    public Integer getId_vehiculo() {
-        return id_vehiculo;
+    public Integer getIdVehiculo() {
+        return idVehiculo;
     }
 
     /**
-     * @param id_vehiculo the id_vehiculo to set
+     * @param idVehiculo the idVehiculo to set
      */
-    public void setId_vehiculo(Integer id_vehiculo) {
-        this.id_vehiculo = id_vehiculo;
+    public void setIdVehiculo(Integer idVehiculo) {
+        this.idVehiculo = idVehiculo;
     }
     
 }

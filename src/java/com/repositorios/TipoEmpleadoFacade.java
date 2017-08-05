@@ -5,7 +5,7 @@
  */
 package com.repositorios;
 
-import com.entidades.Tipo_empleado;
+import com.entidades.TipoEmpleado;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author fmichel
  */
 @Stateless
-public class Tipo_empleadoFacade extends AbstractFacade<Tipo_empleado> {
+public class TipoEmpleadoFacade extends AbstractFacade<TipoEmpleado> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class Tipo_empleadoFacade extends AbstractFacade<Tipo_empleado> {
         return em;
     }
 
-    public Tipo_empleadoFacade() {
-        super(Tipo_empleado.class);
+    public TipoEmpleadoFacade() {
+        super(TipoEmpleado.class);
     }
     
 }

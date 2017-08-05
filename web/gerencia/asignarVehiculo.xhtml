@@ -1,0 +1,54 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="source">
+        <h:form>
+            <p:outputLabel value="Vehiculos" />
+            <br/>
+            <p:dataTable id="tablaAsignarVehiculos" widgetVar="tablaAsignarVehiculosWidget" var="veh"
+                         selectionMode="single" selection="#{vehiculoBean.vehiculoSelected}" rowKey="#{veh.id}"
+                          value="#{vehiculoBean.vehiculos}"  paginator="false" scrollable="true" scrollHeight="100"
+                         emptyMessage="sin registros"
+                         rowStyleClass="#{veh.apto==1?'highlightTableRow':''}"
+                         style="font-size: 14px;">
+
+                <f:facet name="header">
+                    Lista de Vehiculos
+                </f:facet>
+               
+
+                <p:column   headerText="Patente" style="text-align: center;" >
+                    <h:outputText value="#{veh.patente}" />
+                </p:column>
+                <p:column  headerText="Marca">
+                    <h:outputText value="#{veh.marca}" />
+                </p:column>
+                <p:column headerText="Modelo" >
+                  <h:outputText value="#{veh.modelo}" />
+                </p:column>
+               <p:column headerText="Asignado" >
+                  <h:outputText value="#{veh.modelo}" />
+                </p:column>
+               
+                 
+            </p:dataTable>
+            
+            
+          
+            
+           
+        </h:form>
+        
+        
+        <p:commandButton value="Asignar" />
+        
+    </ui:define>
+
+
+
+</ui:composition>
