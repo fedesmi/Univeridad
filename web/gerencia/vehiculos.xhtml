@@ -28,7 +28,7 @@
                 <p:ajax event="rowEditCancel" listener="#{vehiculoBean.onRowCancel}" update="formGer:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
                 <p:column   headerText="Patente" style="text-align: center;" >
-                        <div style="text-align: center; font-size: 14px;" >
+                        <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.patente}" /></f:facet>
                             <f:facet name="input"><p:inputText value="#{veh.patente}" /></f:facet>
@@ -37,7 +37,7 @@
                     </div>
                 </p:column>
                 <p:column  headerText="Marca">
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.marca}" /></f:facet>
                             <f:facet name="input"><p:inputText value="#{veh.marca}" /></f:facet>
@@ -45,7 +45,7 @@
                     </div>
                 </p:column>
                 <p:column headerText="Modelo" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.modelo}" /></f:facet>
                             <f:facet name="input"><p:inputText value="#{veh.modelo}" /></f:facet>
@@ -53,7 +53,7 @@
                     </div>
                 </p:column>
                 <p:column  headerText="Chasis" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.numeroChasis}" /></f:facet>
                             <f:facet name="input"><p:inputText value="#{veh.numeroChasis}" /></f:facet>
@@ -61,7 +61,7 @@
                     </div>
                 </p:column>
                 <p:column  headerText="Motor" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.numeroMotor}" /></f:facet>
                             <f:facet name="input"><p:inputText value="#{veh.numeroMotor}" /></f:facet>
@@ -69,7 +69,7 @@
                     </div>
                 </p:column>  
                 <p:column  headerText="Año" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.year}" /></f:facet>
                             <f:facet name="input"><p:inputText value="#{veh.year}" /></f:facet>
@@ -77,7 +77,7 @@
                     </div>
                 </p:column>  
                 <p:column  headerText="Apto" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.apto==0 ? 'SI' : 'NO'}" /></f:facet>
                             <f:facet name="input">
@@ -89,6 +89,12 @@
                         </p:cellEditor>
                     </div>
                 </p:column>
+                <p:column headerText="Asignado" >
+                    <div style="text-align: center; font-size: 12px;" >
+                   <h:outputText value="#{(veh.empleado.nombre != null ? veh.empleado.nombre.toUpperCase().concat(' ').concat(veh.empleado.apellido.toUpperCase()) : ' - ')}" />
+                   </div>
+                </p:column>
+                
                 <p:column style="width:40px"  headerText="Desp">
                     <p:commandButton icon="ui-icon-search" ajax="true" update="formGer:form1:detail" oncomplete="PF('dlgDesperfecto').show();">
                         <f:setPropertyActionListener value="#{veh}" target="#{vehiculoBean.vehiculoSelected}" />
@@ -125,7 +131,8 @@
 
                     <p:panel style="border-style: none; height: 200px;">
                         <div style="text-align: right;">
-                            <p:commandButton icon="ui-icon-plus" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
+                            <p:commandButton icon="ui-icon-plus" value="Desperfecto" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
+                            <p:commandButton icon="ui-icon-plus" value="Solicitud" ajax="true"   oncomplete="PF('dlgAgregarSol').show();" />
                         </div>
                         <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
                                      value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
@@ -142,6 +149,13 @@
                             <p:column  headerText="Descripción">
                                 <h:outputText value="#{des.descripcion}" />
                             </p:column>
+                            <p:column  headerText="Reparación Autorizada">
+                                <h:outputText value="#{des.idsolicitudRep.id}" />
+                            </p:column>
+                            <p:column  headerText="Solicitud Reparacion">
+                                <p:commandButton rendered="#{(des.idsolicitudRep != null ? true:false)}" icon="ui-icon-check" ajax="true" />
+                                <p:commandButton rendered="#{(des.idsolicitudRep != null ? false:true)}" actionListener="#{vehiculoBean}" icon="ui-icon-document" ajax="true" />
+                            </p:column>
                         </p:dataTable> 
                         
                         <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto" widgetVar="dlgAgregarD" modal="false"
@@ -157,10 +171,11 @@
                                 <input type="text" hidden="true" id="propiedadVal" name="propiedadVal" value="#{vehiculoBean.vehiculoSelected.id}"  />
                                 <br/>
                                 <div style="text-align: right;">
-                                    <p:commandButton   ajax="false"  value="Guardar"   action="#{desperfectosBean.guardar()}" />
+                                    <p:commandButton   ajax="false"  value="Guardar"   action="#{desperfectosBean.guardar(vehiculoBean.vehiculoSelected)}" />
                                 </div>
                             </p:outputPanel>
                         </p:dialog>
+                        
                     </p:panel>
                 </p:outputPanel>
             </p:dialog>

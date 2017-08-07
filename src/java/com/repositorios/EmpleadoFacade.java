@@ -38,6 +38,10 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
          return getEntityManager().createNamedQuery("Empleado.todosSinAutorizar").getResultList();
     }
      
+      public List<Empleado> getInstructores() {
+         return getEntityManager().createNamedQuery("Empleado.instructores").setParameter("instructor", "instructor").getResultList();
+    }
+     
        public void autorizarCambiosEmpleado(int legajo, Long id) {  
          getEntityManager().createNamedQuery("Empleado.autorizarCambio").setParameter("legajo", String.valueOf(legajo)).setParameter("id", id).executeUpdate();
     }

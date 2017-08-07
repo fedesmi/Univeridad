@@ -286,6 +286,14 @@ public class EmpleadoBean implements Serializable {
     public List<Empleado> getEmpleados() {
         return empleados;
     }
+    
+    
+    /**
+     * @return the empleados
+     */
+    public List<Empleado> getInstructores() {
+        return this.empleadoFacade.getInstructores();
+    }
 
     /**
      * @param empleados the empleados to set

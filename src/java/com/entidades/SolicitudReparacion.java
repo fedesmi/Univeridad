@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,29 +14,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.persistence.Cacheable;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author fmichel
  */
 @Entity
-@Cacheable(false)
 @Table(name = "solicitud_reparacion")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SolicitudReparacion.findAll", query = "SELECT s FROM SolicitudReparacion s")
     , @NamedQuery(name = "SolicitudReparacion.findById", query = "SELECT s FROM SolicitudReparacion s WHERE s.id = :id")
     , @NamedQuery(name = "SolicitudReparacion.findByFecha", query = "SELECT s FROM SolicitudReparacion s WHERE s.fecha = :fecha")
-    , @NamedQuery(name = "SolicitudReparacion.findByDescripcion", query = "SELECT s FROM SolicitudReparacion s WHERE s.descripcion = :descripcion")
     , @NamedQuery(name = "SolicitudReparacion.findByAutorizado", query = "SELECT s FROM SolicitudReparacion s WHERE s.autorizado = :autorizado")})
 public class SolicitudReparacion implements Serializable {
 
@@ -52,16 +51,10 @@ public class SolicitudReparacion implements Serializable {
     private Date fecha;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "descripcion")
-    private String descripcion;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "autorizado")
     private int autorizado;
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Vehiculo idVehiculo;
+    @OneToMany(mappedBy = "idsolicitudRep")
+    private Collection<Desperfecto> desperfectoCollection;
 
     public SolicitudReparacion() {
     }
@@ -70,10 +63,9 @@ public class SolicitudReparacion implements Serializable {
         this.id = id;
     }
 
-    public SolicitudReparacion(Integer id, Date fecha, String descripcion, int autorizado) {
+    public SolicitudReparacion(Integer id, Date fecha, int autorizado) {
         this.id = id;
         this.fecha = fecha;
-        this.descripcion = descripcion;
         this.autorizado = autorizado;
     }
 
@@ -93,14 +85,6 @@ public class SolicitudReparacion implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public int getAutorizado() {
         return autorizado;
     }
@@ -109,12 +93,13 @@ public class SolicitudReparacion implements Serializable {
         this.autorizado = autorizado;
     }
 
-    public Vehiculo getIdVehiculo() {
-        return idVehiculo;
+    @XmlTransient
+    public Collection<Desperfecto> getDesperfectoCollection() {
+        return desperfectoCollection;
     }
 
-    public void setIdVehiculo(Vehiculo idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
+        this.desperfectoCollection = desperfectoCollection;
     }
 
     @Override

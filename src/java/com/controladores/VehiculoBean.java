@@ -5,6 +5,7 @@
  */
 package com.controladores;
 
+import com.entidades.Empleado;
 import com.entidades.Mantenimiento;
 import com.entidades.Vehiculo;
 import com.repositorios.VehiculoFacade;
@@ -124,7 +125,12 @@ public class VehiculoBean implements Serializable {
         this.vehiculoSelected = vehiculoSelected;
     }
 
-    
+    public void asignarEmpleadoVehiculo(Empleado emp){
+        this.vehiculoFacade.asignarEmpleadoVehiculo(emp, vehiculoSelected.getId());
+         FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El vehiculo fue asignado Correctamente"));
+
+    }
 
     
     

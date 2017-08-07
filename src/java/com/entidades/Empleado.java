@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,19 +18,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author fmichel
  */
 @Entity
-@Table(name = "empleado")
+@Table(name = "empleado", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Empleado.findAll", query = "SELECT e FROM Empleado e")
@@ -50,7 +55,7 @@ import javax.xml.bind.annotation.XmlRootElement;
             + "AND m.fechaAlta < b.fechaAlta "
             + "WHERE b.fechaAlta IS NULL  "
             + "AND m.autorizo IS NOT NULL "
-            + "ORDER BY m.legajo " )
+            + "ORDER BY m.legajo ")
     , @NamedQuery(name = "Empleado.todosSinAutorizar",
             query = "SELECT m "
             + "FROM Empleado m "
@@ -62,40 +67,54 @@ import javax.xml.bind.annotation.XmlRootElement;
             query = "SELECT MAX(m.legajo)+1 FROM Empleado m")
     ,@NamedQuery(name = "Empleado.autorizarCambio",
             query = "UPDATE Empleado t SET t.autorizo=legajo WHERE t.id=:id")
+    , @NamedQuery(name = "Empleado.instructores",
+            query = "SELECT m "
+            + "FROM Empleado m "
+            + "LEFT JOIN Empleado b "
+            + "ON m.legajo = b.legajo "
+            + "AND m.fechaAlta < b.fechaAlta "
+            + "WHERE b.fechaAlta IS NULL  "
+            + "AND m.autorizo IS NOT NULL "
+            + "AND m.idTipoEmpleado.rol =:instructor "
+            + "ORDER BY m.legajo ")
 })
 
+
 public class Empleado implements Serializable {
+
+    @OneToMany(mappedBy = "idEmpleado")
+    private Collection<Vehiculo> vehiculoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "legajo")
+    @Column(name = "legajo", nullable = false)
     private int legajo;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dni")
+    @Column(name = "dni", nullable = false)
     private int dni;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false, length = 25)
     private String nombre;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
-    @Column(name = "apellido")
+    @Column(name = "apellido", nullable = false, length = 25)
     private String apellido;
     @Size(max = 25)
-    @Column(name = "telefono")
+    @Column(name = "telefono", length = 25)
     private String telefono;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fechaAlta")
+    @Column(name = "fechaAlta", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaAlta;
     @Column(name = "fechaBaja")
@@ -103,7 +122,7 @@ public class Empleado implements Serializable {
     private Date fechaBaja;
     @Column(name = "autorizo")
     private Integer autorizo;
-    @JoinColumn(name = "idTipoEmpleado", referencedColumnName = "id")
+    @JoinColumn(name = "idTipoEmpleado", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private TipoEmpleado idTipoEmpleado;
 
@@ -227,5 +246,14 @@ public class Empleado implements Serializable {
     public String toString() {
         return "com.entidades.Empleado[ id=" + id + " ]";
     }
-    
+
+    @XmlTransient
+    public Collection<Vehiculo> getVehiculoCollection() {
+        return vehiculoCollection;
+    }
+
+    public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
+        this.vehiculoCollection = vehiculoCollection;
+    }
+
 }

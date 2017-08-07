@@ -14,11 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -44,45 +43,49 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")})
 public class Vehiculo implements Serializable {
 
+    @OneToMany(mappedBy = "idVehiculo")
+    private Collection<Desperfecto> desperfectoCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "patente")
+    @Column(name = "patente", nullable = false, length = 10)
     private String patente;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "marca")
+    @Column(name = "marca", nullable = false, length = 15)
     private String marca;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "modelo")
+    @Column(name = "modelo", nullable = false, length = 15)
     private String modelo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "numero_chasis")
+    @Column(name = "numero_chasis", nullable = false, length = 15)
     private String numeroChasis;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "numero_motor")
+    @Column(name = "numero_motor", nullable = false, length = 15)
     private String numeroMotor;
     @Column(name = "year")
     private Short year;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "apto")
+    @Column(name = "apto", nullable = false)
     private short apto;
-    
-    
+    @JoinColumn(name = "id_empleado", referencedColumnName = "id")
+    @ManyToOne
+    private Empleado idEmpleado;
 
     public Vehiculo() {
     }
@@ -165,7 +168,13 @@ public class Vehiculo implements Serializable {
         this.apto = apto;
     }
 
+    public Empleado getIdEmpleado() {
+        return idEmpleado;
+    }
 
+    public void setIdEmpleado(Empleado idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
 
     @Override
     public int hashCode() {
@@ -192,6 +201,13 @@ public class Vehiculo implements Serializable {
         return "com.entidades.Vehiculo[ id=" + id + " ]";
     }
 
-   
+    @XmlTransient
+    public Collection<Desperfecto> getDesperfectoCollection() {
+        return desperfectoCollection;
+    }
+
+    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
+        this.desperfectoCollection = desperfectoCollection;
+    }
     
 }

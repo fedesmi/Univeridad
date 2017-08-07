@@ -5,6 +5,7 @@
  */
 package com.repositorios;
 
+import com.entidades.Empleado;
 import com.entidades.Vehiculo;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,5 +31,8 @@ public class VehiculoFacade extends AbstractFacade<Vehiculo> {
     }
     
     
-    
+      public void asignarEmpleadoVehiculo(Empleado emp, int idVehiculo) {  
+         getEntityManager().createNamedQuery("Vehiculo.asignarEmpleado").setParameter("empleadoPar", emp).setParameter("id", idVehiculo).executeUpdate();
+    }
+     
 }
