@@ -5,11 +5,16 @@
  */
 package com.controladores;
 
+import com.entidades.Desperfecto;
 import com.entidades.Empleado;
 import com.entidades.Mantenimiento;
+import com.entidades.SolicitudReparacion;
 import com.entidades.Vehiculo;
+import com.repositorios.DesperfectoFacade;
+import com.repositorios.SolicitudReparacionFacade;
 import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -23,34 +28,31 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author fmichel
  */
-@Named(value = "vehiculoBean") 
+@Named(value = "vehiculoBean")
 @RequestScoped
 public class VehiculoBean implements Serializable {
 
-@Inject
+    @Inject
     private VehiculoFacade vehiculoFacade;
+   
     private Vehiculo vehiculoVar;
     private Vehiculo vehiculoSelected;
     private List<Vehiculo> vehiculos;
-    
-    
-     
+
     /**
      * Creates a new instance of VehiculoBean
      */
     public VehiculoBean() {
     }
 
-    
     // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-      vehiculos = getVehiculosDB();
-      vehiculoVar = new Vehiculo();
-      
+        vehiculos = getVehiculosDB();
+        vehiculoVar = new Vehiculo();
 
     }
-    
+
     /**
      * @return the vehiculos
      */
@@ -68,18 +70,17 @@ public class VehiculoBean implements Serializable {
     private List<Vehiculo> getVehiculosDB() {
         return this.vehiculoFacade.findAll();
     }
-    
-    
-     public void onRowEdit(RowEditEvent event)  {
+
+    public void onRowEdit(RowEditEvent event) {
         Vehiculo vehVar = (Vehiculo) event.getObject();
         this.vehiculoFacade.edit(vehVar);
-        FacesMessage msg = new FacesMessage("Vehiculo Editado", "Patente: "+vehVar.getPatente());
+        FacesMessage msg = new FacesMessage("Vehiculo Editado", "Patente: " + vehVar.getPatente());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-     
+
     public void onRowCancel(RowEditEvent event) {
         Vehiculo vehVar = (Vehiculo) event.getObject();
-        FacesMessage msg = new FacesMessage("Edición Cancelada",  "Patente: "+vehVar.getPatente());
+        FacesMessage msg = new FacesMessage("Edición Cancelada", "Patente: " + vehVar.getPatente());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -94,12 +95,12 @@ public class VehiculoBean implements Serializable {
      * @param vehiculoPar the vehiculoVar to set
      */
     public void setVehiculoVar(Vehiculo vehiculoPar) {
-        
+
         this.vehiculoVar = vehiculoPar;
     }
-    
-     public void guardar() {
-        
+
+    public void guardar() {
+
         this.vehiculoFacade.create(vehiculoVar);
 
         vehiculoVar = null;
@@ -108,8 +109,6 @@ public class VehiculoBean implements Serializable {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Vehiculo fue registrado exitosamente"));
 
     }
-
-    
 
     /**
      * @return the vehiculoSelected
@@ -125,13 +124,13 @@ public class VehiculoBean implements Serializable {
         this.vehiculoSelected = vehiculoSelected;
     }
 
-    public void asignarEmpleadoVehiculo(Empleado emp){
+    public void asignarEmpleadoVehiculo(Empleado emp) {
         this.vehiculoFacade.asignarEmpleadoVehiculo(emp, vehiculoSelected.getId());
-         FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El vehiculo fue asignado Correctamente"));
 
     }
 
     
-    
+
 }

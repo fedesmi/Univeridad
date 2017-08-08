@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -15,7 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -24,6 +25,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
@@ -42,6 +44,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")})
 public class Desperfecto implements Serializable {
 
+   
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,13 +58,12 @@ public class Desperfecto implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion", length = 255)
     private String descripcion;
-    @JoinColumn(name = "id_solicitudRep", referencedColumnName = "id")
-    @ManyToOne
-    private SolicitudReparacion idsolicitudRep;
+   
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne
     private Vehiculo idVehiculo;
 
+    
     public Desperfecto() {
     }
 
@@ -92,13 +95,7 @@ public class Desperfecto implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public SolicitudReparacion getIdsolicitudRep() {
-        return idsolicitudRep;
-    }
-
-    public void setIdsolicitudRep(SolicitudReparacion idsolicitudRep) {
-        this.idsolicitudRep = idsolicitudRep;
-    }
+  
 
     public Vehiculo getIdVehiculo() {
         return idVehiculo;
@@ -132,5 +129,8 @@ public class Desperfecto implements Serializable {
     public String toString() {
         return "com.entidades.Desperfecto[ id=" + id + " ]";
     }
+
+    
+   
     
 }

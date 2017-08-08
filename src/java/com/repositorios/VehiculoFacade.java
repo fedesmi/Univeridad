@@ -34,5 +34,7 @@ public class VehiculoFacade extends AbstractFacade<Vehiculo> {
       public void asignarEmpleadoVehiculo(Empleado emp, int idVehiculo) {  
          getEntityManager().createNamedQuery("Vehiculo.asignarEmpleado").setParameter("empleadoPar", emp).setParameter("id", idVehiculo).executeUpdate();
     }
+      
+      
      
 }

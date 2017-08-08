@@ -30,4 +30,5 @@ public class SolicitudReparacionFacade extends AbstractFacade<SolicitudReparacio
         super(SolicitudReparacion.class);
     }
     
+    
 }

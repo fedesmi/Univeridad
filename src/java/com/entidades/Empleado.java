@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +27,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -80,6 +83,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 public class Empleado implements Serializable {
+
+    @OneToMany(mappedBy = "idEmpleado")
+    private Collection<Vehiculo> vehiculoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -241,6 +247,15 @@ public class Empleado implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Empleado[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Vehiculo> getVehiculoCollection() {
+        return vehiculoCollection;
+    }
+
+    public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
+        this.vehiculoCollection = vehiculoCollection;
     }
 
  

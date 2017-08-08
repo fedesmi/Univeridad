@@ -6,8 +6,10 @@
 package com.controladores;
 
 import com.entidades.Desperfecto;
+import com.entidades.SolicitudReparacion;
 import com.entidades.Vehiculo;
 import com.repositorios.DesperfectoFacade;
+import com.repositorios.SolicitudReparacionFacade;
 import java.io.Serializable;
 
 import java.util.Date;
@@ -33,6 +35,8 @@ public class DesperfectoBean implements Serializable {
     @Inject
     private DesperfectoFacade desperfectoFacade;
     private Desperfecto desperfectoVar;
+     private SolicitudReparacionFacade solicitudReparacionFacade;
+
 
     private List<Desperfecto> desperfectosDeVehiculo;
 
@@ -110,4 +114,16 @@ public class DesperfectoBean implements Serializable {
     }
 
 
+    public void crearSolicitudReparacion(Desperfecto desp) {
+        System.out.println("holaaaaaaaaaaaaa");
+        SolicitudReparacion solicitud = new SolicitudReparacion();
+        solicitud.setFecha(new Date());
+        solicitud.setAutorizado(0);
+        solicitud.setIdDesperfecto(desp);
+        solicitudReparacionFacade.create(solicitud);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La solicitud fue generada"));
+    }
+    
+    
 }

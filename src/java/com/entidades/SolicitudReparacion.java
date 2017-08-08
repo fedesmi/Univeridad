@@ -6,7 +6,6 @@
 package com.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -15,15 +14,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -40,6 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "SolicitudReparacion.findByAutorizado", query = "SELECT s FROM SolicitudReparacion s WHERE s.autorizado = :autorizado")})
 public class SolicitudReparacion implements Serializable {
 
+    @JoinColumn(name = "id_desperfecto", referencedColumnName = "id")
+    @OneToOne
+    private Desperfecto idDesperfecto;
+
+    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,8 +60,7 @@ public class SolicitudReparacion implements Serializable {
     @NotNull
     @Column(name = "autorizado")
     private int autorizado;
-    @OneToMany(mappedBy = "idsolicitudRep")
-    private Collection<Desperfecto> desperfectoCollection;
+   
 
     public SolicitudReparacion() {
     }
@@ -95,14 +99,7 @@ public class SolicitudReparacion implements Serializable {
         this.autorizado = autorizado;
     }
 
-    @XmlTransient
-    public Collection<Desperfecto> getDesperfectoCollection() {
-        return desperfectoCollection;
-    }
-
-    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
-        this.desperfectoCollection = desperfectoCollection;
-    }
+   
 
     @Override
     public int hashCode() {
@@ -128,5 +125,15 @@ public class SolicitudReparacion implements Serializable {
     public String toString() {
         return "com.entidades.SolicitudReparacion[ id=" + id + " ]";
     }
+
+    public Desperfecto getIdDesperfecto() {
+        return idDesperfecto;
+    }
+
+    public void setIdDesperfecto(Desperfecto idDesperfecto) {
+        this.idDesperfecto = idDesperfecto;
+    }
+
+   
     
 }

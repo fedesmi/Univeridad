@@ -132,7 +132,6 @@
                     <p:panel style="border-style: none; height: 200px;">
                         <div style="text-align: right;">
                             <p:commandButton icon="ui-icon-plus" value="Desperfecto" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
-                            <p:commandButton icon="ui-icon-plus" value="Solicitud" ajax="true"   oncomplete="PF('dlgAgregarSol').show();" />
                         </div>
                         <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
                                      value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
@@ -149,12 +148,8 @@
                             <p:column  headerText="Descripción">
                                 <h:outputText value="#{des.descripcion}" />
                             </p:column>
-                            <p:column  headerText="Reparación Autorizada">
-                                <h:outputText value="#{des.idsolicitudRep.id}" />
-                            </p:column>
-                            <p:column  headerText="Solicitud Reparacion">
-                                <p:commandButton rendered="#{(des.idsolicitudRep != null ? true:false)}" icon="ui-icon-check" ajax="true" />
-                                <p:commandButton rendered="#{(des.idsolicitudRep != null ? false:true)}" actionListener="#{vehiculoBean}" icon="ui-icon-document" ajax="true" />
+                            <p:column  headerText="Solicitud Reparacion"> 
+                                <p:commandButton actionListener="#{desperfectosBean.crearSolicitudReparacion(des)}" icon="ui-icon-document" ajax="true" />
                             </p:column>
                         </p:dataTable> 
                         
