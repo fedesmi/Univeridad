@@ -8,6 +8,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author fmichel
  */
 @Entity
+@Cacheable(false)
 @Table(name = "desperfecto", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
@@ -37,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Desperfecto.findAll", query = "SELECT d FROM Desperfecto d")
     , @NamedQuery(name = "Desperfecto.findById", query = "SELECT d FROM Desperfecto d WHERE d.id = :id")
     , @NamedQuery(name = "Desperfecto.findByFecha", query = "SELECT d FROM Desperfecto d WHERE d.fecha = :fecha")
+    , @NamedQuery(name = "Desperfecto.findByIdVehiculo", query = "SELECT d FROM Desperfecto d WHERE d.idVehiculo.id = :idVehiculo")
     , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")})
 public class Desperfecto implements Serializable {
 
@@ -53,17 +55,11 @@ public class Desperfecto implements Serializable {
     @Column(name = "descripcion", length = 255)
     private String descripcion;
     @JoinColumn(name = "id_solicitudRep", referencedColumnName = "id")
-    @OneToOne
-    private SolicitudReparacion idsolicitudRep;
-    
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
-    private Vehiculo vehiculo;
-    
-   @Column(name = "idVehiculo")
-    private int idVehiculo;
-    
-    
+    private SolicitudReparacion idsolicitudRep;
+    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
+    @ManyToOne
+    private Vehiculo idVehiculo;
 
     public Desperfecto() {
     }
@@ -104,11 +100,11 @@ public class Desperfecto implements Serializable {
         this.idsolicitudRep = idsolicitudRep;
     }
 
-    public int getIdVehiculo() {
+    public Vehiculo getIdVehiculo() {
         return idVehiculo;
     }
 
-    public void setIdVehiculo(int idVehiculo) {
+    public void setIdVehiculo(Vehiculo idVehiculo) {
         this.idVehiculo = idVehiculo;
     }
 
@@ -135,20 +131,6 @@ public class Desperfecto implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Desperfecto[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the vehiculo
-     */
-    public Vehiculo getVehiculo() {
-        return vehiculo;
-    }
-
-    /**
-     * @param vehiculo the vehiculo to set
-     */
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
     }
     
 }

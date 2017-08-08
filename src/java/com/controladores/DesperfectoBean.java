@@ -6,6 +6,7 @@
 package com.controladores;
 
 import com.entidades.Desperfecto;
+import com.entidades.Vehiculo;
 import com.repositorios.DesperfectoFacade;
 import java.io.Serializable;
 
@@ -90,13 +91,16 @@ public class DesperfectoBean implements Serializable {
         this.desperfectosDeVehiculo = desperfectosDeVehiculo;
     }
 
-    public void guardar() {
+    public void guardar(Vehiculo vehiculoPar) {
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String  propiedad= request.getParameter("propiedadVal");
   
        
         desperfectoVar.setFecha(new Date());
-        desperfectoVar.setIdVehiculo(Integer.valueOf(propiedad));
+        Vehiculo vehiculoVar = new Vehiculo();
+        vehiculoVar.setId(Integer.valueOf(propiedad));
+        desperfectoVar.setIdVehiculo(vehiculoVar);
+        
         this.desperfectoFacade.create(desperfectoVar);
         
         desperfectoVar = null;

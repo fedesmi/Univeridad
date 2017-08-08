@@ -8,6 +8,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author fmichel
  */
 @Entity
+@Cacheable(false)
 @Table(name = "vehiculo")
 @XmlRootElement
 @NamedQueries({
@@ -39,12 +42,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vehiculo.findByModelo", query = "SELECT v FROM Vehiculo v WHERE v.modelo = :modelo")
     , @NamedQuery(name = "Vehiculo.findByNumeroChasis", query = "SELECT v FROM Vehiculo v WHERE v.numeroChasis = :numeroChasis")
     , @NamedQuery(name = "Vehiculo.findByNumeroMotor", query = "SELECT v FROM Vehiculo v WHERE v.numeroMotor = :numeroMotor")
+    , @NamedQuery(name = "Vehiculo.asignarEmpleado", query = "UPDATE Vehiculo v SET v.idEmpleado = :empleadoPar WHERE v.id = :id")
     , @NamedQuery(name = "Vehiculo.findByYear", query = "SELECT v FROM Vehiculo v WHERE v.year = :year")
     , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")})
 public class Vehiculo implements Serializable {
-
-    @OneToMany(mappedBy = "idVehiculo")
-    private Collection<Desperfecto> desperfectoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -84,9 +85,14 @@ public class Vehiculo implements Serializable {
     @Column(name = "apto", nullable = false)
     private short apto;
     @JoinColumn(name = "id_empleado", referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne
     private Empleado idEmpleado;
-
+    
+    
+    @OneToMany(mappedBy = "idVehiculo")
+    private Collection<Desperfecto> desperfectoCollection;
+    
+    
     public Vehiculo() {
     }
 
@@ -172,8 +178,17 @@ public class Vehiculo implements Serializable {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(Empleado idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setIdEmpleado(Empleado empleado) {
+        this.idEmpleado = empleado;
+    }
+
+    @XmlTransient
+    public Collection<Desperfecto> getDesperfectoCollection() {
+        return desperfectoCollection;
+    }
+
+    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
+        this.desperfectoCollection = desperfectoCollection;
     }
 
     @Override
@@ -199,15 +214,6 @@ public class Vehiculo implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Vehiculo[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Desperfecto> getDesperfectoCollection() {
-        return desperfectoCollection;
-    }
-
-    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
-        this.desperfectoCollection = desperfectoCollection;
     }
     
 }
