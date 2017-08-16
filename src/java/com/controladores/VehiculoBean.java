@@ -132,5 +132,10 @@ public class VehiculoBean implements Serializable {
     }
 
     
+     public void mostrarHola(){
+        System.out.println("mostrar hola");
+    }
+    
+    
 
 }

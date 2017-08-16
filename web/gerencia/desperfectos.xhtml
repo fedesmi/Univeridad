@@ -1,0 +1,51 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="define1">
+        <h:form id="formDesperfectos">
+            <h:outputStylesheet library="css" name="cssweb.css" />
+            <p:growl id="msgs" showDetail="true" />
+            <p:outputLabel value="Desperfectos" />
+
+            <br/>
+                    <p:panel style="border-style: none; height: 300px; font-size: 12px;">
+                        
+                        <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
+                                     value="#{desperfectosBean.desperfectosDB}"
+                                     scrollable="true" scrollHeight="300" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                     selection="#{desperfectosBean.desperfectoSeleccionado}" selectionMode="single" rowKey="#{des.id}"
+                                     emptyMessage="sin registros" >
+                            <f:facet name="header">
+                                Lista de Desperfectos
+                            </f:facet>
+                            <p:column  headerText="Fecha">
+                                <h:outputText value="#{des.fecha}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column  headerText="Descripción">
+                                <h:outputText value="#{des.descripcion}" />
+                            </p:column>
+                            <p:column  headerText="Patente">
+                                <h:outputText value="#{des.idVehiculo.patente}" />
+                            </p:column>
+                            <p:column  headerText="Marca">
+                                <h:outputText value="#{des.idVehiculo.marca}" />
+                            </p:column>
+                            <p:column  headerText="Modelo">
+                                <h:outputText value="#{des.idVehiculo.modelo}" />
+                            </p:column>
+                        </p:dataTable> 
+                     
+                    </p:panel>
+
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

@@ -128,14 +128,16 @@
                         <h:outputText value="Patente: " />
                         <h:outputText value="#{vehiculoBean.vehiculoSelected.patente}" />
                     </p:panelGrid>
-
+                  
                     <p:panel style="border-style: none; height: 200px;">
                         <div style="text-align: right;">
                             <p:commandButton icon="ui-icon-plus" value="Desperfecto" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
-                        </div>
+                        </div> 
+                        
                         <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
                                      value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
                                      scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                     selection="#{desperfectosBean.desperfectoSeleccionado}" selectionMode="single" rowKey="#{des.id}"
                                      emptyMessage="sin registros" >
                             <f:facet name="header">
                                 Desperfectos
@@ -148,14 +150,15 @@
                             <p:column  headerText="Descripción">
                                 <h:outputText value="#{des.descripcion}" />
                             </p:column>
-                            <p:column  headerText="Solicitud Reparacion"> 
-                                <p:commandButton actionListener="#{desperfectosBean.crearSolicitudReparacion(des)}" icon="ui-icon-document" ajax="true" />
-                            </p:column>
+                            
                         </p:dataTable> 
+                            
+                        
                         
                         <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto" widgetVar="dlgAgregarD" modal="false"
                                   resizable="false" height="170" width="400" style="font-size: 12px;">
                             <p:outputPanel id="abmDesperfectos" >
+                                
                                 <p:outputLabel value="Descripcion"  />
                                 <br/>
                                 <br/>
@@ -172,6 +175,7 @@
                         </p:dialog>
                         
                     </p:panel>
+                        
                 </p:outputPanel>
             </p:dialog>
 

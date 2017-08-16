@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -35,8 +36,8 @@ public class DesperfectoBean implements Serializable {
     @Inject
     private DesperfectoFacade desperfectoFacade;
     private Desperfecto desperfectoVar;
-     private SolicitudReparacionFacade solicitudReparacionFacade;
-
+    private Desperfecto desperfectoSeleccionado;
+   private List<Desperfecto> desperfectos;
 
     private List<Desperfecto> desperfectosDeVehiculo;
 
@@ -44,12 +45,14 @@ public class DesperfectoBean implements Serializable {
      * Creates a new instance of DesperfectosBean
      */
     public DesperfectoBean() {
+           desperfectoVar = new Desperfecto();
+         desperfectoSeleccionado = new Desperfecto();
+        
     }
 
     @PostConstruct
     public void init() {
-        desperfectoVar = new Desperfecto();
-
+        desperfectos = getDesperfectosDB();
     }
 
     /**
@@ -114,16 +117,60 @@ public class DesperfectoBean implements Serializable {
     }
 
 
-    public void crearSolicitudReparacion(Desperfecto desp) {
-        System.out.println("holaaaaaaaaaaaaa");
+    public void crearSolicitudReparacion() {     
+        System.out.println("alooooo");
         SolicitudReparacion solicitud = new SolicitudReparacion();
+        SolicitudReparacionFacade solicitudReparacionFacade = new  SolicitudReparacionFacade();
         solicitud.setFecha(new Date());
         solicitud.setAutorizado(0);
-        solicitud.setIdDesperfecto(desp);
-        solicitudReparacionFacade.create(solicitud);
+        System.out.println(desperfectoSeleccionado.getDescripcion());
+        solicitud.setIdDesperfecto(desperfectoSeleccionado);
+        //solicitudReparacionFacade.create(solicitud);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La solicitud fue generada"));
     }
     
+    
+    public void mostrarHola(){
+        System.out.println("mostrar hola");
+    }
+
+    /**
+     * @return the desperfectoSeleccionado
+     */
+    public Desperfecto getDesperfectoSeleccionado() {
+        return desperfectoSeleccionado;
+    }
+
+    /**
+     * @param desperfectoSeleccionado the desperfectoSeleccionado to set
+     */
+    public void setDesperfectoSeleccionado(Desperfecto desperfectoSeleccionado) {
+        this.desperfectoSeleccionado = desperfectoSeleccionado;
+    }
+    
+    
+     public void onRowSelect(SelectEvent event) {
+         System.out.println("seleccionado " + ((Desperfecto) event.getObject()).getDescripcion());
+    }
+
+    /**
+     * @return the desperfectos
+     */
+    public List<Desperfecto> getDesperfectos() {
+        return desperfectos;
+    }
+
+    /**
+     * @param desperfectos the desperfectos to set
+     */
+    public void setDesperfectos(List<Desperfecto> desperfectos) {
+        this.desperfectos = desperfectos;
+    }
+    
+    
+    public List<Desperfecto> getDesperfectosDB(){
+            return desperfectoFacade.findAll();
+    }
     
 }
