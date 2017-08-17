@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -17,12 +18,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,9 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "SolicitudReparacion.findByAutorizado", query = "SELECT s FROM SolicitudReparacion s WHERE s.autorizado = :autorizado")})
 public class SolicitudReparacion implements Serializable {
 
-    @JoinColumn(name = "id_desperfecto", referencedColumnName = "id")
-    @OneToOne
-    private Desperfecto idDesperfecto;
+   
 
     
 
@@ -126,13 +127,7 @@ public class SolicitudReparacion implements Serializable {
         return "com.entidades.SolicitudReparacion[ id=" + id + " ]";
     }
 
-    public Desperfecto getIdDesperfecto() {
-        return idDesperfecto;
-    }
 
-    public void setIdDesperfecto(Desperfecto idDesperfecto) {
-        this.idDesperfecto = idDesperfecto;
-    }
 
    
     

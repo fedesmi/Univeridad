@@ -124,7 +124,6 @@ public class DesperfectoBean implements Serializable {
         solicitud.setFecha(new Date());
         solicitud.setAutorizado(0);
         System.out.println(desperfectoSeleccionado.getDescripcion());
-        solicitud.setIdDesperfecto(desperfectoSeleccionado);
         //solicitudReparacionFacade.create(solicitud);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La solicitud fue generada"));

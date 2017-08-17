@@ -6,7 +6,6 @@
 package com.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
@@ -16,16 +15,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-
 
 /**
  *
@@ -33,8 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Cacheable(false)
-@Table(name = "desperfecto", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "desperfecto")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Desperfecto.findAll", query = "SELECT d FROM Desperfecto d")
@@ -44,25 +40,25 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Desperfecto.findByDescripcion", query = "SELECT d FROM Desperfecto d WHERE d.descripcion = :descripcion")})
 public class Desperfecto implements Serializable {
 
-   
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @Size(max = 255)
-    @Column(name = "descripcion", length = 255)
+    @Column(name = "descripcion")
     private String descripcion;
-   
+    @JoinColumn(name = "id_solicitud", referencedColumnName = "id")
+    @OneToOne
+    private SolicitudReparacion idSolicitud;
+    
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
     @OneToOne
     private Vehiculo idVehiculo;
-
     
     public Desperfecto() {
     }
@@ -95,7 +91,13 @@ public class Desperfecto implements Serializable {
         this.descripcion = descripcion;
     }
 
-  
+    public SolicitudReparacion getIdSolicitud() {
+        return idSolicitud;
+    }
+
+    public void setIdSolicitud(SolicitudReparacion idSolicitud) {
+        this.idSolicitud = idSolicitud;
+    }
 
     public Vehiculo getIdVehiculo() {
         return idVehiculo;
@@ -129,8 +131,5 @@ public class Desperfecto implements Serializable {
     public String toString() {
         return "com.entidades.Desperfecto[ id=" + id + " ]";
     }
-
-    
-   
     
 }

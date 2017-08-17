@@ -40,6 +40,15 @@
                             <p:column  headerText="Modelo">
                                 <h:outputText value="#{des.idVehiculo.modelo}" />
                             </p:column>
+                            <p:column  headerText="Fecha Solicitud Rep">
+                                <h:outputText value="#{des.idSolicitud.fecha}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column  headerText="Reparacion Autorizada">
+                                <h:outputText value="#{des.idSolicitud.autorizado==1?'SI':'NO'}" />
+                            </p:column>
+                            
                         </p:dataTable> 
                      
                     </p:panel>
