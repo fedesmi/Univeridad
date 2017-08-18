@@ -9,12 +9,15 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -52,14 +55,14 @@ public class Desperfecto implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    @JoinColumn(name = "id_solicitud", referencedColumnName = "id")
-    @OneToOne
+    @JoinColumn(name = "id_solicitud", referencedColumnName = "id", nullable = false)
+    @OneToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch= FetchType.LAZY)
     private SolicitudReparacion idSolicitud;
-    
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
-    @OneToOne
+    @ManyToOne
     private Vehiculo idVehiculo;
-    
+
     public Desperfecto() {
     }
 

@@ -9,7 +9,6 @@ import com.entidades.Desperfecto;
 import com.entidades.SolicitudReparacion;
 import com.entidades.Vehiculo;
 import com.repositorios.DesperfectoFacade;
-import com.repositorios.SolicitudReparacionFacade;
 import java.io.Serializable;
 
 import java.util.Date;
@@ -31,13 +30,11 @@ import org.primefaces.event.SelectEvent;
 @RequestScoped
 public class DesperfectoBean implements Serializable {
 
-    
-
     @Inject
     private DesperfectoFacade desperfectoFacade;
     private Desperfecto desperfectoVar;
     private Desperfecto desperfectoSeleccionado;
-   private List<Desperfecto> desperfectos;
+    private List<Desperfecto> desperfectos;
 
     private List<Desperfecto> desperfectosDeVehiculo;
 
@@ -45,13 +42,14 @@ public class DesperfectoBean implements Serializable {
      * Creates a new instance of DesperfectosBean
      */
     public DesperfectoBean() {
-           desperfectoVar = new Desperfecto();
-         desperfectoSeleccionado = new Desperfecto();
-        
+        desperfectoVar = new Desperfecto();
+        desperfectoSeleccionado = new Desperfecto();
+
     }
 
     @PostConstruct
     public void init() {
+        desperfectoSeleccionado = new Desperfecto();
         desperfectos = getDesperfectosDB();
     }
 
@@ -99,38 +97,25 @@ public class DesperfectoBean implements Serializable {
     }
 
     public void guardar(Vehiculo vehiculoPar) {
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String  propiedad= request.getParameter("propiedadVal");
-  
-       
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String propiedad = request.getParameter("propiedadVal");
+
         desperfectoVar.setFecha(new Date());
         Vehiculo vehiculoVar = new Vehiculo();
         vehiculoVar.setId(Integer.valueOf(propiedad));
         desperfectoVar.setIdVehiculo(vehiculoVar);
-        
+
         this.desperfectoFacade.create(desperfectoVar);
-        
+
         desperfectoVar = null;
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El desperfecto fue registrado exitosamente"));
-        
+
     }
 
+   
 
-    public void crearSolicitudReparacion() {     
-        System.out.println("alooooo");
-        SolicitudReparacion solicitud = new SolicitudReparacion();
-        SolicitudReparacionFacade solicitudReparacionFacade = new  SolicitudReparacionFacade();
-        solicitud.setFecha(new Date());
-        solicitud.setAutorizado(0);
-        System.out.println(desperfectoSeleccionado.getDescripcion());
-        //solicitudReparacionFacade.create(solicitud);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La solicitud fue generada"));
-    }
-    
-    
-    public void mostrarHola(){
+    public void mostrarHola() {
         System.out.println("mostrar hola");
     }
 
@@ -147,10 +132,9 @@ public class DesperfectoBean implements Serializable {
     public void setDesperfectoSeleccionado(Desperfecto desperfectoSeleccionado) {
         this.desperfectoSeleccionado = desperfectoSeleccionado;
     }
-    
-    
-     public void onRowSelect(SelectEvent event) {
-         System.out.println("seleccionado " + ((Desperfecto) event.getObject()).getDescripcion());
+
+    public void onRowSelect(SelectEvent event) {
+        System.out.println("seleccionado " + ((Desperfecto) event.getObject()).getDescripcion());
     }
 
     /**
@@ -166,10 +150,35 @@ public class DesperfectoBean implements Serializable {
     public void setDesperfectos(List<Desperfecto> desperfectos) {
         this.desperfectos = desperfectos;
     }
-    
-    
-    public List<Desperfecto> getDesperfectosDB(){
-            return desperfectoFacade.findAll();
+
+    public List<Desperfecto> getDesperfectosDB() {
+        return desperfectoFacade.findAll();
     }
-    
+
+    public void autorizarReparacion() {
+
+        if (desperfectoSeleccionado.getIdSolicitud() != null) {
+            
+            desperfectoSeleccionado.getIdSolicitud().setAutorizado(1);
+            desperfectoFacade.edit(desperfectoSeleccionado);
+            FacesMessage msg = new FacesMessage("Autorizacion", "Se ha autorizado la solicitud ");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            FacesMessage msg = new FacesMessage("Autorizacion NOk", "no hay solicitud cargada");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        }
+    }
+
+    public void solicitarReparacion() {
+        SolicitudReparacion solRep = new SolicitudReparacion();
+        solRep.setFecha(new Date());
+        solRep.setAutorizado(0);
+        desperfectoSeleccionado.setIdSolicitud(solRep);
+        desperfectoFacade.edit(desperfectoSeleccionado);
+
+        FacesMessage msg = new FacesMessage("Solicitud", "Se ha generado una solicitud de reparación");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
 }

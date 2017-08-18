@@ -50,7 +50,7 @@
                     </div>
                 </p:column>
                 <p:column style="width:32px;text-align: center">
-                    <p:commandButton  action="#{empleadoBean.autorizarEdicionEmpleado(authorization.user.legajo)}" oncomplete="PF('sinAutorizar').filter()" icon="ui-icon-check" title="Autorizar">
+                    <p:commandButton update="formGer:form1:msgs"  action="#{empleadoBean.autorizarEdicionEmpleado(authorization.user.legajo)}" oncomplete="PF('sinAutorizar').filter()" icon="ui-icon-check" title="Autorizar">
                         <f:setPropertyActionListener value="#{emp}" target="#{empleadoBean.empleadoSeleccionado}" />
                     </p:commandButton>
                 </p:column> 

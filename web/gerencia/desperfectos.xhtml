@@ -50,6 +50,9 @@
                             </p:column>
                             
                         </p:dataTable> 
+                        
+                        <p:commandButton value="Solicitar" update="formDesperfectos:msgs, formDesperfectos:tablaDesperfectos" actionListener="#{desperfectosBean.solicitarReparacion()}" />
+                        <p:commandButton value="Autorizar" update="formDesperfectos:msgs, formDesperfectos:tablaDesperfectos" actionListener="#{desperfectosBean.autorizarReparacion()}" />
                      
                     </p:panel>
 

@@ -68,7 +68,7 @@
                         </p:cellEditor>
                     </div>
                 </p:column>  
-                <p:column  headerText="Año" >
+                <p:column  headerText="Año" width="8%" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{veh.year}" /></f:facet>
@@ -106,7 +106,7 @@
                     </p:commandButton>
                 </p:column>
 
-                <p:column style="width:32px">
+                <p:column style="width:25px">
                     <p:rowEditor />
                 </p:column>
 
@@ -131,7 +131,7 @@
                   
                     <p:panel style="border-style: none; height: 200px;">
                         <div style="text-align: right;">
-                            <p:commandButton icon="ui-icon-plus" value="Desperfecto" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
+                            <p:commandButton icon="ui-icon-plus" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
                         </div> 
                         
                         <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"

@@ -332,7 +332,8 @@ public class EmpleadoBean implements Serializable {
 
     public void autorizarEdicionEmpleado(int legajo) {
         this.empleadoFacade.autorizarCambiosEmpleado(legajo, empleadoSeleccionado.getId().longValue());
-        
+        FacesMessage msg = new FacesMessage("Autorizacion ", "Se ha Autorizado el cambio");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
    
