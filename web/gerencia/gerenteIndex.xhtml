@@ -13,7 +13,8 @@
         <h:form id="formGer">
             <p:growl id="messages" showDetail="true" />
 
-
+           
+            
             <ui:include src="../banner.xhtml" />
 
             <p:panel header="Gerencia - Panel de Control" style="min-width: 1050px; min-height: 500px;" >
@@ -26,7 +27,7 @@
                                 <p:menuitem value="Configurar Variables" outcome="variables"  icon="ui-icon-contact" />
                             </p:submenu>
                             <p:submenu label="Alumnos"> 
-                                <p:menuitem value="Nuevo"  icon="ui-icon-contact"  />
+                                <p:menuitem value="Nuevo" outcome="nuevoAlumno"   icon="ui-icon-contact"  />
                                 <p:menuitem value="Registrar Pagos"   icon="ui-icon-suitcase"/>
                             </p:submenu>
                             <p:submenu label="Empleados">
