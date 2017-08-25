@@ -8,6 +8,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author fmichel
  */
 @Entity
+@Cacheable(false)
 @Table(name = "clase")
 @XmlRootElement
 @NamedQueries({
@@ -36,6 +38,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Clase.findByHoraInicio", query = "SELECT c FROM Clase c WHERE c.horaInicio = :horaInicio")
     , @NamedQuery(name = "Clase.findByHoraFin", query = "SELECT c FROM Clase c WHERE c.horaFin = :horaFin")})
 public class Clase implements Serializable {
+
+    @JoinColumn(name = "id_horario", referencedColumnName = "id")
+    @ManyToOne
+    private Horario idHorario;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -137,6 +143,14 @@ public class Clase implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Clase[ id=" + id + " ]";
+    }
+
+    public Horario getIdHorario() {
+        return idHorario;
+    }
+
+    public void setIdHorario(Horario idHorario) {
+        this.idHorario = idHorario;
     }
     
 }

@@ -5,16 +5,10 @@
  */
 package com.controladores;
 
-import com.entidades.Desperfecto;
 import com.entidades.Empleado;
-import com.entidades.Mantenimiento;
-import com.entidades.SolicitudReparacion;
 import com.entidades.Vehiculo;
-import com.repositorios.DesperfectoFacade;
-import com.repositorios.SolicitudReparacionFacade;
 import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;

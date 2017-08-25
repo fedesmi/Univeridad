@@ -5,14 +5,18 @@
  */
 package com.controladores;
 
-import com.entidades.Alumno;
-import com.repositorios.AlumnoFacade;
-import java.io.Serializable;
-import java.util.Date;
 import javax.inject.Named;
+import java.io.Serializable;
+import com.repositorios.*;
+import com.entidades.*;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -23,16 +27,27 @@ import javax.faces.context.FacesContext;
 public class AlumnoBean implements Serializable {
 
     private Alumno alumnoVar;
+    @Inject
     private AlumnoFacade alumnoFacade;
     private String nombre;
     private String apellido;
     private int dni; 
     private Date fechaNacimiento;
     
+    
+     private List<Alumno> alumnos;
     /**
      * Creates a new instance of AlumnoBean
      */
     public AlumnoBean() {
+    }
+    
+    
+     // This is the required method to get the datatable list.
+    @PostConstruct
+    public void init() {
+        alumnos = getAlumnosDB();
+
     }
 
     /**
@@ -133,5 +148,38 @@ public class AlumnoBean implements Serializable {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    /**
+     * @return the alumnos
+     */
+    public List<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    /**
+     * @param alumnos the alumnos to set
+     */
+    public void setAlumnos(List<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
     
+    
+    public List<Alumno> getAlumnosDB(){
+        return this.alumnoFacade.findAll();
+        
+    }
+    
+    
+     public void onRowEdit(RowEditEvent event)  {
+        Alumno alumnoLocalVar = (Alumno) event.getObject();
+        this.alumnoFacade.edit(alumnoLocalVar);
+        FacesMessage msg = new FacesMessage("Alumno Editado", "DNI: "+String.valueOf(alumnoLocalVar.getDni()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        Alumno alumnoLocalVar = (Alumno) event.getObject();
+        FacesMessage msg = new FacesMessage("Edición Cancelada",  "DNI: "+String.valueOf(alumnoLocalVar.getDni()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 }

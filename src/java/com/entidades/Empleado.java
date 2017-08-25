@@ -69,6 +69,7 @@ import javax.xml.bind.annotation.XmlTransient;
             query = "SELECT MAX(m.legajo)+1 FROM Empleado m")
     ,@NamedQuery(name = "Empleado.autorizarCambio",
             query = "UPDATE Empleado t SET t.autorizo=:legajo WHERE t.id=:id")
+    
     , @NamedQuery(name = "Empleado.instructores",
             query = "SELECT m "
             + "FROM Empleado m "

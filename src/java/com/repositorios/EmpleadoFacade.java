@@ -44,6 +44,7 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
      
        public void autorizarCambiosEmpleado(int legajo, Long id) {  
          getEntityManager().createNamedQuery("Empleado.autorizarCambio").setParameter("legajo", legajo).setParameter("id", id).executeUpdate();
+     
     }
      
     public int buscarUltimoLegajo() {

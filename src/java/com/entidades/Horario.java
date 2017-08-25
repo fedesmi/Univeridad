@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -31,17 +29,15 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author fmichel
  */
 @Entity
-@Cacheable(false)
-@Table(name = "alumno")
+@Table(name = "horario")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a")
-    , @NamedQuery(name = "Alumno.findById", query = "SELECT a FROM Alumno a WHERE a.id = :id")
-    , @NamedQuery(name = "Alumno.findByDni", query = "SELECT a FROM Alumno a WHERE a.dni = :dni")
-    , @NamedQuery(name = "Alumno.findByNombre", query = "SELECT a FROM Alumno a WHERE a.nombre = :nombre")
-    , @NamedQuery(name = "Alumno.findByApellido", query = "SELECT a FROM Alumno a WHERE a.apellido = :apellido")
-    , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")})
-public class Alumno implements Serializable {
+    @NamedQuery(name = "Horario.findAll", query = "SELECT h FROM Horario h")
+    , @NamedQuery(name = "Horario.findById", query = "SELECT h FROM Horario h WHERE h.id = :id")
+    , @NamedQuery(name = "Horario.findByInicio", query = "SELECT h FROM Horario h WHERE h.inicio = :inicio")
+    , @NamedQuery(name = "Horario.findByFin", query = "SELECT h FROM Horario h WHERE h.fin = :fin")
+    , @NamedQuery(name = "Horario.findByDiaSemana", query = "SELECT h FROM Horario h WHERE h.diaSemana = :diaSemana")})
+public class Horario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,39 +47,33 @@ public class Alumno implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dni")
-    private int dni;
+    @Column(name = "inicio")
+    @Temporal(TemporalType.TIME)
+    private Date inicio;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "fin")
+    @Temporal(TemporalType.TIME)
+    private Date fin;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "apellido")
-    private String apellido;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha_nacimiento")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaNacimiento;
-    @OneToMany(mappedBy = "idAlumno")
+    @Column(name = "dia_semana")
+    private short diaSemana;
+    @OneToMany(mappedBy = "idHorario")
     private Collection<Clase> claseCollection;
 
-    public Alumno() {
+    public Horario() {
     }
 
-    public Alumno(Integer id) {
+    public Horario(Integer id) {
         this.id = id;
     }
 
-    public Alumno(Integer id, int dni, String nombre, String apellido, Date fechaNacimiento) {
+    public Horario(Integer id, Date inicio, Date fin, short diaSemana) {
         this.id = id;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.fechaNacimiento = fechaNacimiento;
+        this.inicio = inicio;
+        this.fin = fin;
+        this.diaSemana = diaSemana;
     }
 
     public Integer getId() {
@@ -94,36 +84,28 @@ public class Alumno implements Serializable {
         this.id = id;
     }
 
-    public int getDni() {
-        return dni;
+    public Date getInicio() {
+        return inicio;
     }
 
-    public void setDni(int dni) {
-        this.dni = dni;
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Date getFin() {
+        return fin;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 
-    public String getApellido() {
-        return apellido;
+    public short getDiaSemana() {
+        return diaSemana;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setDiaSemana(short diaSemana) {
+        this.diaSemana = diaSemana;
     }
 
     @XmlTransient
@@ -145,10 +127,10 @@ public class Alumno implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Alumno)) {
+        if (!(object instanceof Horario)) {
             return false;
         }
-        Alumno other = (Alumno) object;
+        Horario other = (Horario) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -157,7 +139,7 @@ public class Alumno implements Serializable {
 
     @Override
     public String toString() {
-        return "com.entidades.Alumno[ id=" + id + " ]";
+        return "com.entidades.Horario[ id=" + id + " ]";
     }
     
 }

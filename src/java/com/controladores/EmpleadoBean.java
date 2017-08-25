@@ -202,16 +202,8 @@ public class EmpleadoBean implements Serializable {
     }
 
     public String GuardarEdicion(Empleado bp) {
-        Empleado e = new Empleado();
-        e.setLegajo(bp.getLegajo());
-        e.setDni(bp.getDni());
-        e.setNombre(bp.getNombre());
-        e.setApellido(bp.getApellido());
-        e.setTelefono(bp.getTelefono());
-        e.setFechaAlta(new Date());
-        e.setLegajo(bp.getLegajo());
-        e.setIdTipoEmpleado(bp.getIdTipoEmpleado());
-        this.empleadoFacade.create(e);
+        bp.setAutorizo(null);
+        this.empleadoFacade.edit(bp);
         return "EmpleadoLista";
     }
 
@@ -269,7 +261,6 @@ public class EmpleadoBean implements Serializable {
      public void onRowEdit(RowEditEvent event)  {
         Empleado empVar = (Empleado) event.getObject();
          GuardarEdicion(empVar);
-        //GuardarEdicion(empVar);
         FacesMessage msg = new FacesMessage("Empleado Editado", "Legajo: "+String.valueOf(empVar.getLegajo()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
