@@ -6,6 +6,7 @@
 package com.clases;
 
 import com.entidades.Empleado;
+import java.util.List;
 
 /**
  *
@@ -13,10 +14,11 @@ import com.entidades.Empleado;
  */
 class EmpleadoAgenda {
     private Empleado empleado;
-    private int Ocupado;
+    private List<AgendaHora> agendaDia;
+    
 
     /**
-     * @return the empleado
+     * @return the empleadok
      */
     public Empleado getEmpleado() {
         return empleado;
@@ -29,17 +31,17 @@ class EmpleadoAgenda {
         this.empleado = empleado;
     }
 
-    /**
-     * @return the Ocupado
+     /**
+     * @return the agendadia
      */
-    public int getOcupado() {
-        return Ocupado;
+    public List<AgendaHora> getAgendadia() {
+        return agendaDia;
     }
 
     /**
-     * @param Ocupado the Ocupado to set
+     * @param agendadia the agendadia to set
      */
-    public void setOcupado(int Ocupado) {
-        this.Ocupado = Ocupado;
+    public void setAgendadia(List<AgendaHora> agendadia) {
+        this.agendaDia = agendadia;
     }
 }

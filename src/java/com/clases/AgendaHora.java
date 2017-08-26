@@ -5,8 +5,6 @@
  */
 package com.clases;
 
-import java.util.List;
-
 /**
  *
  * @author fmichel
@@ -14,7 +12,10 @@ import java.util.List;
 public class AgendaHora {
     
     private int idHorario;
-    private List<EmpleadoAgenda> empleadoAgenda;
+    private String horario;
+    private boolean disponible;
+    
+   
 
     /**
      * @return the idHorario
@@ -30,18 +31,34 @@ public class AgendaHora {
         this.idHorario = idHorario;
     }
 
+    
+
     /**
-     * @return the empleadoAgenda
+     * @return the horario
      */
-    public List<EmpleadoAgenda> getEmpleadoAgenda() {
-        return empleadoAgenda;
+    public String getHorario() {
+        return horario;
     }
 
     /**
-     * @param empleadoAgenda the empleadoAgenda to set
+     * @param horario the horario to set
      */
-    public void setEmpleadoAgenda(List<EmpleadoAgenda> empleadoAgenda) {
-        this.empleadoAgenda = empleadoAgenda;
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    /**
+     * @return the disponible
+     */
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    /**
+     * @param disponible the disponible to set
+     */
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
     
     

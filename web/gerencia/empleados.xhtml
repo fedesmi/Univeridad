@@ -13,7 +13,7 @@
             <p:outputLabel value="Empleados" />
 
             <br/>
-            
+
             <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{empleadoBean.empleados}" 
                          paginator="false" scrollable="true" scrollHeight="390" emptyMessage="sin registros"
                          style="height: 300px;">
@@ -30,42 +30,50 @@
                         <h:outputText value="#{emp.legajo}" />
                     </div>
                 </p:column>
-                 <p:column  headerText="Nombre">
+                <p:column  headerText="Nombre">
                     <div style="text-align: center; font-size: 12px;" >
-                     <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
-                    </p:cellEditor>
-                       
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
+                        </p:cellEditor>
+
                     </div>
                 </p:column>
                 <p:column headerText="Apellido" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
-                    </p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
+                        </p:cellEditor>
                     </div>
                 </p:column>
                 <p:column  headerText="DNI" >
                     <div style="text-align: center; font-size: 12px;" >
-                    <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
-                    </p:cellEditor>
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
+                        </p:cellEditor>
                     </div>
                 </p:column>
                 <p:column  headerText="Telefono" >
-                   <div style="text-align: center; font-size: 12px;" >
-                   <p:cellEditor>
-                       <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
-                    </p:cellEditor>
-                   </div>
+                    <div style="text-align: center; font-size: 12px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
                 </p:column>
                 <p:column  headerText="Tipo">
                     <div  style="text-align: left; font-size: 12px;">
-                        <h:outputText value="#{emp.idTipoEmpleado.rol}" />
+                        <p:cellEditor>
+                         <f:facet name="output"><h:outputText value="#{emp.idTipoEmpleado.rol}" /></f:facet>
+                        <f:facet name="input">
+                         <p:selectOneMenu value="#{emp.idTipoEmpleado}" converter="omnifaces.SelectItemsConverter" >
+                            <f:selectItem itemLabel="Seleccionar..." itemValue="" />
+                            <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.rol}" itemValue="#{templeado}"  />
+                        </p:selectOneMenu>
+                         </f:facet>
+                        </p:cellEditor>
                     </div>
                 </p:column>
                 <p:column style="width:32px">

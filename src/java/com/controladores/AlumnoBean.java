@@ -71,8 +71,12 @@ public class AlumnoBean implements Serializable {
         alumnoVar.setDni(dni);
         alumnoVar.setFechaNacimiento(fechaNacimiento);
         this.alumnoFacade.create(alumnoVar);
-
-        alumnoVar = new Alumno();
+        
+        apellido="";
+        nombre="";
+        dni=0;
+        fechaNacimiento = null;
+        alumnoVar = null;
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Alumno fue registrado exitosamente"));
