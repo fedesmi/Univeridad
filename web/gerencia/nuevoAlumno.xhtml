@@ -8,7 +8,7 @@
 
     <ui:define name="source">
         <h:form>
-            
+             <h:outputScript library="js" name="calendar_es.js"  />
             
             <p:outputLabel value="Alumnos" />
             <br/>
@@ -20,7 +20,7 @@
                 <p:outputLabel value="DNI"  />
                 <p:inputText value="#{alumnoBean.dni}" />
                 <p:outputLabel value="Fecha Nacimiento"  />
-                <p:calendar navigator="true" yearRange="c-100:c-17" locale="es_ES" pattern="dd-MM-yyyy" value="#{alumnoBean.fechaNacimiento}" />
+                <p:calendar navigator="true" yearRange="c-100:c-17" locale="es" pattern="dd-MM-yyyy" value="#{alumnoBean.fechaNacimiento}" />
 
                 
 

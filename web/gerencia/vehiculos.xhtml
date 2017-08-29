@@ -8,6 +8,7 @@
 
     <ui:define name="source"  id="define1">
         <h:form id="form1">
+             <h:outputScript library="js" name="calendar_es.js"  />
             <h:outputStylesheet library="css" name="cssweb.css" />
             <p:growl id="msgs" showDetail="true" />
             <p:outputLabel value="Vehiculos" />
@@ -236,7 +237,7 @@
                                 <input type="text" hidden="true" id="propiedadVal2" name="propiedadVal2" value="#{vehiculoBean.vehiculoSelected.id}"  />
                                 <h:panelGrid columns="2">
                                     <p:outputLabel value="Fecha"  />
-                                    <p:calendar value="#{mantenimientosBean.fecha}" />
+                                    <p:calendar locale="es" value="#{mantenimientosBean.fecha}" />
                                     <p:outputLabel value="Valor"  />
                                     <p:inputNumber value="#{mantenimientosBean.valor}"  maxValue="99999"/>
                                     <p:outputLabel value="Factura"  />

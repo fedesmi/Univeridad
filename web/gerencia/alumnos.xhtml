@@ -8,7 +8,7 @@
 
     <ui:define name="source"  id="define1">
         <h:form id="formAlumnos">
-
+             <h:outputScript library="js" name="calendar_es.js"  />
             <p:growl id="msgs" showDetail="true" />
             <p:outputLabel value="Alumnos" />
 
@@ -55,7 +55,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                                 </f:facet>
-                            <f:facet name="input"><p:calendar navigator="true" yearRange="c-100:c-17" locale="es_ES" pattern="dd-MM-yyyy" value="#{alu.fechaNacimiento}" /></f:facet>
+                            <f:facet name="input"><p:calendar navigator="true" yearRange="c-100:c-17" locale="es" pattern="dd-MM-yyyy" value="#{alu.fechaNacimiento}" /></f:facet>
                         </p:cellEditor>
 
                     </div>

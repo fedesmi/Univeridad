@@ -14,9 +14,22 @@ public class AgendaHora {
     private int idHorario;
     private String horario;
     private boolean disponible;
+
+ 
     
    
-
+    public AgendaHora(int idHorarioPar, String horarioPar, boolean disponiblePar){
+        this.idHorario=idHorarioPar;
+        this.horario=horarioPar;
+        this.disponible=disponiblePar;
+    }
+    
+    
+      public AgendaHora(){
+       
+    }
+    
+    
     /**
      * @return the idHorario
      */

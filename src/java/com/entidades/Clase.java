@@ -36,7 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Clase.findById", query = "SELECT c FROM Clase c WHERE c.id = :id")
     , @NamedQuery(name = "Clase.findByFecha", query = "SELECT c FROM Clase c WHERE c.fecha = :fecha")
     , @NamedQuery(name = "Clase.findByHoraInicio", query = "SELECT c FROM Clase c WHERE c.horaInicio = :horaInicio")
-    , @NamedQuery(name = "Clase.findByHoraFin", query = "SELECT c FROM Clase c WHERE c.horaFin = :horaFin")})
+    , @NamedQuery(name = "Clase.findByHoraFin", query = "SELECT c FROM Clase c WHERE c.horaFin = :horaFin")
+   
+
+})
 public class Clase implements Serializable {
 
     @JoinColumn(name = "id_horario", referencedColumnName = "id")

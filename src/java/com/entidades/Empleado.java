@@ -73,10 +73,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Empleado.instructores",
             query = "SELECT m "
             + "FROM Empleado m "
-            + "LEFT JOIN Empleado b "
-            + "ON m.legajo = b.legajo "
-            + "AND m.fechaAlta < b.fechaAlta "
-            + "WHERE b.fechaAlta IS NULL  "
+            + "WHERE m.fechaAlta IS NOT NULL  "
+            + "AND m.fechaBaja  IS NULL "
             + "AND m.autorizo IS NOT NULL "
             + "AND m.idTipoEmpleado.rol =:instructor "
             + "ORDER BY m.legajo ")

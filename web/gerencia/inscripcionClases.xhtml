@@ -8,26 +8,48 @@
 
     <ui:define name="source">
         <h:form>
-            
-            
+            <h:outputScript library="js" name="calendar_es.js"  />
+
             <p:outputLabel value="Inscripcion a Clases" />
             <br/>
-            
-            <p:calendar  pages="2"  mindate="#{now}" mode="inline"   beforeShowDay="tuesdaysAndFridaysDisabled" locale="es_ES" pattern="dd-MM-yyyy" value="#{alumnoBean.fechaNacimiento}" />
+            <p:calendar  pages="2"  mindate="#{now}" mode="inline"   beforeShowDay="tuesdaysAndFridaysDisabled" locale="es" pattern="dd-MM-yyyy" value="#{claseBean.fechaConsulta}" />
+            <br/>
+          
+              <p:dataTable id="tablaDisponiblidad" widgetVar="disponibilidadWidget" var="dis"
+                         value="#{claseBean.disponibilidadHora}"
+                         scrollable="true" scrollHeight="300" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                         emptyMessage="sin registros" >
 
-            
-            
-            
+                <f:facet name="header">
+                    Lista de Disponibilidad
+                </f:facet>
+
+                <p:column  headerText="Horario">
+                    <h:outputText value="#{dis.horario}" />
+                </p:column>
+                 <p:column  headerText="Disponible">
+                     <h:outputText value="#{dis.disponible}" />
+                </p:column>
+
+
+
+            </p:dataTable> 
+
+
+
+
+
+
             <script type="text/javascript">
                 //<![CDATA[
                 function tuesdaysAndFridaysDisabled(date)
                 {
-                  var day = date.getDay();
-                  return [(day != 0 && day != 0), '']
-                }     
+                    var day = date.getDay();
+                    return [(day != 0 && day != 0), '']
+                }
                 //]]>
             </script> 
-            
+
         </h:form>
     </ui:define>
 

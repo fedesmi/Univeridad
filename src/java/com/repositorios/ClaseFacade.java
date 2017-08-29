@@ -6,6 +6,8 @@
 package com.repositorios;
 
 import com.entidades.Clase;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +30,10 @@ public class ClaseFacade extends AbstractFacade<Clase> {
     public ClaseFacade() {
         super(Clase.class);
     }
-    
+      public List<Clase> getClasesByFecha(Date fecha) {  
+        return getEntityManager().createNamedQuery("Empleado.findByFecha").setParameter("fecha", fecha).getResultList();
+     
+    }
     
      
 }

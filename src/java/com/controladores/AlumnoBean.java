@@ -32,7 +32,7 @@ public class AlumnoBean implements Serializable {
     private String nombre;
     private String apellido;
     private int dni; 
-    private Date fechaNacimiento;
+    private Date fechaNacimiento ;
     
     
      private List<Alumno> alumnos;
