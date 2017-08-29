@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import com.clases.EmpleadoAgenda;
 import com.clases.AgendaHora;
 import com.entidades.Horario;
 import com.repositorios.ClaseFacade;
@@ -18,6 +17,7 @@ import com.repositorios.HorarioFacade;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 /**
  *
@@ -28,9 +28,12 @@ import javax.annotation.PostConstruct;
 public class ClaseBean implements Serializable {
 
     
+    @Inject
     private EmpleadoFacade empleadoFacade;
+     @Inject
     private HorarioFacade horarioFacade;
-    private ClaseFacade claseFacade;
+     @Inject
+     private ClaseFacade claseFacade;
     private Date fechaConsulta;
     private List<AgendaHora> disponibilidadHora;
 
@@ -43,7 +46,7 @@ public class ClaseBean implements Serializable {
      // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-        //setDisponibilidadHora(getDisponibilidadHorariaPorFecha());
+        setDisponibilidadHora(getDisponibilidadHorariaPorFecha());
 
     }
 
@@ -55,10 +58,14 @@ public class ClaseBean implements Serializable {
         if (fechaConsulta!=null) {
             //TRAER HORARIOS EN FECHA
             
-            List<Horario> horarios = horarioFacade.getHorariosByDiaSemana(fechaConsulta);
+            
             
             List<Horario> horariosOcupados = horarioFacade.getHorariosOcupados(fechaConsulta);
+            
+            List<Horario> horarios = horarioFacade.getHorariosByDiaSemana(new Date());
 
+
+           
             boolean disponible;
 
             for (Horario horario : horarios) {

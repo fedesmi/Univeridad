@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -64,9 +66,13 @@ public class Horario implements Serializable {
     @NotNull
     @Column(name = "dia_semana")
     private short diaSemana;
+    
     @OneToMany(mappedBy = "idHorario")
     private Collection<Clase> claseCollection;
 
+    
+
+    
     public Horario() {
     }
 

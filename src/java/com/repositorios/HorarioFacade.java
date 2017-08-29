@@ -37,7 +37,6 @@ public class HorarioFacade extends AbstractFacade<Horario> {
     public List<Horario> getHorariosByDiaSemana(Date fecha) {  
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
-        System.out.println("dia semana "+ Calendar.DAY_OF_WEEK);
         return getEntityManager().createNamedQuery("Horario.findByDiaSemana").setParameter("diaSemana", Calendar.DAY_OF_WEEK).getResultList();
      
     }
@@ -46,10 +45,10 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
         String consulta = "SELECT h.id  FROM Horario h "
-                + "LEFT JOIN clase c ON h.id=c.id_horario "
+                + "LEFT JOIN Clase c ON h.id=c.id_horario "
                 + "WHERE dia_semana = :diaSemana GROUP BY horario.id "
                 + "HAVING COUNT(horario.Id) = (SELECT COUNT(e.id) "
-                + "FROM empleado e "
+                + "FROM Empleado e "
                 + "WHERE e.fechaBaja  IS NULL  "
                 + "AND e.autorizo IS NOT NULL "
                 + "AND e.idtipoempleado = 3 ORDER BY e.legajo)";
