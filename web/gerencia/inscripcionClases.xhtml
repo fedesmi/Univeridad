@@ -7,16 +7,18 @@
     xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="source">
-        <h:form>
+        <h:form id="formInscripcion">
             <h:outputScript library="js" name="calendar_es.js"  />
 
             <p:outputLabel value="Inscripcion a Clases" />
             <br/>
-            <p:calendar  pages="2"  mindate="#{now}" mode="inline"   beforeShowDay="tuesdaysAndFridaysDisabled" locale="es" pattern="dd-MM-yyyy" value="#{claseBean.fechaConsulta}" />
+            <p:calendar  pages="2"  mindate="#{now}" mode="inline"  beforeShowDay="tuesdaysAndFridaysDisabled" locale="es" pattern="dd-MM-yyyy" value="#{claseBean.fechaConsulta}" >
+                <p:ajax event="dateSelect" listener="#{claseBean.actualizarDisponibilidad()}" update="formGer:formInscripcion:tablaDisponiblidad" />
+            </p:calendar>
             <br/>
           
             <p:dataTable id="tablaDisponiblidad" widgetVar="disponibilidadWidget" var="dis"
-                         value="#{claseBean.disponibilidadHora}"
+                         value="#{claseBean.disponibilidadHorariaPorFecha}"
                          scrollable="true" scrollHeight="300" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
                          emptyMessage="sin registros" >
 
@@ -28,7 +30,7 @@
                     <h:outputText value="#{dis.horario}" />
                 </p:column>
                  <p:column  headerText="Disponible">
-                     <h:outputText value="#{dis.disponible}" />
+                     <h:outputText value="#{dis.disponible?'SI':'NO'}" />
                 </p:column>
 
 

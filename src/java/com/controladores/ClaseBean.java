@@ -14,6 +14,7 @@ import com.entidades.Horario;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
 import com.repositorios.HorarioFacade;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
@@ -50,10 +51,16 @@ public class ClaseBean implements Serializable {
 
     }
 
-  
+    
+    public void actualizarDisponibilidad(){
+        setDisponibilidadHora(getDisponibilidadHorariaPorFecha());
+    }
+   
 
     public List<AgendaHora> getDisponibilidadHorariaPorFecha() {
         fechaConsulta = new Date();
+         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        
         List<AgendaHora> agendaHoraList = new ArrayList<>();
         if (fechaConsulta!=null) {
             //TRAER HORARIOS EN FECHA
@@ -62,20 +69,21 @@ public class ClaseBean implements Serializable {
             
             List<Horario> horariosOcupados = horarioFacade.getHorariosOcupados(fechaConsulta);
             
-            List<Horario> horarios = horarioFacade.getHorariosByDiaSemana(new Date());
+            List<Horario> horarios = horarioFacade.getHorariosByDiaSemana(fechaConsulta);
 
 
            
             boolean disponible;
 
             for (Horario horario : horarios) {
+                System.out.println(horario.getId());
                 if (horariosOcupados.contains(horario)) {
                     disponible = false;
                 } else {
                     disponible = true;
                 }
 
-                agendaHoraList.add(new AgendaHora(horario.getId(), horario.getInicio().toString() + "-" + horario.getFin().toString(), disponible));
+                agendaHoraList.add(new AgendaHora(horario.getId(), sdf.format(horario.getInicio())+ " - " + sdf.format(horario.getFin()), disponible));
             }
         }
         return agendaHoraList;
