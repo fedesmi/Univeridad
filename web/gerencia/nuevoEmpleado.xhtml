@@ -24,6 +24,9 @@
                     <f:selectItem itemLabel="Seleccionar..." itemValue="" />
                     <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.rol}" itemValue="#{templeado}"  />
                 </p:selectOneMenu>
+                <p:outputLabel value="Nombre Usuario"  />
+                <p:inputText value="#{empleadoBean.usuario.usuario}" />
+                
                 <br/>
                  <p:commandButton  ajax="false" value="Guardar Nuevo" actionListener="#{empleadoBean.guardar()}" />
                  

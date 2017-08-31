@@ -4,6 +4,7 @@ package com.controladores;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.entidades.Usuario;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import com.repositorios.*;
+import java.io.Serializable;
+import javax.inject.Inject;
 
 /**
  *
@@ -21,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean
 @SessionScoped
-public class Authorization {
+public class Authorization implements Serializable {
 
     private Usuario user;
     private String oldpass;
@@ -30,6 +34,9 @@ public class Authorization {
     private int legajo;
     private String userName;
     private String userPass;
+    
+    @Inject
+    private UsuarioFacade usuarioFacade;
 
     /**
      * Creates a new instance of auth
@@ -52,57 +59,17 @@ public class Authorization {
     }
 
     public String getNombreyApellido(String userVar) {
-        Usuario uv = getLoggedUserData(userVar);
-
-        return uv.getNombreYApellido();
+        return user.getIdEmpleado().getNombre()+" "+user.getIdEmpleado().getNombre();
     }
 
-    public Usuario getLoggedUserData(String userVar) {
-
-       
-            
-            Usuario usr = new Usuario();
-             try {
-            String sql;
-            ConexionBaseDatos connMysql = new ConexionBaseDatos();
-            sql = "SELECT e.nombre, e.apellido, e.legajo FROM empleado e, usuario u where usuario='" + userVar + "' and u.legajo=e.legajo";
-            java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
-            try {
-                while (resultado.next()) {
-                    usr.setNombre(resultado.getString(1));
-                    usr.setApellido(resultado.getString(2));
-                    usr.setUserName(userVar);
-                    usr.setLegajo(resultado.getInt(3));
-                }
-            } catch (java.sql.SQLException e) {
-                System.err.print(e);
-            }
-            sql = "SELECT rol FROM v_usuario_rol where usuario='" + userVar + "' ";
-            resultado = connMysql.ejecutarConsulta(sql);
-            try {
-                while (resultado.next()) {
-                    usr.setRol(resultado.getString(1));
-                }
-            } catch (java.sql.SQLException e) {
-                System.err.print(e);
-            }
-            connMysql.cerrarConexion();
-            
-           
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null,ex);
-        }
-        return usr;
-    }
-
+ 
     public void cambiarClave() {
         if (newpass.equals(newpass2)) {
             try {
                 String sql;
                 boolean passOk = false;
                 ConexionBaseDatos connMysql = new ConexionBaseDatos();
-                sql = "SELECT count(*) FROM usuario WHERE usuario.usuario='" + user.getUserName() + "' AND usuario.clave=sha2('" + oldpass + "',256) ";
+                sql = "SELECT count(*) FROM usuario WHERE usuario.usuario='" + user.getUsuario()+ "' AND usuario.clave=sha2('" + oldpass + "',256) ";
                 java.sql.ResultSet resultado = connMysql.ejecutarConsulta(sql);
                 try {
                     while (resultado.next()) {
@@ -112,7 +79,7 @@ public class Authorization {
                     System.err.print(e);
                 }
                 if (passOk) {
-                    sql = "UPDATE usuario SET clave=sha2('" + newpass + "',256) WHERE usuario.usuario='" + user.getUserName() + "' ";
+                    sql = "UPDATE usuario SET clave=sha2('" + newpass + "',256) WHERE usuario.usuario='" + user.getUsuario()+ "' ";
                     
                     connMysql.ejecutarUpDate(sql);
                     FacesContext context = FacesContext.getCurrentInstance();
@@ -196,13 +163,14 @@ public class Authorization {
 
         try {
             request.login(userName, userPass);
-            user = getLoggedUserData(getLoggedUser());
+            user = new Usuario();
+            user = this.usuarioFacade.getUsuario(getLoggedUser());
             String redireccion=externalContext.getRequestContextPath() + "/faces/";
-            if (user.getRol().equals("gerente")) {
+            if (user.getIdEmpleado().getIdTipoEmpleado().getRol().equals("gerente")) {
                 redireccion+="gerencia/gerenteIndex.xhtml";
-            } else if (user.getRol().equals("administrativo")) {
+            } else if (user.getIdEmpleado().getIdTipoEmpleado().getRol().equals("administrativo")) {
                 redireccion+="admin/administradorIndex.xhtml";
-            } else if (user.getRol().equals("instructor")) {
+            } else if (user.getIdEmpleado().getIdTipoEmpleado().getRol().equals("instructor")) {
                 redireccion+="instructor/instructorIndex.xhtml";
             }
 
@@ -253,5 +221,19 @@ public class Authorization {
      */
     public void setLegajo(int legajo) {
         this.legajo = legajo;
+    }
+
+    /**
+     * @return the usuarioFacade
+     */
+    public UsuarioFacade getUsuarioFacade() {
+        return usuarioFacade;
+    }
+
+    /**
+     * @param usuarioFacade the usuarioFacade to set
+     */
+    public void setUsuarioFacade(UsuarioFacade usuarioFacade) {
+        this.usuarioFacade = usuarioFacade;
     }
 }

@@ -50,13 +50,19 @@ public class EmpleadoBean implements Serializable {
     private String telefono;
     private Date fechaBaja;
     private Date fechaAlta;
+    private Usuario usuario = new Usuario();
     private TipoEmpleado tipoEmpleado;
     @Inject
     private EmpleadoFacade empleadoFacade;
     @Inject
+    private UsuarioFacade usuarioFacade;
+    @Inject
     private TipoEmpleadoFacade templeadoFacade;
     private List<Empleado> empleados;
     private List<Empleado> empleadosSinAutorizar;
+    
+    
+    
 
     private Empleado empleadoSeleccionado;
     
@@ -149,7 +155,12 @@ public class EmpleadoBean implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(EmpleadoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.empleadoFacade.create(e);
+        usuario.setClave("03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4");
+        usuario.setIdRol(tipoEmpleado);
+        usuario.setIdEmpleado(e);
+        
+        this.usuarioFacade.create(usuario);
+        //this.empleadoFacade.create(e);
 
         limpiarCampos();
 
@@ -227,6 +238,7 @@ public class EmpleadoBean implements Serializable {
         nombre = "";
         telefono="";
         tipoEmpleado = null;
+        usuario = null;
     }
 
     /**
@@ -325,6 +337,34 @@ public class EmpleadoBean implements Serializable {
         this.empleadoFacade.autorizarCambiosEmpleado(legajo, empleadoSeleccionado.getId().longValue());
         FacesMessage msg = new FacesMessage("Autorizacion ", "Se ha Autorizado el cambio");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * @return the usuarioFacade
+     */
+    public UsuarioFacade getUsuarioFacade() {
+        return usuarioFacade;
+    }
+
+    /**
+     * @param usuarioFacade the usuarioFacade to set
+     */
+    public void setUsuarioFacade(UsuarioFacade usuarioFacade) {
+        this.usuarioFacade = usuarioFacade;
     }
      
    

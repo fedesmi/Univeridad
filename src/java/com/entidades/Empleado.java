@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -83,7 +85,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Empleado implements Serializable {
 
-    @OneToMany(mappedBy = "idInstructor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
+    private Collection<Usuario> usuarioCollection;
+
+     @OneToMany(mappedBy = "idInstructor")
     private Collection<Clase> claseCollection;
 
     @OneToMany(mappedBy = "idEmpleado")
@@ -127,7 +132,7 @@ public class Empleado implements Serializable {
     @Column(name = "autorizo")
     private Integer autorizo;
     @JoinColumn(name = "idTipoEmpleado", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private TipoEmpleado idTipoEmpleado;
 
     public Empleado() {
@@ -268,6 +273,22 @@ public class Empleado implements Serializable {
     public void setClaseCollection(Collection<Clase> claseCollection) {
         this.claseCollection = claseCollection;
     }
+
+    
+
+
+  
+
+    @XmlTransient
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
+    }
+
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
+    }
+
+  
 
  
 
