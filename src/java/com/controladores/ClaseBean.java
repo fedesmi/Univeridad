@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import com.clases.AgendaHora;
+import com.clases.HorarioCompuesto;
 import com.entidades.Horario;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
@@ -35,8 +36,8 @@ public class ClaseBean implements Serializable {
     private HorarioFacade horarioFacade;
      @Inject
      private ClaseFacade claseFacade;
-    private Date fechaConsulta;
-    private List<AgendaHora> disponibilidadHora;
+    private Date fechaConsulta = new  Date();
+    private List<HorarioCompuesto> disponibilidadHora;
 
     /**
      * Creates a new instance of ClaseBean
@@ -56,27 +57,28 @@ public class ClaseBean implements Serializable {
         setDisponibilidadHora(getDisponibilidadHorariaPorFecha());
     }
    
-
+     public List<HorarioCompuesto> getDisponibilidadHorariaPorFecha() {
+      disponibilidadHora = new ArrayList<>();
+      disponibilidadHora = horarioFacade.getHorariosOcupados(fechaConsulta);
+      return disponibilidadHora;
+     }
+    
+            /*
     public List<AgendaHora> getDisponibilidadHorariaPorFecha() {
-        fechaConsulta = new Date();
-         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        
+       
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         List<AgendaHora> agendaHoraList = new ArrayList<>();
         if (fechaConsulta!=null) {
+            //TRAER HORARIOS OCUPADOS EN FECHA
+            List<HorarioCompuesto> horariosOcupados = horarioFacade.getHorariosOcupados(fechaConsulta);            
             //TRAER HORARIOS EN FECHA
-            
-            
-            
-            List<Horario> horariosOcupados = horarioFacade.getHorariosOcupados(fechaConsulta);
-            
             List<Horario> horarios = horarioFacade.getHorariosByDiaSemana(fechaConsulta);
-
 
            
             boolean disponible;
 
-            for (Horario horario : horarios) {
-                System.out.println(horario.getId());
+            //SE ARMA LISTA DE HORARIOS DISPONIBLES.
+            /*for (Horario horario : horarios) {
                 if (horariosOcupados.contains(horario)) {
                     disponible = false;
                 } else {
@@ -87,8 +89,7 @@ public class ClaseBean implements Serializable {
             }
         }
         return agendaHoraList;
-
-    }
+    }*/
 
     /**
      * @return the empleadoFacade
@@ -138,6 +139,13 @@ public class ClaseBean implements Serializable {
     public Date getFechaConsulta() {
         return fechaConsulta;
     }
+    /**
+     * @return the fechaConsulta
+     */
+    public String getFechaConsultaFormato() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(fechaConsulta);
+    }
 
     /**
      * @param fechaConsulta the fechaConsulta to set
@@ -149,15 +157,17 @@ public class ClaseBean implements Serializable {
     /**
      * @return the disponibilidadHora
      */
-    public List<AgendaHora> getDisponibilidadHora() {
+    public List<HorarioCompuesto> getDisponibilidadHora() {
         return disponibilidadHora;
     }
 
     /**
      * @param disponibilidadHora the disponibilidadHora to set
      */
-    public void setDisponibilidadHora(List<AgendaHora> disponibilidadHora) {
+    public void setDisponibilidadHora(List<HorarioCompuesto> disponibilidadHora) {
         this.disponibilidadHora = disponibilidadHora;
     }
+
+  
 
 }

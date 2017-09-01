@@ -60,7 +60,7 @@ public class ConexionBaseDatos {
             sentencia = conexion.createStatement(); //se crea una sentencia p ejecutar comandos sql y se asocia con conexion
            
             conectado=true;   
-            System.out.println("conecto con la BD");
+            //System.out.println("conecto con la BD");
         }catch( Exception e ) {            
              javax.swing.JOptionPane.showMessageDialog(null,"Error al conectar con la Base de Datos !\n"+e.getMessage(),"Mensaje !!!",javax.swing.JOptionPane.ERROR_MESSAGE);
             
@@ -72,7 +72,7 @@ public class ConexionBaseDatos {
     }
     
     public ResultSet ejecutarConsulta(String con){
-        System.out.println(con);
+        //System.out.println(con);
        ResultSet resultado2=null;
        
        try{
@@ -87,7 +87,7 @@ public class ConexionBaseDatos {
     
      public boolean ejecutarUpDate(String con){
          
-         System.out.println(con);
+        // System.out.println(con);
          boolean operacionOK=false;
        
        try{

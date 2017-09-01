@@ -14,6 +14,7 @@ public class AgendaHora {
     private int idHorario;
     private String horario;
     private boolean disponible;
+    
 
  
     

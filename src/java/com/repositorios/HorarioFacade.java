@@ -5,6 +5,7 @@
  */
 package com.repositorios;
 
+import com.clases.HorarioCompuesto;
 import com.controladores.Authorization;
 import com.controladores.ConexionBaseDatos;
 import com.entidades.Horario;
@@ -43,19 +44,19 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
         int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
-        
+
         return getEntityManager().createNamedQuery("Horario.findByDiaSemana").setParameter("diaSemana", diaSemana).getResultList();
 
     }
 
-    public List<Horario> getHorariosOcupados(Date fecha) {
+    public List<HorarioCompuesto> getHorariosOcupados(Date fecha) {
+        HorarioCompuesto horarioCompuesto;
         Horario horario;
-        List<Horario> horarios = new ArrayList<>();
+        List<HorarioCompuesto> horarios = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            String sql;
 
-            String consulta = "SELECT h.id, h.inicio, h.fin, h.dia_semana "
+           /* String consulta = "SELECT h.id, h.inicio, h.fin, h.dia_semana "
                     + "FROM horario AS h "
                     + "LEFT JOIN clase AS c ON h.id=c.id_horario "
                     + "WHERE c.fecha = '" + sdf.format(fecha) + "' "
@@ -67,7 +68,7 @@ public class HorarioFacade extends AbstractFacade<Horario> {
                     + "AND e.autorizo IS NOT NULL "
                     + "AND e.idtipoempleado = 3 "
                     + "ORDER BY e.legajo)";
-            
+
             ConexionBaseDatos connMysql = new ConexionBaseDatos();
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
             try {
@@ -77,8 +78,46 @@ public class HorarioFacade extends AbstractFacade<Horario> {
                     horario.setInicio(resultado.getDate(2));
                     horario.setFin(resultado.getDate(3));
                     horario.setDiaSemana(resultado.getShort(4));
-                    horarios.add(horario);
+                    horarioCompuesto = new HorarioCompuesto();
+                    horarioCompuesto.setHorario(horario);
+                    horarios.add(horarioCompuesto);
+                }*/
+                String consulta = "SELECT count(*) FROM empleado as e  "
+                        + "WHERE e.fechaBaja  IS NULL "
+                        + "AND e.autorizo IS NOT NULL "
+                        + "AND e.idtipoempleado = 3 "
+                        + "ORDER BY e.legajo";
+                int cantInstructores=0;
+                ConexionBaseDatos connMysql = new ConexionBaseDatos();
+                java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
+                try {
+                while (resultado.next()) {
+                      cantInstructores = resultado.getInt(1);
                 }
+                
+                consulta = "SELECT h.id, h.inicio, h.fin, h.dia_semana, COUNT(c.id) "
+                        + "FROM horario AS h "
+                        + "LEFT JOIN clase AS c ON h.id=c.id_horario "
+                        + "WHERE dia_semana = DAYOFWEEK('" + sdf.format(fecha) + "') "
+                        + "GROUP BY h.id; ";
+
+                
+              
+                resultado = connMysql.ejecutarConsulta(consulta);
+                
+                while (resultado.next()) {
+                    horario = new Horario();
+                    horario.setId(resultado.getInt(1));
+                    horario.setInicio(resultado.getDate(2));
+                    horario.setFin(resultado.getDate(3));
+                    horario.setDiaSemana(resultado.getShort(4));
+                    horarioCompuesto = new HorarioCompuesto();
+                    horarioCompuesto.setHorario(horario);
+                    horarioCompuesto.setCantidadOcupado(resultado.getInt(5));
+                    horarioCompuesto.setCantidadInstructores(cantInstructores);
+                    horarios.add(horarioCompuesto);
+                }
+
             } catch (java.sql.SQLException e) {
                 System.err.print(e);
             }
@@ -87,7 +126,7 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         } catch (IOException ex) {
             Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return horarios;
 
     }
