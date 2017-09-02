@@ -9,29 +9,31 @@
     <ui:define name="source">
         <h:form id="formInscripcion">
             <h:outputScript library="js" name="calendar_es.js"  />
-             <h:outputStylesheet library="css" name="cssweb.css" />
+            
 
             <p:outputLabel value="Inscripcion a Clases" />
             <br/>
             
-                <p:calendar style="font-size: 14px;"   pages="4"   mindate="#{now}" mode="inline"  beforeShowDay="tuesdaysAndFridaysDisabled" locale="es" pattern="dd-MM-yyyy" value="#{claseBean.fechaConsulta}" >
+
+            
+            <p:calendar style="font-size: 10px;"   pages="4"   mindate="#{now}" mode="inline"  beforeShowDay="tuesdaysAndFridaysDisabled" locale="es" pattern="dd-MM-yyyy" value="#{claseBean.fechaConsulta}" >
                 <p:ajax event="dateSelect" listener="#{claseBean.actualizarDisponibilidad()}" update="formGer:formInscripcion:tablaDisponiblidad" />
             </p:calendar>
-        
+
             <p:dataTable  id="tablaDisponiblidad" widgetVar="disponibilidadWidget" var="dis"
-                         value="#{claseBean.disponibilidadHorariaPorFecha}"
-                         style="border-style: solid; border-color: #dbdbdb; border-width: thin; font-size: 14px; text-align: center;"
-                         emptyMessage="sin registros"
-                         rowStyleClass="#{dis.cantidadInstructores>dis.cantidadOcupado?'highlightTableRowGreen':'highlightTableRow'}"
-                         >
+                          value="#{claseBean.disponibilidadHorariaPorFecha}"
+                          style="  border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 14px; color: darkgray; text-align: center;"
+                          emptyMessage="sin registros"
+                          
+                          >
 
                 <f:facet name="header">
-                    <p:outputLabel value="Lista de Disponibilidad #{claseBean.fechaConsultaFormato}" />
+                    <p:outputLabel value="#{claseBean.fechaConsultaFormato}" />
                 </f:facet>
 
                 <p:column  headerText="Hora inicio">
                     <h:outputText value="#{dis.horario.inicio}" >
-                      <f:convertDateTime pattern="HH:mm" />
+                        <f:convertDateTime pattern="HH:mm" />
                     </h:outputText>
                 </p:column>
                 <p:column  headerText="Hora fin">
@@ -39,18 +41,18 @@
                         <f:convertDateTime pattern="HH:mm" />
                     </h:outputText>
                 </p:column>
-                <p:column  headerText="Vacantes">
+                <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.cantidadInstructores-dis.cantidadOcupado>0?'highlightTableRowGreen':'highlightTableRow'}">
                     <h:outputText value="#{dis.cantidadInstructores-dis.cantidadOcupado}" />
                 </p:column>
 
-                <p:column  headerText="Inscribir">
-                    <p:commandButton icon="ui-icon-pencil" />
+                <p:column width="80px;" headerText="Inscribir">
+                    <p:commandButton style="font-weight: bold;" disabled="#{dis.cantidadInstructores-dis.cantidadOcupado==0}" icon="ui-icon-pencil" />
                 </p:column>
 
             </p:dataTable> 
 
 
-            
+
 
 
 
@@ -63,7 +65,7 @@
                 }
                 //]]>
             </script> 
-           </h:form> 
+        </h:form> 
     </ui:define>
 
 

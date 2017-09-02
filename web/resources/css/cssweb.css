@@ -72,7 +72,8 @@ vertical-align: top;
 }
 
 .highlightTableRowGreen{
-    background: #00ffcc;
+    background: #499F30;
+     color: white;
 }
 
 
@@ -105,6 +106,32 @@ vertical-align: top;
     
 }
 
+
+
+/*gerente*/
+
 .disable-scroll .ui-dialog-content {
   overflow: hidden !important;
+}
+.ui-widget-header {
+    
+    background: #03a4cc;
+    color: #FFFFFF;
+}
+.ui-panel {
+    padding: 0;
+}
+
+.ui-datatable-odd {
+background: none repeat scroll 0 0 #F2F5F9;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited{
+    color: #FFFFFF;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+    
+    background: #0475EA;
+    color: lightgray;
 }

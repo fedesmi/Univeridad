@@ -97,7 +97,7 @@ public class HorarioFacade extends AbstractFacade<Horario> {
                 
                 consulta = "SELECT h.id, h.inicio, h.fin, h.dia_semana, COUNT(c.id) "
                         + "FROM horario AS h "
-                        + "LEFT JOIN clase AS c ON h.id=c.id_horario "
+                        + "LEFT JOIN clase AS c ON h.id=c.id_horario AND '" + sdf.format(fecha) + "'=c.fecha "
                         + "WHERE dia_semana = DAYOFWEEK('" + sdf.format(fecha) + "') "
                         + "GROUP BY h.id; ";
 
