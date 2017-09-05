@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import com.clases.AgendaHora;
 import com.clases.HorarioCompuesto;
+import com.entidades.Alumno;
+import com.entidades.Empleado;
 import com.entidades.Horario;
+import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
 import com.repositorios.HorarioFacade;
@@ -32,12 +34,22 @@ public class ClaseBean implements Serializable {
     
     @Inject
     private EmpleadoFacade empleadoFacade;
+    @Inject
+    private AlumnoFacade alumnoFacade;
      @Inject
     private HorarioFacade horarioFacade;
      @Inject
-     private ClaseFacade claseFacade;
+    private ClaseFacade claseFacade;
     private Date fechaConsulta = new  Date();
     private List<HorarioCompuesto> disponibilidadHora;
+    
+    private HorarioCompuesto horarioSeleccionado;
+    private Horario horarioSelected;
+    
+    
+    private Empleado instructor;  
+    private Alumno alumno;
+    
 
     /**
      * Creates a new instance of ClaseBean
@@ -63,34 +75,7 @@ public class ClaseBean implements Serializable {
       return disponibilidadHora;
      }
     
-            /*
-    public List<AgendaHora> getDisponibilidadHorariaPorFecha() {
-       
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        List<AgendaHora> agendaHoraList = new ArrayList<>();
-        if (fechaConsulta!=null) {
-            //TRAER HORARIOS OCUPADOS EN FECHA
-            List<HorarioCompuesto> horariosOcupados = horarioFacade.getHorariosOcupados(fechaConsulta);            
-            //TRAER HORARIOS EN FECHA
-            List<Horario> horarios = horarioFacade.getHorariosByDiaSemana(fechaConsulta);
-
-           
-            boolean disponible;
-
-            //SE ARMA LISTA DE HORARIOS DISPONIBLES.
-            /*for (Horario horario : horarios) {
-                if (horariosOcupados.contains(horario)) {
-                    disponible = false;
-                } else {
-                    disponible = true;
-                }
-
-                agendaHoraList.add(new AgendaHora(horario.getId(), sdf.format(horario.getInicio())+ " - " + sdf.format(horario.getFin()), disponible));
-            }
-        }
-        return agendaHoraList;
-    }*/
-
+     
     /**
      * @return the empleadoFacade
      */
@@ -168,6 +153,91 @@ public class ClaseBean implements Serializable {
         this.disponibilidadHora = disponibilidadHora;
     }
 
-  
+    /**
+     * @return the horarioSeleccionado
+     */
+    public HorarioCompuesto getHorarioSeleccionado() {
+        return horarioSeleccionado;
+    }
 
+    /**
+     * @param horarioSeleccionado the horarioSeleccionado to set
+     */
+    public void setHorarioSeleccionado(HorarioCompuesto horarioSeleccionado) {
+        this.horarioSeleccionado = horarioSeleccionado;
+    }
+
+  
+  public List<Alumno> getAlumnos() {
+        return alumnoFacade.findAll();
+    }
+    
+    
+    public List<Empleado> getInstructores() {
+        return empleadoFacade.getInstructores();
+    }
+
+    /**
+     * @return the instructor
+     */
+    public Empleado getInstructor() {
+        return instructor;
+    }
+
+    /**
+     * @param instructor the instructor to set
+     */
+    public void setInstructor(Empleado instructor) {
+        this.instructor = instructor;
+    }
+
+    /**
+     * @return the alumno
+     */
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    /**
+     * @param alumno the alumno to set
+     */
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+    }
+
+    /**
+     * @return the alumnoFacade
+     */
+    public AlumnoFacade getAlumnoFacade() {
+        return alumnoFacade;
+    }
+
+    /**
+     * @param alumnoFacade the alumnoFacade to set
+     */
+    public void setAlumnoFacade(AlumnoFacade alumnoFacade) {
+        this.alumnoFacade = alumnoFacade;
+    }
+    
+    
+    public void crearClase(){
+        
+              
+        System.out.println("horario" + horarioSelected.getId());
+        //System.out.println("alu "+alumno.getApellido());   
+    }
+
+    /**
+     * @return the horarioSelected
+     */
+    public Horario getHorarioSelected() {
+        return horarioSelected;
+    }
+
+    /**
+     * @param horarioSelected the horarioSelected to set
+     */
+    public void setHorarioSelected(Horario horarioSelected) {
+        this.horarioSelected = horarioSelected;
+    }
 }

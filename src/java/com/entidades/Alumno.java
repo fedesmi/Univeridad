@@ -160,4 +160,6 @@ public class Alumno implements Serializable {
         return "com.entidades.Alumno[ id=" + id + " ]";
     }
     
+    
+    
 }
