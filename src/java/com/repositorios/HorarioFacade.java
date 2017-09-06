@@ -56,32 +56,6 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
 
-           /* String consulta = "SELECT h.id, h.inicio, h.fin, h.dia_semana "
-                    + "FROM horario AS h "
-                    + "LEFT JOIN clase AS c ON h.id=c.id_horario "
-                    + "WHERE c.fecha = '" + sdf.format(fecha) + "' "
-                    + "GROUP BY h.id "
-                    + "HAVING COUNT(h.Id) = "
-                    + "(SELECT COUNT(*) "
-                    + "FROM empleado AS e "
-                    + "WHERE e.fechaBaja  IS NULL "
-                    + "AND e.autorizo IS NOT NULL "
-                    + "AND e.idtipoempleado = 3 "
-                    + "ORDER BY e.legajo)";
-
-            ConexionBaseDatos connMysql = new ConexionBaseDatos();
-            java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
-            try {
-                while (resultado.next()) {
-                    horario = new Horario();
-                    horario.setId(resultado.getInt(1));
-                    horario.setInicio(resultado.getDate(2));
-                    horario.setFin(resultado.getDate(3));
-                    horario.setDiaSemana(resultado.getShort(4));
-                    horarioCompuesto = new HorarioCompuesto();
-                    horarioCompuesto.setHorario(horario);
-                    horarios.add(horarioCompuesto);
-                }*/
                 String consulta = "SELECT count(*) FROM empleado as e  "
                         + "WHERE e.fechaBaja  IS NULL "
                         + "AND e.autorizo IS NOT NULL "

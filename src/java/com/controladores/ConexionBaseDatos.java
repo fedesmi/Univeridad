@@ -72,7 +72,7 @@ public class ConexionBaseDatos {
     }
     
     public ResultSet ejecutarConsulta(String con){
-       //System.out.println(con);
+       System.out.println(con);
        ResultSet resultado2=null;
        
        try{

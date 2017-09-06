@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import com.clases.HorarioCompuesto;
 import com.entidades.Alumno;
+import com.entidades.Clase;
 import com.entidades.Empleado;
 import com.entidades.Horario;
 import com.repositorios.AlumnoFacade;
@@ -21,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -47,8 +50,13 @@ public class ClaseBean implements Serializable {
     private Horario horarioSelected;
     
     
+    private List<Empleado> instructoresLibres;
+    
+    
     private Empleado instructor;  
     private Alumno alumno;
+    
+    
     
 
     /**
@@ -173,8 +181,9 @@ public class ClaseBean implements Serializable {
     }
     
     
-    public List<Empleado> getInstructores() {
-        return empleadoFacade.getInstructores();
+    public void obtenerInstructoresLibresDB() {
+        System.out.println("pase por aca");
+        instructoresLibres = empleadoFacade.getInstructoresLibres(fechaConsulta, horarioSeleccionado.getHorario());
     }
 
     /**
@@ -221,10 +230,15 @@ public class ClaseBean implements Serializable {
     
     
     public void crearClase(){
+        Clase clase = new Clase();
+        clase.setIdHorario(horarioSeleccionado.getHorario());
+        clase.setIdAlumno(alumno);
+        clase.setIdInstructor(instructor);
+        clase.setFecha(new Date());
+        claseFacade.create(clase);
         
-              
-        System.out.println("horario" + horarioSelected.getId());
-        //System.out.println("alu "+alumno.getApellido());   
+         FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La clase fue dada de alta Exitosamente"));
     }
 
     /**
@@ -239,5 +253,19 @@ public class ClaseBean implements Serializable {
      */
     public void setHorarioSelected(Horario horarioSelected) {
         this.horarioSelected = horarioSelected;
+    }
+
+    /**
+     * @return the instructoresLibres
+     */
+    public List<Empleado> getInstructoresLibres() {
+        return instructoresLibres;
+    }
+
+    /**
+     * @param instructoresLibres the instructoresLibres to set
+     */
+    public void setInstructoresLibres(List<Empleado> instructoresLibres) {
+        this.instructoresLibres = instructoresLibres;
     }
 }

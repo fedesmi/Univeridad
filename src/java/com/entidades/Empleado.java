@@ -80,6 +80,8 @@ import javax.xml.bind.annotation.XmlTransient;
             + "AND m.autorizo IS NOT NULL "
             + "AND m.idTipoEmpleado.rol =:instructor "
             + "ORDER BY m.legajo ")
+        
+       
 })
 
 
