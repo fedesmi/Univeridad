@@ -6,14 +6,17 @@
     template="gerenteIndex.xhtml"
     xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="source">
-        <h:form id="formInscripcion">
+    <ui:define name="source"    >
+        <h:form id="formInscripcion" >
             <h:outputScript library="js" name="calendar_es.js"  />
             <p:growl id="msgs" showDetail="true" />
 
             <p:outputLabel value="Inscripcion a Clases" />
             <br/>
-
+            
+            <f:metadata>
+                <f:viewAction action="#{claseBean.onload()}" />
+            </f:metadata>
 
 
             <p:calendar style="font-size: 10px;"   pages="4"   mindate="#{now}" mode="inline"  beforeShowDay="domingoDisabled" locale="es" pattern="dd-MM-yyyy" value="#{claseBean.fechaConsulta}" >
@@ -21,9 +24,9 @@
             </p:calendar>
 
             <p:dataTable  id="tablaDisponiblidad" widgetVar="disponibilidadWidget" var="dis" 
-                          value="#{claseBean.disponibilidadHorariaPorFecha}" selectionMode="single" selection="#{claseBean.horarioSeleccionado}" rowKey="#{dis.horario.id}"
+                          value="#{claseBean.disponibilidadHorariaPorFecha}" 
                           style="border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 14px; color: darkgray; text-align: center;"
-                          emptyMessage="sin registros">
+                          emptyMessage="sin registros" >
 
 
                 <f:facet name="header">
@@ -32,17 +35,10 @@
                             <p:column >
                                 <p:outputLabel style="color: white; font-size: 15px;" value="#{claseBean.fechaConsultaFormato}" />
                             </p:column>
-                            <p:column>
-                                <div style="text-align: right;">
-                                    <p:commandButton id="botonInscribir" style="font-weight: bold;" update="formGer:formInscripcion:tablaDisponiblidad"  disabled="#{claseBean.horarioSeleccionado.cantidadInstructores-claseBean.horarioSeleccionado.cantidadOcupado==0}" value="Inscribir" icon="ui-icon-pencil"    oncomplete="PF('inscribirW').show();" />
-                                </div>
-                            </p:column>
+                            
                         </p:row>  
                     </p:panelGrid>
                 </f:facet>
-                <p:ajax event="rowSelect" listener="#{claseBean.obtenerInstructoresLibresDB()}"  update=":formGer:formInscripcion:tablaDisponiblidad:botonInscribir" />
-
-
 
                 <p:column  headerText="Hora inicio">
                     <h:outputText value="#{dis.horario.inicio}" >
@@ -54,14 +50,15 @@
                         <f:convertDateTime pattern="HH:mm" />
                     </h:outputText>
                 </p:column>
-                <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.cantidadInstructores-dis.cantidadOcupado>0?'highlightTableRowGreen':'highlightTableRow'}">
-                    <h:outputText value="#{dis.cantidadInstructores-dis.cantidadOcupado}" />
+                <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.instructoresDispoinibles.size()>0?'highlightTableRowGreen':'highlightTableRow'}">
+                    <h:outputText value="#{dis.instructoresDispoinibles.size()}" />
                 </p:column>
 
-
-
-
-
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos" disabled="#{dis.instructoresDispoinibles.size()==0}" oncomplete="PF('inscribirW').show()" icon="ui-icon-pencil" title="View">
+                        <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionado}" />
+                    </p:commandButton>
+                </p:column>
             </p:dataTable> 
 
 
@@ -69,22 +66,25 @@
                       resizable="false" height="170" width="400" style="font-size: 12px;">
                 <p:outputPanel id="inscribirAlumnos" >
 
-                    <p:outputLabel value="horario  #{claseBean.horarioSeleccionado.horario.id}" />
+                    
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
                         <p:outputLabel value="Elegir Instructor"  />
                         <p:selectOneMenu style="width:160px" value="#{claseBean.instructor}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter"> >
-                            <f:selectItems value="#{claseBean.instructoresLibres}" var="inst" itemLabel="#{inst.nombre} #{inst.apellido}" itemValue="#{inst}" />
+                            <f:selectItems value="#{claseBean.horarioSeleccionado.instructoresDispoinibles}" var="inst" itemLabel="#{inst.nombre} #{inst.apellido}" itemValue="#{inst}" />
                         </p:selectOneMenu>
                         <p:outputLabel value="Elegir Alumno"  />
                         <p:selectOneMenu style="width:160px" value="#{claseBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">>
-                            <f:selectItems value="#{claseBean.alumnos}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
+                            <f:selectItems value="#{claseBean.horarioSeleccionado.alumnosDisponibles}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div style="text-align: right;">
-                        <p:commandButton   ajax="false"  value="Guardar Clase" actionListener="#{claseBean.crearClase()}"   />
+                        
+                        <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Guardar Clase" actionListener="#{claseBean.crearClase}"   />
                     </div>
                 </p:outputPanel>
             </p:dialog>
+
+
 
 
             <script type="text/javascript">

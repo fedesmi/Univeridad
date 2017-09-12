@@ -8,12 +8,10 @@ package com.controladores;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import com.clases.HorarioCompuesto;
 import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Empleado;
-import com.entidades.Horario;
 import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
@@ -22,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -31,7 +30,7 @@ import javax.inject.Inject;
  * @author fmichel
  */
 @Named(value = "claseBean")
-@RequestScoped
+@SessionScoped
 public class ClaseBean implements Serializable {
 
     
@@ -47,12 +46,9 @@ public class ClaseBean implements Serializable {
     private List<HorarioCompuesto> disponibilidadHora;
     
     private HorarioCompuesto horarioSeleccionado;
-    private Horario horarioSelected;
     
     
-    private List<Empleado> instructoresLibres;
-    
-    
+      
     private Empleado instructor;  
     private Alumno alumno;
     
@@ -68,19 +64,26 @@ public class ClaseBean implements Serializable {
      // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-        setDisponibilidadHora(getDisponibilidadHorariaPorFecha());
-
+               
     }
 
+    public void onload() {
+        System.out.println("on load");
+        fechaConsulta=new Date();
+        actualizarDisponibilidad();
+        System.out.println("end onload");
+    }
     
     public void actualizarDisponibilidad(){
-        setDisponibilidadHora(getDisponibilidadHorariaPorFecha());
+       disponibilidadHora = new ArrayList<>();
+       disponibilidadHora = horarioFacade.getHorariosOcupados(fechaConsulta);
+        
     }
+    
+    
    
      public List<HorarioCompuesto> getDisponibilidadHorariaPorFecha() {
-      disponibilidadHora = new ArrayList<>();
-      disponibilidadHora = horarioFacade.getHorariosOcupados(fechaConsulta);
-      return disponibilidadHora;
+        return disponibilidadHora;
      }
     
      
@@ -173,18 +176,12 @@ public class ClaseBean implements Serializable {
      */
     public void setHorarioSeleccionado(HorarioCompuesto horarioSeleccionado) {
         this.horarioSeleccionado = horarioSeleccionado;
+       
     }
 
   
-  public List<Alumno> getAlumnos() {
-        return alumnoFacade.findAll();
-    }
     
-    
-    public void obtenerInstructoresLibresDB() {
-        System.out.println("pase por aca");
-        instructoresLibres = empleadoFacade.getInstructoresLibres(fechaConsulta, horarioSeleccionado.getHorario());
-    }
+   
 
     /**
      * @return the instructor
@@ -232,40 +229,16 @@ public class ClaseBean implements Serializable {
     public void crearClase(){
         Clase clase = new Clase();
         clase.setIdHorario(horarioSeleccionado.getHorario());
+        
         clase.setIdAlumno(alumno);
         clase.setIdInstructor(instructor);
-        clase.setFecha(new Date());
+        clase.setFecha(fechaConsulta);
         claseFacade.create(clase);
-        
+        actualizarDisponibilidad();
          FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La clase fue dada de alta Exitosamente"));
     }
 
-    /**
-     * @return the horarioSelected
-     */
-    public Horario getHorarioSelected() {
-        return horarioSelected;
-    }
+  
 
-    /**
-     * @param horarioSelected the horarioSelected to set
-     */
-    public void setHorarioSelected(Horario horarioSelected) {
-        this.horarioSelected = horarioSelected;
-    }
-
-    /**
-     * @return the instructoresLibres
-     */
-    public List<Empleado> getInstructoresLibres() {
-        return instructoresLibres;
-    }
-
-    /**
-     * @param instructoresLibres the instructoresLibres to set
-     */
-    public void setInstructoresLibres(List<Empleado> instructoresLibres) {
-        this.instructoresLibres = instructoresLibres;
-    }
 }

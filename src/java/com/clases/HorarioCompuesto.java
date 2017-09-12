@@ -5,7 +5,10 @@
  */
 package com.clases;
 
+import com.entidades.Alumno;
+import com.entidades.Empleado;
 import com.entidades.Horario;
+import java.util.List;
 
 /**
  *
@@ -14,8 +17,10 @@ import com.entidades.Horario;
 public class HorarioCompuesto {
     
     private Horario horario;
-    private int cantidadOcupado;
-    private int cantidadInstructores;
+    private List<Empleado> instructoresDispoinibles;
+    private List<Alumno> alumnosDisponibles;
+    
+    
 
     /**
      * @return the horario
@@ -31,32 +36,35 @@ public class HorarioCompuesto {
         this.horario = horario;
     }
 
+    
     /**
-     * @return the cantidadOcupado
+     * @return the instructoresDispoinibles
      */
-    public int getCantidadOcupado() {
-        return cantidadOcupado;
+    public List<Empleado> getInstructoresDispoinibles() {
+        return instructoresDispoinibles;
     }
 
     /**
-     * @param cantidadOcupado the cantidadOcupado to set
+     * @param instructoresDispoinibles the instructoresDispoinibles to set
      */
-    public void setCantidadOcupado(int cantidadOcupado) {
-        this.cantidadOcupado = cantidadOcupado;
+    public void setInstructoresDispoinibles(List<Empleado> instructoresDispoinibles) {
+        this.instructoresDispoinibles = instructoresDispoinibles;
     }
 
     /**
-     * @return the cantidadInstructores
+     * @return the alumnosDisponibles
      */
-    public int getCantidadInstructores() {
-        return cantidadInstructores;
+    public List<Alumno> getAlumnosDisponibles() {
+        return alumnosDisponibles;
     }
 
     /**
-     * @param cantidadInstructores the cantidadInstructores to set
+     * @param alumnosDisponibles the alumnosDisponibles to set
      */
-    public void setCantidadInstructores(int cantidadInstructores) {
-        this.cantidadInstructores = cantidadInstructores;
+    public void setAlumnosDisponibles(List<Alumno> alumnosDisponibles) {
+        this.alumnosDisponibles = alumnosDisponibles;
     }
+
+    
     
 }
