@@ -8,12 +8,28 @@
 
     <ui:define name="source"  id="defineClases">
         <h:form id="formClases">
+            
             <h:outputScript library="js" name="calendar_es.js"  />
             <p:growl id="msgs" showDetail="true" />
-            <p:outputLabel value="Alumnos" />
+            
+             <f:metadata>
+                 <f:viewAction action="#{clasesListBean.onload()}" />
+            </f:metadata>
+            
+            
+            <p:outputLabel value="Clases" />
 
             <br/>
-
+            <p:outputLabel value="Fecha: " for="calendario" />
+            <p:calendar id="calendario" style="font-size: 10px;" disabled="#{clasesListBean.todasLasClases}"  beforeShowDay="domingoDisabled" locale="es" pattern="dd-MM-yyyy" value="#{clasesListBean.fechaConsulta}" >
+                <p:ajax event="dateSelect"  oncomplete="PF('clasesWidget').filter()" listener="#{clasesListBean.actualizarListaClases()}" update=":formGer:formClases:tablaClases" />
+            </p:calendar>
+           
+             <h:outputText value="Todas las Clases " />
+             <p:selectBooleanCheckbox value="#{clasesListBean.todasLasClases}">
+                 <p:ajax  listener="#{clasesListBean.actualizarListaClases()}"  oncomplete="PF('clasesWidget').filter()"  update=":formGer:formClases:tablaClases,:formGer:formClases:calendario" />
+            </p:selectBooleanCheckbox>
+             
             <p:dataTable id="tablaClases" widgetVar="clasesWidget" var="clas"   value="#{clasesListBean.clases}" 
                          paginator="false" scrollable="true" scrollHeight="350" emptyMessage="sin registros"
                          style="height: 300px;">
@@ -49,6 +65,16 @@
 
             </p:dataTable>
 
+
+            <script type="text/javascript">
+                //<![CDATA[
+                function domingoDisabled(date)
+                {
+                    var day = date.getDay();
+                    return [(day != 0), '']
+                }
+                //]]>
+            </script> 
 
 
         </h:form>

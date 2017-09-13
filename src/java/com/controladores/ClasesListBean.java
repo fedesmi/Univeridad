@@ -7,10 +7,11 @@ package com.controladores;
 
 import com.entidades.Clase;
 import com.repositorios.ClaseFacade;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 /**
@@ -18,9 +19,13 @@ import javax.inject.Inject;
  * @author fmichel
  */
 @Named(value = "clasesListBean")
-@RequestScoped
-public class ClasesListBean {
+@SessionScoped 
+public class ClasesListBean implements Serializable {   
+    
+    
 private List<Clase> clases;
+private boolean todasLasClases;
+private Date fechaConsulta;
  @Inject
     private ClaseFacade claseFacade;
     /**
@@ -29,15 +34,21 @@ private List<Clase> clases;
     public ClasesListBean() {
     }
     
-    @PostConstruct
-    public void init() {
+    
+    public void onload() {
         actualizarListaClases();
                
     }
 
-    private void actualizarListaClases() {
-        clases = claseFacade.findAll();
+    public void actualizarListaClases() {
+         if(todasLasClases){
+            clases = claseFacade.findAll();
+        }else{
+            clases = claseFacade.getClasesByFecha(fechaConsulta);
+         }
     }
+    
+   
 
     /**
      * @return the clases
@@ -65,5 +76,33 @@ private List<Clase> clases;
      */
     public void setClaseFacade(ClaseFacade claseFacade) {
         this.claseFacade = claseFacade;
+    }
+
+    /**
+     * @return the fechaConsulta
+     */
+    public Date getFechaConsulta() {
+        return fechaConsulta;
+    }
+
+    /**
+     * @param fechaConsulta the fechaConsulta to set
+     */
+    public void setFechaConsulta(Date fechaConsulta) {
+        this.fechaConsulta = fechaConsulta;
+    }
+
+    /**
+     * @return the todasLasClases
+     */
+    public boolean isTodasLasClases() {
+        return todasLasClases;
+    }
+
+    /**
+     * @param todasLasClases the todasLasClases to set
+     */
+    public void setTodasLasClases(boolean todasLasClases) {
+        this.todasLasClases = todasLasClases;
     }
 }

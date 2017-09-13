@@ -31,7 +31,7 @@ public class ClaseFacade extends AbstractFacade<Clase> {
         super(Clase.class);
     }
       public List<Clase> getClasesByFecha(Date fecha) {  
-        return getEntityManager().createNamedQuery("Empleado.findByFecha").setParameter("fecha", fecha).getResultList();
+        return getEntityManager().createNamedQuery("Clase.findByFecha").setParameter("fecha", fecha).getResultList();
      
     }
     
