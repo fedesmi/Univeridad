@@ -30,6 +30,14 @@
                         <h:outputText value="#{emp.legajo}" />
                     </div>
                 </p:column>
+                <p:column  headerText="DNI" filterBy="#{emp.dni}"  filterMatchMode="contains">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>
                 <p:column  headerText="Nombre">
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
@@ -39,7 +47,7 @@
 
                     </div>
                 </p:column>
-                <p:column headerText="Apellido" >
+                <p:column headerText="Apellido" filterBy="#{emp.apellido}" filterMatchMode="contains" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
@@ -47,14 +55,7 @@
                         </p:cellEditor>
                     </div>
                 </p:column>
-                <p:column  headerText="DNI" >
-                    <div style="text-align: center; font-size: 12px;" >
-                        <p:cellEditor>
-                            <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
-                        </p:cellEditor>
-                    </div>
-                </p:column>
+                
                 <p:column  headerText="Telefono" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>

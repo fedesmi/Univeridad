@@ -25,12 +25,12 @@
                 <p:ajax event="rowEdit" listener="#{alumnoBean.onRowEdit}" update="formGer:formAlumnos:msgs" oncomplete="PF('alumnosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
                 <p:ajax event="rowEditCancel" listener="#{alumnoBean.onRowCancel}" update="formGer:formAlumnos:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
-                <p:column   headerText="DNI" style="text-align: center;" >
+                <p:column   headerText="DNI" style="text-align: center;" filterBy="#{alu.dni}" filterMatchMode="contains" >
                     <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{alu.dni}" />
                     </div>
                 </p:column>
-                <p:column  headerText="Nombre">
+                <p:column  headerText="Nombre" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{alu.nombre}" /></f:facet>
@@ -39,7 +39,7 @@
 
                     </div>
                 </p:column>
-                <p:column headerText="Apellido" >
+                <p:column headerText="Apellido" sortBy="#{alu.apellido}" filterBy="#{alu.apellido}" filterMatchMode="contains" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
                             <f:facet name="output"> <h:outputText value="#{alu.apellido}" /></f:facet>
