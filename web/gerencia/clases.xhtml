@@ -39,26 +39,26 @@
                 </f:facet>
 
 
-                <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" >
-                    <h:outputText value="#{clas.fecha}" >
+                <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
+                    <h:outputText value="#{clas.fecha}" > 
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
                 </p:column>
-                <p:column   headerText="Inicio" style="text-align: center;" sortBy="#{clas.idHorario.inicio}" >
+                <p:column   headerText="Inicio" style="text-align: center;" sortBy="#{clas.idHorario.inicio}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}" >
                     <h:outputText value="#{clas.idHorario.inicio}" >
                         <f:convertDateTime pattern="HH:mm" />
                     </h:outputText>
                 </p:column>
-                <p:column   headerText="Fin" style="text-align: center;" >
+                <p:column   headerText="Fin" style="text-align: center;" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
                     <h:outputText value="#{clas.idHorario.fin}" >
                         <f:convertDateTime pattern="HH:mm" />
                     </h:outputText>
                 </p:column>
-                <p:column   headerText="Alumno" style="text-align: center;"   filterBy="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}"  filterMatchMode="contains" >
+                <p:column   headerText="Alumno" style="text-align: center;"   filterBy="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}" >
                     <h:outputText value="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}" />
                 </p:column>
 
-                <p:column   headerText="Instructor" style="text-align: center;" filterBy="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}"  filterMatchMode="contains" >
+                <p:column   headerText="Instructor" style="text-align: center;" filterBy="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}">
                     <h:outputText value="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}" />
                 </p:column>
 

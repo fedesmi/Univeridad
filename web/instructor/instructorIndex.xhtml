@@ -12,13 +12,14 @@
     <h:body style="min-width: 400px;">
         <h:form id="formIns">
             <p:growl id="messages" showDetail="true" />
+            <h:outputStylesheet library="css" name="cssweb.css" />
 
             <ui:include src="../banner.xhtml" />
 
 
-            <p:panel header="Instructor - Panel de Control" style="min-width: 1050px; min-height: 400px;" >
+            <p:panel header="Instructor - Panel de Control" style="min-width: 1050px; min-height: 550px;" >
 
-                <p:layout style="min-width:400px;min-height:400px;"  >
+                <p:layout style="min-width:400px;min-height:550px;"  >
                     <p:layoutUnit position="west" resizable="false" size="215" collapsible="true" >
                         <p:panelMenu style="width:200px; font-size: 12px;">
                             <p:submenu label="Alumnos">

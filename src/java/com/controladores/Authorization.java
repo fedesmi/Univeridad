@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
@@ -23,8 +23,8 @@ import javax.inject.Inject;
  *
  * @author FMichel
  */
-@ManagedBean
 @SessionScoped
+@Named(value = "authorization")
 public class Authorization implements Serializable {
 
     private Usuario user;

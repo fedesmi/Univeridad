@@ -6,6 +6,7 @@
 package com.repositorios;
 
 import com.entidades.Clase;
+import com.entidades.Empleado;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -21,7 +22,7 @@ public class ClaseFacade extends AbstractFacade<Clase> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -30,10 +31,15 @@ public class ClaseFacade extends AbstractFacade<Clase> {
     public ClaseFacade() {
         super(Clase.class);
     }
-      public List<Clase> getClasesByFecha(Date fecha) {  
+
+    public List<Clase> getClasesByFecha(Date fecha) {
         return getEntityManager().createNamedQuery("Clase.findByFecha").setParameter("fecha", fecha).getResultList();
-     
+
     }
-    
-     
+
+    public List<Clase> getClasesByInstructor(Empleado instructor) {
+        return getEntityManager().createNamedQuery("Clase.findByIdInstructor").setParameter("instructor", instructor).getResultList();
+
+    }
+
 }

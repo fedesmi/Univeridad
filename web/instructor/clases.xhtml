@@ -10,36 +10,30 @@
         <h:form id="formClases">
             
             <h:outputScript library="js" name="calendar_es.js"  />
+            
             <p:growl id="msgs" showDetail="true" />
             
              <f:metadata>
-                 <f:viewAction action="#{clasesListBean.onload()}" />
+                 <f:viewAction action="#{clasesListInstructorBean.onload()}" />
             </f:metadata>
             
             
             <p:outputLabel value="Clases" />
 
             <br/>
-            <p:outputLabel value="Fecha: " for="calendario" />
-            <p:calendar id="calendario" style="font-size: 10px;" disabled="#{clasesListBean.todasLasClases}"  beforeShowDay="domingoDisabled" locale="es" pattern="dd-MM-yyyy" value="#{clasesListBean.fechaConsulta}" >
-                <p:ajax event="dateSelect"  oncomplete="PF('clasesWidget').filter()" listener="#{clasesListBean.actualizarListaClases()}" update=":formIns:formClases:tablaClases" />
-            </p:calendar>
-           
-             <h:outputText value="Todas las Clases " />
-             <p:selectBooleanCheckbox value="#{clasesListBean.todasLasClases}">
-                 <p:ajax  listener="#{clasesListBean.actualizarListaClases()}"  oncomplete="PF('clasesWidget').filter()"  update=":formIns:formClases:tablaClases,:formIns:formClases:calendario" />
-            </p:selectBooleanCheckbox>
+            
              
-            <p:dataTable id="tablaClases" widgetVar="clasesWidget" var="clas"   value="#{clasesListBean.clasesInstructor}" 
+            <p:dataTable id="tablaClases" widgetVar="clasesWidget" var="clas"   value="#{clasesListInstructorBean.clases}" 
                          paginator="false" scrollable="true" scrollHeight="350" emptyMessage="sin registros"
-                         style="height: 300px;" >
+                         style="height: 300px;" 
+                         >
 
                 <f:facet name="header">
                     Lista de Clases
                 </f:facet>
 
 
-                <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" >
+                <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':'highlightTableRowGreen'}"  >
                     <h:outputText value="#{clas.fecha}" >
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
@@ -58,23 +52,11 @@
                     <h:outputText value="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}" />
                 </p:column>
 
-                <p:column   headerText="Instructor" style="text-align: center;" filterBy="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}"  filterMatchMode="contains" >
-                    <h:outputText value="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}" />
-                </p:column>
-
-
+               
             </p:dataTable>
 
 
-            <script type="text/javascript">
-                //<![CDATA[
-                function domingoDisabled(date)
-                {
-                    var day = date.getDay();
-                    return [(day != 0), '']
-                }
-                //]]>
-            </script> 
+            
 
 
         </h:form>
