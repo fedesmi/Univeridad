@@ -73,7 +73,9 @@
                         
 
                         <p:column   headerText="fecha" style="text-align: center;"  >
-                            <h:outputText value="#{eva.fecha}" />
+                            <h:outputText value="#{eva.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </p:column>
 
                         <p:column   headerText="instructor" style="text-align: center;"  >
@@ -92,7 +94,7 @@
 
                 <p:outputPanel id="detailEdit" >
                     <p:outputLabel value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
-
+                    
                     
 
                 </p:outputPanel>
