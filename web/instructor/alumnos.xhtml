@@ -1,0 +1,106 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="instructorIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="defineClases">
+        <h:form id="formClases">
+
+            <h:outputScript library="js" name="calendar_es.js"  />
+
+            <p:growl id="msgs" showDetail="true" />
+
+            <f:metadata>
+                <f:viewAction action="#{clasesListInstructorBean.onloadAlumnos()}" />
+            </f:metadata>
+
+
+            <p:outputLabel value="Clases" />
+
+            <br/>
+
+
+            <p:dataTable id="tablaAlumnos" widgetVar="alumnosWidget" var="alu"   value="#{clasesListInstructorBean.alumnos}" 
+                         paginator="false" scrollable="true" scrollHeight="350" emptyMessage="sin registros"
+                         style="height: 300px;" 
+                         >
+
+                <f:facet name="header">
+                    Lista de Clases
+                </f:facet>
+                
+                <p:column   headerText="Nombre" style="text-align: center;"   filterBy="#{alu.nombre}"  filterMatchMode="contains" >
+                    <h:outputText value="#{alu.nombre}" />
+                </p:column>
+
+                <p:column   headerText="Apellido" style="text-align: center;"   filterBy="#{alu.apellido}"  filterMatchMode="contains" >
+                    <h:outputText value="#{alu.apellido}" />
+                </p:column>
+                <p:column   headerText="DNI" style="text-align: center;"   filterBy="#{alu.dni}"  filterMatchMode="contains" >
+                    <h:outputText value="#{alu.dni}" />
+                </p:column>
+                
+
+                <p:column style="width:100px"  headerText="Evaluacion">
+                    <p:commandButton icon="ui-icon-search" ajax="true" action="#{evaluacionesBean.actualizarListaEvaluaciones(alu)}" update="formIns:formClases:detail" oncomplete="PF('dlgEvaluaciones').show();">
+                        <f:setPropertyActionListener value="#{alu}"  target="#{clasesListInstructorBean.alumnoSeleccionado}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-plus" ajax="true" action="#{evaluacionesBean.actualizarListaEvaluaciones(alu)}" update="formIns:formClases:detailEdit" oncomplete="PF('dlgEvaluacionesEdit').show();">
+                        <f:setPropertyActionListener value="#{alu}"  target="#{clasesListInstructorBean.alumnoSeleccionado}" />
+                    </p:commandButton>
+                </p:column>
+               
+
+            </p:dataTable>
+
+            <p:dialog header="Evaluaciones"  
+                      widgetVar="dlgEvaluaciones" modal="false" resizable="false" height="300" width="850" style="font-size: 12px;">
+
+                <p:outputPanel id="detail" >
+                    <p:outputLabel value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
+
+                    <p:dataTable id="tablaEvaluaciones" widgetVar="evaluacionWidget" var="eva"   value="#{evaluacionesBean.evaluaciones}" 
+                                 paginator="false" scrollable="true" scrollHeight="220" emptyMessage="sin registros"
+                                 style="height: 250px;" 
+                                 >
+
+                        <f:facet name="header">
+                            Evaluaciones / Observaciones
+                        </f:facet>
+                        
+
+                        <p:column   headerText="fecha" style="text-align: center;"  >
+                            <h:outputText value="#{eva.fecha}" />
+                        </p:column>
+
+                        <p:column   headerText="instructor" style="text-align: center;"  >
+                            <h:outputText value="#{eva.idInstructor.nombre} #{eva.idInstructor.apellido}" />
+                        </p:column>
+                        <p:column   headerText="desc" style="text-align: center;"  >
+                            <h:outputText value="#{eva.descripcion}" title="#{eva.descripcion}" />
+                        </p:column>
+                       </p:dataTable>
+
+                </p:outputPanel>
+            </p:dialog>
+
+            <p:dialog header="Evaluaciones"  
+                      widgetVar="dlgEvaluacionesEdit" modal="false" resizable="false" height="300" width="850" style="font-size: 12px;">
+
+                <p:outputPanel id="detailEdit" >
+                    <p:outputLabel value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
+
+                    
+
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

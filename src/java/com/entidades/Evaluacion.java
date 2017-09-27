@@ -21,6 +21,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,21 +31,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Cacheable(false)
-@Table(name = "clase")
+@Table(name = "evaluacion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Clase.findAll", query = "SELECT c FROM Clase c ORDER BY c.fecha DESC")
-    , @NamedQuery(name = "Clase.findById", query = "SELECT c FROM Clase c WHERE c.id = :id")
-    , @NamedQuery(name = "Clase.findByFecha", query = "SELECT c FROM Clase c WHERE c.fecha = :fecha")
-    , @NamedQuery(name = "Clase.findByIdInstructor", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor ORDER BY c.fecha DESC")
-   , @NamedQuery(name = "Clase.findAlumnosByIdInstructor", query = "SELECT c.idAlumno FROM Clase c WHERE c.idInstructor = :instructor GROUP BY c.idAlumno")
-   
-})
-public class Clase implements Serializable {
+    @NamedQuery(name = "Evaluacion.findAll", query = "SELECT e FROM Evaluacion e")
+    , @NamedQuery(name = "Evaluacion.findById", query = "SELECT e FROM Evaluacion e WHERE e.id = :id")
+    , @NamedQuery(name = "Evaluacion.findByFecha", query = "SELECT e FROM Evaluacion e WHERE e.fecha = :fecha")
+    , @NamedQuery(name = "Evaluacion.findByDescripcion", query = "SELECT e FROM Evaluacion e WHERE e.descripcion = :descripcion")
+    , @NamedQuery(name = "Evaluacion.findByIdAlumno", query = "SELECT e FROM Evaluacion e WHERE e.idAlumno = :alumno")
 
-    @JoinColumn(name = "id_horario", referencedColumnName = "id")
-    @ManyToOne
-    private Horario idHorario;
+})
+public class Evaluacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,21 +49,31 @@ public class Clase implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
+    @Size(max = 255)
+    @Column(name = "descripcion")
+    private String descripcion;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Alumno idAlumno;
     @JoinColumn(name = "id_instructor", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Empleado idInstructor;
 
-    public Clase() {
+    public Evaluacion() {
     }
 
-    public Clase(Integer id) {
+    public Evaluacion(Integer id) {
         this.id = id;
+    }
+
+    public Evaluacion(Integer id, Date fecha) {
+        this.id = id;
+        this.fecha = fecha;
     }
 
     public Integer getId() {
@@ -84,7 +92,13 @@ public class Clase implements Serializable {
         this.fecha = fecha;
     }
 
-   
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public Alumno getIdAlumno() {
         return idAlumno;
@@ -112,10 +126,10 @@ public class Clase implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Clase)) {
+        if (!(object instanceof Evaluacion)) {
             return false;
         }
-        Clase other = (Clase) object;
+        Evaluacion other = (Evaluacion) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,15 +138,7 @@ public class Clase implements Serializable {
 
     @Override
     public String toString() {
-        return "com.entidades.Clase[ id=" + id + " ]";
-    }
-
-    public Horario getIdHorario() {
-        return idHorario;
-    }
-
-    public void setIdHorario(Horario idHorario) {
-        this.idHorario = idHorario;
+        return "com.entidades.Evaluacion[ id=" + id + " ]";
     }
     
 }

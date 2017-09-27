@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumno.findByApellido", query = "SELECT a FROM Alumno a WHERE a.apellido = :apellido")
     , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")})
 public class Alumno implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAlumno")
+    private Collection<Evaluacion> evaluacionCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -158,6 +162,15 @@ public class Alumno implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Alumno[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Evaluacion> getEvaluacionCollection() {
+        return evaluacionCollection;
+    }
+
+    public void setEvaluacionCollection(Collection<Evaluacion> evaluacionCollection) {
+        this.evaluacionCollection = evaluacionCollection;
     }
     
     

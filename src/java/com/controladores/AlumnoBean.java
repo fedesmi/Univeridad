@@ -11,19 +11,18 @@ import com.repositorios.*;
 import com.entidades.*;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.event.RowEditEvent;
+import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author fmichel
  */
 @Named(value = "alumnoBean")
-@RequestScoped
+@SessionScoped
 public class AlumnoBean implements Serializable {
 
     private Alumno alumnoVar;
@@ -33,6 +32,8 @@ public class AlumnoBean implements Serializable {
     private String apellido;
     private int dni; 
     private Date fechaNacimiento ;
+    
+   
     
     
      private List<Alumno> alumnos;
@@ -44,11 +45,10 @@ public class AlumnoBean implements Serializable {
     
     
      // This is the required method to get the datatable list.
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         alumnos = getAlumnosDB();
-
-    }
+    }*/
 
     /**
      * @return the alumnoVar
@@ -56,7 +56,17 @@ public class AlumnoBean implements Serializable {
     public Alumno getAlumnoVar() {
         return alumnoVar;
     }
+    
+    public void onload() {
+        alumnos = getAlumnosDB();
+               
+    }
 
+     public void onloadInstructor() {
+        alumnos = getAlumnosDB();
+               
+    }
+    
     /**
      * @param alumnoVar the alumnoVar to set
      */
@@ -173,7 +183,7 @@ public class AlumnoBean implements Serializable {
         
     }
     
-    
+   
      public void onRowEdit(RowEditEvent event)  {
         Alumno alumnoLocalVar = (Alumno) event.getObject();
         this.alumnoFacade.edit(alumnoLocalVar);

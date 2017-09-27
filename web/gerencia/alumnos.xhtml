@@ -10,6 +10,9 @@
         <h:form id="formAlumnos">
              <h:outputScript library="js" name="calendar_es.js"  />
             <p:growl id="msgs" showDetail="true" />
+              <f:metadata>
+                  <f:viewAction action="#{alumnoBean.onload()}" />
+            </f:metadata>
             <p:outputLabel value="Alumnos" />
 
             <br/>

@@ -38,7 +38,6 @@
                     Lista de Clases
                 </f:facet>
 
-
                 <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
                     <h:outputText value="#{clas.fecha}" > 
                         <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -61,8 +60,6 @@
                 <p:column   headerText="Instructor" style="text-align: center;" filterBy="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}">
                     <h:outputText value="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}" />
                 </p:column>
-
-
             </p:dataTable>
 
 

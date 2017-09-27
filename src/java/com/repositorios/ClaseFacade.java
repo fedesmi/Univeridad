@@ -5,6 +5,7 @@
  */
 package com.repositorios;
 
+import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Empleado;
 import java.util.Date;
@@ -41,5 +42,12 @@ public class ClaseFacade extends AbstractFacade<Clase> {
         return getEntityManager().createNamedQuery("Clase.findByIdInstructor").setParameter("instructor", instructor).getResultList();
 
     }
+    
+    public List<Alumno> getAlumnosByInstructor(Empleado instructor) {
+        return getEntityManager().createNamedQuery("Clase.findAlumnosByIdInstructor").setParameter("instructor", instructor).getResultList();
+
+    }
+    
+    
 
 }
