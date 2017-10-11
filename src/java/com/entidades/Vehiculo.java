@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vehiculo.findByPatente", query = "SELECT v FROM Vehiculo v WHERE v.patente = :patente")
     , @NamedQuery(name = "Vehiculo.findByMarca", query = "SELECT v FROM Vehiculo v WHERE v.marca = :marca")
     , @NamedQuery(name = "Vehiculo.findByModelo", query = "SELECT v FROM Vehiculo v WHERE v.modelo = :modelo")
+    , @NamedQuery(name = "Vehiculo.findByEmpleado", query = "SELECT v FROM Vehiculo v WHERE v.idEmpleado = :empleado")
     , @NamedQuery(name = "Vehiculo.findByNumeroChasis", query = "SELECT v FROM Vehiculo v WHERE v.numeroChasis = :numeroChasis")
     , @NamedQuery(name = "Vehiculo.findByNumeroMotor", query = "SELECT v FROM Vehiculo v WHERE v.numeroMotor = :numeroMotor")
     , @NamedQuery(name = "Vehiculo.asignarEmpleado", query = "UPDATE Vehiculo v SET v.idEmpleado = :empleadoPar WHERE v.id = :id")

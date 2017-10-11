@@ -118,4 +118,5 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
          return (int) getEntityManager().createNamedQuery("Empleado.ultimoLegajo").getSingleResult();
     }
     
+   
 }

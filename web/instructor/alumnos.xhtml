@@ -101,7 +101,7 @@
                     <p:inputTextarea rows="5" cols="55" value="#{clasesListInstructorBean.evaluacion}" />
                     <br/><br/>
                     <div style="text-align: right;">
-                        <p:commandButton value="Guardar" actionListener="" />
+                        <p:commandButton ajax="false"  value="Guardar" actionListener="#{clasesListInstructorBean.guardarEvaluacion()}" />
                     </div>
                 </p:outputPanel>
             </p:dialog>

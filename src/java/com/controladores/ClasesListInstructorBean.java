@@ -12,11 +12,13 @@ import com.entidades.Usuario;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EvaluacionFacade;
 import com.repositorios.UsuarioFacade;
+import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -36,6 +38,8 @@ public class ClasesListInstructorBean implements Serializable {
     private UsuarioFacade usuarioFacade;
     @Inject
     private EvaluacionFacade evaluacionFacade;
+    @Inject
+    private VehiculoFacade vehiculoFacade;
     
     private Alumno alumnoSeleccionado;
     
@@ -134,8 +138,17 @@ public class ClasesListInstructorBean implements Serializable {
         evaluacionVar.setDescripcion(evaluacion);
         evaluacionVar.setFecha(new Date());
         evaluacionVar.setIdAlumno(alumnoSeleccionado);
-        //evaluacionVar.setIdInstructor();
+        
+        
+        String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        Usuario usuario = usuarioFacade.getUsuario(nombreUsuario);
+        
+        evaluacionVar.setIdInstructor(usuario.getIdEmpleado());
         evaluacionFacade.create(evaluacionVar);
+        evaluacion = "";
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La evaluación fue registrada exitosamente"));
     }
 
     /**
@@ -152,4 +165,21 @@ public class ClasesListInstructorBean implements Serializable {
         this.evaluacionFacade = evaluacionFacade;
     }
 
+    /**
+     * @return the vehiculoFacade
+     */
+    public VehiculoFacade getVehiculoFacade() {
+        return vehiculoFacade;
+    }
+
+    /**
+     * @param vehiculoFacade the vehiculoFacade to set
+     */
+    public void setVehiculoFacade(VehiculoFacade vehiculoFacade) {
+        this.vehiculoFacade = vehiculoFacade;
+    }
+
+    
+    
+    
 }
