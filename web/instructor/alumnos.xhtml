@@ -60,7 +60,9 @@
                       widgetVar="dlgEvaluaciones" modal="false" resizable="false" height="300" width="850" style="font-size: 12px;">
 
                 <p:outputPanel id="detail" >
-                    <p:outputLabel value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
+                    <p:outputLabel  value="Alumno: " />
+                    <p:outputLabel style="font-weight: bold;" value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
+                    <br/><br/>
 
                     <p:dataTable id="tablaEvaluaciones" widgetVar="evaluacionWidget" var="eva"   value="#{evaluacionesBean.evaluaciones}" 
                                  paginator="false" scrollable="true" scrollHeight="220" emptyMessage="sin registros"
@@ -72,16 +74,16 @@
                         </f:facet>
                         
 
-                        <p:column   headerText="fecha" style="text-align: center;"  >
+                        <p:column   headerText="Fecha" style="text-align: center;"  >
                             <h:outputText value="#{eva.fecha}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
 
-                        <p:column   headerText="instructor" style="text-align: center;"  >
+                        <p:column   headerText="Instructor" style="text-align: center;"  >
                             <h:outputText value="#{eva.idInstructor.nombre} #{eva.idInstructor.apellido}" />
                         </p:column>
-                        <p:column   headerText="desc" style="text-align: center;"  >
+                        <p:column   headerText="Descripción" style="text-align: center;"  >
                             <h:outputText value="#{eva.descripcion}" title="#{eva.descripcion}" />
                         </p:column>
                        </p:dataTable>
@@ -90,13 +92,17 @@
             </p:dialog>
 
             <p:dialog header="Evaluaciones"  
-                      widgetVar="dlgEvaluacionesEdit" modal="false" resizable="false" height="300" width="850" style="font-size: 12px;">
+                      widgetVar="dlgEvaluacionesEdit" modal="false" resizable="false" height="160" width="420" style="font-size: 12px;">
 
                 <p:outputPanel id="detailEdit" >
-                    <p:outputLabel value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
-                    
-                    
-
+                    <p:outputLabel  value="Alumno: " />
+                    <p:outputLabel style="font-weight: bold;" value="#{clasesListInstructorBean.alumnoSeleccionado.nombre} #{clasesListInstructorBean.alumnoSeleccionado.apellido}" />
+                    <br/><br/>
+                    <p:inputTextarea rows="5" cols="55" value="#{clasesListInstructorBean.evaluacion}" />
+                    <br/><br/>
+                    <div style="text-align: right;">
+                        <p:commandButton value="Guardar" actionListener="" />
+                    </div>
                 </p:outputPanel>
             </p:dialog>
 

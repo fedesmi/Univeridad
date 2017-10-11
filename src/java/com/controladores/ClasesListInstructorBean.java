@@ -7,10 +7,13 @@ package com.controladores;
 
 import com.entidades.Alumno;
 import com.entidades.Clase;
+import com.entidades.Evaluacion;
 import com.entidades.Usuario;
 import com.repositorios.ClaseFacade;
+import com.repositorios.EvaluacionFacade;
 import com.repositorios.UsuarioFacade;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -31,9 +34,12 @@ public class ClasesListInstructorBean implements Serializable {
     private ClaseFacade claseFacade;
     @Inject
     private UsuarioFacade usuarioFacade;
+    @Inject
+    private EvaluacionFacade evaluacionFacade;
     
     private Alumno alumnoSeleccionado;
-
+    
+    private String evaluacion;
     /**
      * Creates a new instance of ClasesListInstructorBean
      */
@@ -106,6 +112,44 @@ public class ClasesListInstructorBean implements Serializable {
      */
     public void setAlumnoSeleccionado(Alumno alumnoSeleccionado) {
         this.alumnoSeleccionado = alumnoSeleccionado;
+    }
+
+    /**
+     * @return the Evaluacion
+     */
+    public String getEvaluacion() {
+        return evaluacion;
+    }
+
+    /**
+     * @param evaluacion the Evaluacion to set
+     */
+    public void setEvaluacion(String evaluacion) {
+        this.evaluacion = evaluacion;
+    }
+    
+    
+    public void guardarEvaluacion(){
+        Evaluacion evaluacionVar = new Evaluacion();
+        evaluacionVar.setDescripcion(evaluacion);
+        evaluacionVar.setFecha(new Date());
+        evaluacionVar.setIdAlumno(alumnoSeleccionado);
+        //evaluacionVar.setIdInstructor();
+        evaluacionFacade.create(evaluacionVar);
+    }
+
+    /**
+     * @return the evaluacionFacade
+     */
+    public EvaluacionFacade getEvaluacionFacade() {
+        return evaluacionFacade;
+    }
+
+    /**
+     * @param evaluacionFacade the evaluacionFacade to set
+     */
+    public void setEvaluacionFacade(EvaluacionFacade evaluacionFacade) {
+        this.evaluacionFacade = evaluacionFacade;
     }
 
 }
