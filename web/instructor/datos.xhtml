@@ -9,17 +9,41 @@
     <ui:define name="source"  id="defineDatos">
         <h:form id="formDatos">
 
-          <p:outputLabel value="Informacion Personal"  />
-          <p:panelGrid columns="2">
-              <p:outputLabel value="Nombre"  />
-               <p:outputLabel value=""  />
-              <p:outputLabel value="Apellido"  />
-               <p:outputLabel value=""  />
-              <p:outputLabel value="Vehiculo"  />
-              <p:outputLabel value=""  />
-              
-              
-          </p:panelGrid>
+            <p:growl id="msgs" showDetail="true" />
+
+            <f:metadata>
+                <f:viewAction action="#{clasesListInstructorBean.onLoadDatosPersonales()}" />
+            </f:metadata>
+
+            <p:outputLabel value="Informacion Personal"  />
+            
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Nombre "  />
+                <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.nombre}"  />
+                <p:outputLabel value="Apellido "  />
+                <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.apellido}"  />
+                <p:outputLabel value="Telefono "  />
+                <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.telefono}"  />
+                <p:outputLabel value="Fecha de Ingreso "  />
+                <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.fechaAlta}">
+                     <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:outputLabel> 
+            </p:panelGrid>
+            <br/><br/>
+            <p:outputLabel value="Vehiculo Asignado "  />
+                <br/>
+            <p:panelGrid columns="2">
+                
+                <p:outputLabel value="Marca "  />
+                <p:outputLabel value="#{clasesListInstructorBean.vehiculoVar.marca}"  />
+                <p:outputLabel value="Modelo "  />
+                <p:outputLabel value="#{clasesListInstructorBean.vehiculoVar.modelo}"  />
+                <p:outputLabel value="Patente "  />
+                <p:outputLabel value="#{clasesListInstructorBean.vehiculoVar.patente}"  />
+                <p:outputLabel value="Año "  />
+                <p:outputLabel value="#{clasesListInstructorBean.vehiculoVar.year}"  />
+
+            </p:panelGrid>
         </h:form>
     </ui:define>
 

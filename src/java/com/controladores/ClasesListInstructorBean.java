@@ -9,6 +9,7 @@ import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Evaluacion;
 import com.entidades.Usuario;
+import com.entidades.Vehiculo;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EvaluacionFacade;
 import com.repositorios.UsuarioFacade;
@@ -44,6 +45,11 @@ public class ClasesListInstructorBean implements Serializable {
     private Alumno alumnoSeleccionado;
     
     private String evaluacion;
+    
+    private Usuario usuarioVar;
+    private Vehiculo vehiculoVar;
+    
+    
     /**
      * Creates a new instance of ClasesListInstructorBean
      */
@@ -56,6 +62,13 @@ public class ClasesListInstructorBean implements Serializable {
 
     public void onloadAlumnos() {
         actualizarListaAlumnos();
+    }
+    
+     public void onLoadDatosPersonales() {
+         String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+         usuarioVar = usuarioFacade.getUsuario(nombreUsuario);
+         vehiculoVar = vehiculoFacade.buscarVehiculoPorEmpleado(usuarioVar.getIdEmpleado());
+        
     }
 
     public void actualizarListaClases() {
@@ -177,6 +190,34 @@ public class ClasesListInstructorBean implements Serializable {
      */
     public void setVehiculoFacade(VehiculoFacade vehiculoFacade) {
         this.vehiculoFacade = vehiculoFacade;
+    }
+
+    /**
+     * @return the usuarioVar
+     */
+    public Usuario getUsuarioVar() {
+        return usuarioVar;
+    }
+
+    /**
+     * @param usuarioVar the usuarioVar to set
+     */
+    public void setUsuarioVar(Usuario usuarioVar) {
+        this.usuarioVar = usuarioVar;
+    }
+
+    /**
+     * @return the vehiculoVar
+     */
+    public Vehiculo getVehiculoVar() {
+        return vehiculoVar;
+    }
+
+    /**
+     * @param vehiculoVar the vehiculoVar to set
+     */
+    public void setVehiculoVar(Vehiculo vehiculoVar) {
+        this.vehiculoVar = vehiculoVar;
     }
 
     
