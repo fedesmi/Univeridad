@@ -6,10 +6,8 @@
 package com.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,31 +22,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fmichel
+ * @author Usuario
  */
 @Entity
-@Cacheable(false)
-@Table(name = "solicitud_reparacion")
+@Table(name = "alquiler_vehiculo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SolicitudReparacion.findAll", query = "SELECT s FROM SolicitudReparacion s")
-    , @NamedQuery(name = "SolicitudReparacion.findById", query = "SELECT s FROM SolicitudReparacion s WHERE s.id = :id")
-    , @NamedQuery(name = "SolicitudReparacion.findByFecha", query = "SELECT s FROM SolicitudReparacion s WHERE s.fecha = :fecha")
-    , @NamedQuery(name = "SolicitudReparacion.findByAutorizado", query = "SELECT s FROM SolicitudReparacion s WHERE s.autorizado = :autorizado")})
-public class SolicitudReparacion implements Serializable {
-
-    @Column(name = "autorizado")
-    private Integer autorizado;
-    @JoinColumn(name = "id_egreso", referencedColumnName = "id")
-    @ManyToOne
-    private Egreso idEgreso;
-
-
-    
+    @NamedQuery(name = "AlquilerVehiculo.findAll", query = "SELECT a FROM AlquilerVehiculo a")
+    , @NamedQuery(name = "AlquilerVehiculo.findById", query = "SELECT a FROM AlquilerVehiculo a WHERE a.id = :id")
+    , @NamedQuery(name = "AlquilerVehiculo.findByFecha", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha")})
+public class AlquilerVehiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,19 +47,23 @@ public class SolicitudReparacion implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-   
+    @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Ingreso idIngreso;
+    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Vehiculo idVehiculo;
 
-    public SolicitudReparacion() {
+    public AlquilerVehiculo() {
     }
 
-    public SolicitudReparacion(Integer id) {
+    public AlquilerVehiculo(Integer id) {
         this.id = id;
     }
 
-    public SolicitudReparacion(Integer id, Date fecha, int autorizado) {
+    public AlquilerVehiculo(Integer id, Date fecha) {
         this.id = id;
         this.fecha = fecha;
-        this.autorizado = autorizado;
     }
 
     public Integer getId() {
@@ -92,8 +82,21 @@ public class SolicitudReparacion implements Serializable {
         this.fecha = fecha;
     }
 
+    public Ingreso getIdIngreso() {
+        return idIngreso;
+    }
 
-   
+    public void setIdIngreso(Ingreso idIngreso) {
+        this.idIngreso = idIngreso;
+    }
+
+    public Vehiculo getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(Vehiculo idVehiculo) {
+        this.idVehiculo = idVehiculo;
+    }
 
     @Override
     public int hashCode() {
@@ -105,10 +108,10 @@ public class SolicitudReparacion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SolicitudReparacion)) {
+        if (!(object instanceof AlquilerVehiculo)) {
             return false;
         }
-        SolicitudReparacion other = (SolicitudReparacion) object;
+        AlquilerVehiculo other = (AlquilerVehiculo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,29 +120,7 @@ public class SolicitudReparacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.entidades.SolicitudReparacion[ id=" + id + " ]";
+        return "com.entidades.AlquilerVehiculo[ id=" + id + " ]";
     }
-
-    public Integer getAutorizado() {
-        return autorizado;
-    }
-
-    public void setAutorizado(Integer autorizado) {
-        this.autorizado = autorizado;
-    }
-
-    public Egreso getIdEgreso() {
-        return idEgreso;
-    }
-
-    public void setIdEgreso(Egreso idEgreso) {
-        this.idEgreso = idEgreso;
-    }
-
-    
-
-
-
-   
     
 }

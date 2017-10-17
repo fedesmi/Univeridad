@@ -12,10 +12,12 @@ import com.clases.HorarioCompuesto;
 import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Empleado;
+import com.entidades.ListaEsperaClase;
 import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
 import com.repositorios.HorarioFacade;
+import com.repositorios.ListaEsperaClaseFacade;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,60 +35,61 @@ import javax.inject.Inject;
 @SessionScoped
 public class ClaseBean implements Serializable {
 
-    
     @Inject
     private EmpleadoFacade empleadoFacade;
     @Inject
     private AlumnoFacade alumnoFacade;
-     @Inject
+    @Inject
     private HorarioFacade horarioFacade;
-     @Inject
+    @Inject
     private ClaseFacade claseFacade;
-    private Date fechaConsulta = new  Date();
+    @Inject
+    private ListaEsperaClaseFacade listaEsperaClaseFacade;
+
+    private Date fechaConsulta = new Date();
     private List<HorarioCompuesto> disponibilidadHora;
-    
+    private List<Alumno> alumnos;
     private HorarioCompuesto horarioSeleccionado;
-    
-    
-      
-    private Empleado instructor;  
+
+    private HorarioCompuesto horarioSeleccionadoEspera;
+
+    private Empleado instructor;
     private Alumno alumno;
-    
-    
-    
+     private Alumno alumnoEspera;
 
     /**
      * Creates a new instance of ClaseBean
      */
     public ClaseBean() {
     }
-    
-     // This is the required method to get the datatable list.
+
+    // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-               
+
     }
 
     public void onload() {
-        System.out.println("on load");
-        fechaConsulta=new Date();
+
+        fechaConsulta = new Date();
         actualizarDisponibilidad();
-        System.out.println("end onload");
+
     }
-    
-    public void actualizarDisponibilidad(){
-       disponibilidadHora = new ArrayList<>();
-       disponibilidadHora = horarioFacade.getHorariosOcupados(fechaConsulta);
-        
+
+    public void actualizarDisponibilidad() {
+        disponibilidadHora = new ArrayList<>();
+        disponibilidadHora = horarioFacade.getHorariosOcupados(fechaConsulta);
+        buscarListaAlumnos();
     }
-    
-    
-   
-     public List<HorarioCompuesto> getDisponibilidadHorariaPorFecha() {
+
+    public void buscarListaAlumnos() {
+        alumnos = alumnoFacade.findAll();
+    }
+
+    public List<HorarioCompuesto> getDisponibilidadHorariaPorFecha() {
         return disponibilidadHora;
-     }
-    
-     
+    }
+
     /**
      * @return the empleadoFacade
      */
@@ -135,6 +138,7 @@ public class ClaseBean implements Serializable {
     public Date getFechaConsulta() {
         return fechaConsulta;
     }
+
     /**
      * @return the fechaConsulta
      */
@@ -176,12 +180,8 @@ public class ClaseBean implements Serializable {
      */
     public void setHorarioSeleccionado(HorarioCompuesto horarioSeleccionado) {
         this.horarioSeleccionado = horarioSeleccionado;
-       
-    }
 
-  
-    
-   
+    }
 
     /**
      * @return the instructor
@@ -224,21 +224,88 @@ public class ClaseBean implements Serializable {
     public void setAlumnoFacade(AlumnoFacade alumnoFacade) {
         this.alumnoFacade = alumnoFacade;
     }
+
+    public void crearClaseEspera(){
+        ListaEsperaClase espera = new ListaEsperaClase();
+        espera.setIdHorario(horarioSeleccionadoEspera.getHorario());
+        espera.setIdAlumno(alumnoEspera);
+        espera.setFechaClase(fechaConsulta);
+        espera.setFechaInscripcion(new Date());
+        
+        listaEsperaClaseFacade.create(espera);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se agrego al alumno a la lista de espera"));
+        
+    }
     
     
-    public void crearClase(){
+    public void crearClase() {
         Clase clase = new Clase();
         clase.setIdHorario(horarioSeleccionado.getHorario());
-        
+
         clase.setIdAlumno(alumno);
         clase.setIdInstructor(instructor);
         clase.setFecha(fechaConsulta);
         claseFacade.create(clase);
         actualizarDisponibilidad();
-         FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La clase fue dada de alta Exitosamente"));
     }
 
-  
+    /**
+     * @return the listaEsperaClaseFacade
+     */
+    public ListaEsperaClaseFacade getListaEsperaClaseFacade() {
+        return listaEsperaClaseFacade;
+    }
+
+    /**
+     * @param listaEsperaClaseFacade the listaEsperaClaseFacade to set
+     */
+    public void setListaEsperaClaseFacade(ListaEsperaClaseFacade listaEsperaClaseFacade) {
+        this.listaEsperaClaseFacade = listaEsperaClaseFacade;
+    }
+
+    /**
+     * @return the alumnos
+     */
+    public List<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    /**
+     * @param alumnos the alumnos to set
+     */
+    public void setAlumnos(List<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+
+    /**
+     * @return the horarioSeleccionadoEspera
+     */
+    public HorarioCompuesto getHorarioSeleccionadoEspera() {
+        return horarioSeleccionadoEspera;
+    }
+
+    /**
+     * @param horarioSeleccionadoEspera the horarioSeleccionadoEspera to set
+     */
+    public void setHorarioSeleccionadoEspera(HorarioCompuesto horarioSeleccionadoEspera) {
+        this.horarioSeleccionadoEspera = horarioSeleccionadoEspera;
+    }
+
+    /**
+     * @return the alumnoEspera
+     */
+    public Alumno getAlumnoEspera() {
+        return alumnoEspera;
+    }
+
+    /**
+     * @param alumnoEspera the alumnoEspera to set
+     */
+    public void setAlumnoEspera(Alumno alumnoEspera) {
+        this.alumnoEspera = alumnoEspera;
+    }
 
 }

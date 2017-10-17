@@ -44,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")})
 public class Alumno implements Serializable {
 
+    @OneToMany(mappedBy = "idAlumno")
+    private Collection<ListaEsperaClase> listaEsperaClaseCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAlumno")
     private Collection<Evaluacion> evaluacionCollection;
 
@@ -171,6 +174,15 @@ public class Alumno implements Serializable {
 
     public void setEvaluacionCollection(Collection<Evaluacion> evaluacionCollection) {
         this.evaluacionCollection = evaluacionCollection;
+    }
+
+    @XmlTransient
+    public Collection<ListaEsperaClase> getListaEsperaClaseCollection() {
+        return listaEsperaClaseCollection;
+    }
+
+    public void setListaEsperaClaseCollection(Collection<ListaEsperaClase> listaEsperaClaseCollection) {
+        this.listaEsperaClaseCollection = listaEsperaClaseCollection;
     }
     
     

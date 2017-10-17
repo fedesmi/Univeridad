@@ -15,9 +15,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,31 +25,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fmichel
+ * @author Usuario
  */
 @Entity
 @Cacheable(false)
-@Table(name = "clase")
+@Table(name = "lista_espera_clase")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Clase.findAll", query = "SELECT c FROM Clase c ORDER BY c.fecha DESC")
-    , @NamedQuery(name = "Clase.findById", query = "SELECT c FROM Clase c WHERE c.id = :id")
-    , @NamedQuery(name = "Clase.findByFecha", query = "SELECT c FROM Clase c WHERE c.fecha = :fecha")
-    , @NamedQuery(name = "Clase.findByIdInstructor", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor ORDER BY c.fecha DESC")
-   , @NamedQuery(name = "Clase.findAlumnosByIdInstructor", query = "SELECT c.idAlumno FROM Clase c WHERE c.idInstructor = :instructor GROUP BY c.idAlumno")
-   
+    @NamedQuery(name = "ListaEsperaClase.findAll", query = "SELECT l FROM ListaEsperaClase l")
+    , @NamedQuery(name = "ListaEsperaClase.findById", query = "SELECT l FROM ListaEsperaClase l WHERE l.id = :id")
+    , @NamedQuery(name = "ListaEsperaClase.findByFechaInscripcion", query = "SELECT l FROM ListaEsperaClase l WHERE l.fechaInscripcion = :fechaInscripcion")
+    , @NamedQuery(name = "ListaEsperaClase.findByHorario", query = "SELECT l FROM ListaEsperaClase l WHERE l.idHorario = :horarioVar AND l.fechaClase = :fechaClase ")
+    , @NamedQuery(name = "ListaEsperaClase.findByFechaClase", query = "SELECT l FROM ListaEsperaClase l WHERE l.fechaClase = :fechaClase")
+
 })
-public class Clase implements Serializable {
-
- 
-
-    @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
-    @ManyToOne
-    private Ingreso idIngreso;
-
-    @JoinColumn(name = "id_horario", referencedColumnName = "id")
-    @ManyToOne
-    private Horario idHorario;
+public class ListaEsperaClase implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,20 +47,25 @@ public class Clase implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "fecha")
+    @Column(name = "fecha_inscripcion")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private Date fechaInscripcion;
+    @Column(name = "fecha_clase")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaClase;
+    
     @JoinColumn(name = "id_alumno", referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne
     private Alumno idAlumno;
-    @JoinColumn(name = "id_instructor", referencedColumnName = "id")
-    @ManyToOne
-    private Empleado idInstructor;
+    
+    @JoinColumn(name = "id_horario", referencedColumnName = "id")
+    @OneToOne
+    private Horario idHorario;
 
-    public Clase() {
+    public ListaEsperaClase() {
     }
 
-    public Clase(Integer id) {
+    public ListaEsperaClase(Integer id) {
         this.id = id;
     }
 
@@ -82,15 +77,21 @@ public class Clase implements Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaInscripcion() {
+        return fechaInscripcion;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaInscripcion(Date fechaInscripcion) {
+        this.fechaInscripcion = fechaInscripcion;
     }
 
-   
+    public Date getFechaClase() {
+        return fechaClase;
+    }
+
+    public void setFechaClase(Date fechaClase) {
+        this.fechaClase = fechaClase;
+    }
 
     public Alumno getIdAlumno() {
         return idAlumno;
@@ -100,12 +101,12 @@ public class Clase implements Serializable {
         this.idAlumno = idAlumno;
     }
 
-    public Empleado getIdInstructor() {
-        return idInstructor;
+    public Horario getIdHorario() {
+        return idHorario;
     }
 
-    public void setIdInstructor(Empleado idInstructor) {
-        this.idInstructor = idInstructor;
+    public void setIdHorario(Horario idHorario) {
+        this.idHorario = idHorario;
     }
 
     @Override
@@ -118,10 +119,10 @@ public class Clase implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Clase)) {
+        if (!(object instanceof ListaEsperaClase)) {
             return false;
         }
-        Clase other = (Clase) object;
+        ListaEsperaClase other = (ListaEsperaClase) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -130,23 +131,7 @@ public class Clase implements Serializable {
 
     @Override
     public String toString() {
-        return "com.entidades.Clase[ id=" + id + " ]";
+        return "com.entidades.ListaEsperaClase[ id=" + id + " ]";
     }
-
-    public Horario getIdHorario() {
-        return idHorario;
-    }
-
-    public void setIdHorario(Horario idHorario) {
-        this.idHorario = idHorario;
-    }
-
-    public Ingreso getIdIngreso() {
-        return idIngreso;
-    }
-
-    public void setIdIngreso(Ingreso idIngreso) {
-        this.idIngreso = idIngreso;
-    }
-
+    
 }

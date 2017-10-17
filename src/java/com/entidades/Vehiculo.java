@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vehiculo.findByYear", query = "SELECT v FROM Vehiculo v WHERE v.year = :year")
     , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")})
 public class Vehiculo implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
+    private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
+  
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -215,5 +220,16 @@ public class Vehiculo implements Serializable {
     public String toString() {
         return "com.entidades.Vehiculo[ id=" + id + " ]";
     }
+
+    @XmlTransient
+    public Collection<AlquilerVehiculo> getAlquilerVehiculoCollection() {
+        return alquilerVehiculoCollection;
+    }
+
+    public void setAlquilerVehiculoCollection(Collection<AlquilerVehiculo> alquilerVehiculoCollection) {
+        this.alquilerVehiculoCollection = alquilerVehiculoCollection;
+    }
+
+  
     
 }

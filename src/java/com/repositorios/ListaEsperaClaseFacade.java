@@ -5,7 +5,9 @@
  */
 package com.repositorios;
 
-import com.entidades.Usuario;
+import com.entidades.Horario;
+import com.entidades.ListaEsperaClase;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author fmichel
  */
 @Stateless
-public class UsuarioFacade extends AbstractFacade<Usuario> {
+public class ListaEsperaClaseFacade extends AbstractFacade<ListaEsperaClase> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
@@ -25,13 +27,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return em;
     }
 
-    public UsuarioFacade() {
-        super(Usuario.class);
+    public ListaEsperaClaseFacade() {
+        super(ListaEsperaClase.class);
     }
     
     
-       public Usuario getUsuario(String usuario) {  
-        return (Usuario) getEntityManager().createNamedQuery("Usuario.findByUsuario").setParameter("usuario", usuario).getSingleResult();
+       public <List>ListaEsperaClase getListaInscriptosClase(Horario horario, Date fechaClase) {  
+        return (ListaEsperaClase)getEntityManager().createNamedQuery("ListaEsperaClase.findByHorario").setParameter("horarioVar", horario).setParameter("fechaClase", fechaClase).getResultList();
      
     }
         

@@ -48,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Horario implements Serializable {
 
+    @OneToMany(mappedBy = "idHorario")
+    private Collection<ListaEsperaClase> listaEsperaClaseCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,6 +156,15 @@ public class Horario implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Horario[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ListaEsperaClase> getListaEsperaClaseCollection() {
+        return listaEsperaClaseCollection;
+    }
+
+    public void setListaEsperaClaseCollection(Collection<ListaEsperaClase> listaEsperaClaseCollection) {
+        this.listaEsperaClaseCollection = listaEsperaClaseCollection;
     }
     
 }

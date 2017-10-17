@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -42,6 +44,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mantenimiento.findByDescripcion", query = "SELECT m FROM Mantenimiento m WHERE m.descripcion = :descripcion")
     , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT d FROM Mantenimiento d WHERE d.idVehiculo = :idVehiculo")})
 public class Mantenimiento implements Serializable {
+
+    @JoinColumn(name = "id_egreso", referencedColumnName = "id")
+    @ManyToOne
+    private Egreso idEgreso;
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -192,5 +199,15 @@ public class Mantenimiento implements Serializable {
     public void setIdVehiculo(Integer idVehiculo) {
         this.idVehiculo = idVehiculo;
     }
+
+    public Egreso getIdEgreso() {
+        return idEgreso;
+    }
+
+    public void setIdEgreso(Egreso idEgreso) {
+        this.idEgreso = idEgreso;
+    }
+
+
     
 }

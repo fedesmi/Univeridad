@@ -51,14 +51,19 @@
                     </h:outputText>
                 </p:column>
                 <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.instructoresDispoinibles.size()>0?'highlightTableRowGreen':'highlightTableRow'}">
-                    <h:outputText value="#{dis.instructoresDispoinibles.size()}" />
-                </p:column>
-
-                <p:column style="width:32px;text-align: center">
-                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos" disabled="#{dis.instructoresDispoinibles.size()==0}" oncomplete="PF('inscribirW').show()" icon="ui-icon-pencil" title="View">
+                    <h:outputText value="#{dis.instructoresDispoinibles.size()} " />
+                     <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos" disabled="#{dis.instructoresDispoinibles.size()==0}" oncomplete="PF('inscribirW').show()" icon="ui-icon-pencil" title="Inscribir">
                         <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionado}" />
                     </p:commandButton>
                 </p:column>
+              
+               <p:column width="80px;" headerText="Lista Espera" >
+                    
+                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos"   disabled="#{dis.instructoresDispoinibles.size()>0}" oncomplete="PF('inscribirEspera').show()" icon="ui-icon-pencil" title="Inscribir">
+                        <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionadoEspera}"  />
+                        
+                    </p:commandButton>
+                </p:column> 
             </p:dataTable> 
 
 
@@ -83,7 +88,26 @@
                     </div>
                 </p:outputPanel>
             </p:dialog>
+            
+                 
+            <p:dialog id="inscribirEsperaDlg" header="Inscribir alumno" widgetVar="inscribirEspera" modal="false"
+                      resizable="false" height="170" width="400" style="font-size: 12px;">
+                <p:outputPanel id="inscribirAlumnosEspera" >
 
+                    
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
+                        
+                        <p:outputLabel value="Elegir Alumno"  />
+                        <p:selectOneMenu style="width:160px" value="#{claseBean.alumnoEspera}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">>
+                            <f:selectItems value="#{claseBean.alumnos}" var="alum" itemLabel="#{alum.nombre} #{alum.apellido}" itemValue="#{alum}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <div style="text-align: right;">
+                        
+                        <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Guardar Clase" actionListener="#{claseBean.crearClaseEspera()}"   />
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
 
 
 
