@@ -9,8 +9,10 @@ import com.clases.HorarioCompuesto;
 import com.controladores.Authorization;
 import com.controladores.ConexionBaseDatos;
 import com.entidades.Alumno;
+import com.entidades.Clase;
 import com.entidades.Empleado;
 import com.entidades.Horario;
+import com.entidades.ListaEsperaClase;
 import com.entidades.TipoEmpleado;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -34,6 +37,8 @@ public class HorarioFacade extends AbstractFacade<Horario> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
+    @Inject
+    private ListaEsperaClaseFacade lef;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -82,6 +87,8 @@ public class HorarioFacade extends AbstractFacade<Horario> {
                     horarioCompuesto.setHorario(horario);
                     horarioCompuesto.setInstructoresDispoinibles(getInstructoresDisponiblesHorario(fecha, horario.getId()));
                     horarioCompuesto.setAlumnosDisponibles(getAlumnosDisponiblesHorario(fecha, horario.getId()));
+                    horarioCompuesto.setListaEsperaClase(getListaEsperaHorario(fecha, horario.getId()));
+                    horarioCompuesto.setClases(getClasesHorario(fecha, horario.getId()));
                     horarios.add(horarioCompuesto);
                 }
 
@@ -182,4 +189,121 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         return alumnos;
     }
 
+    private List<ListaEsperaClase> getListaEsperaHorario(Date fecha, int horarioPar) {
+       List<ListaEsperaClase> espera = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+
+            String //LISTA DE ESPERA DE ALUMNOS EN UN HORARIO
+                    consulta = "SELECT lec.id, lec.fecha_inscripcion, lec.fecha_clase, "
+                    + "al.id, al.dni, al.nombre, al.apellido, al.fecha_nacimiento, "
+                    + "hor.id, hor.inicio, hor.fin, hor.dia_semana "
+                    + "FROM lista_espera_clase AS lec, alumno as al, horario as hor "
+                    + "WHERE lec.fecha_clase = '" + sdf.format(fecha) + "' "
+                    + "AND lec.id_horario = '" + horarioPar + "'  "
+                    + "AND lec.id_alumno = al.id "
+                    + "AND lec.id_horario = hor.id "
+                    + "ORDER BY lec.fecha_inscripcion";
+
+            ConexionBaseDatos connMysql = new ConexionBaseDatos();
+            java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
+            ListaEsperaClase lec;
+            try {
+                while (resultado.next()) {
+                    lec = new ListaEsperaClase();
+                    lec.setId(resultado.getInt(1));
+                    lec.setFechaInscripcion(resultado.getDate(2));
+                    lec.setFechaClase(resultado.getDate(3));
+                    
+                    Alumno alumnoVar = new Alumno();
+                    alumnoVar.setId(resultado.getInt(4));
+                    alumnoVar.setDni(resultado.getInt(5));
+                    alumnoVar.setNombre(resultado.getString(6));
+                    alumnoVar.setApellido(resultado.getString(7));
+                    alumnoVar.setFechaNacimiento(resultado.getDate(8));
+                    
+                    
+                    Horario horarioVar = new Horario();
+                    horarioVar.setId(resultado.getInt(9));
+                    horarioVar.setInicio(resultado.getDate(10));
+                    horarioVar.setFin(resultado.getDate(11));
+                    horarioVar.setDiaSemana(resultado.getShort(12));
+                  
+                    lec.setIdAlumno(alumnoVar);
+                    lec.setIdHorario(horarioVar);
+                    espera.add(lec);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(HorarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            connMysql.cerrarConexion();
+        } catch (IOException ex) {
+            Logger.getLogger(HorarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return espera;
+    }
+
+    
+    
+    private List<Clase> getClasesHorario(Date fecha, int horarioPar) {
+       List<Clase> clases = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+
+            String //LISTA DE ESPERA DE ALUMNOS EN UN HORARIO
+                    consulta = "SELECT lec.id, lec.fecha, "
+                    + "al.id, al.nombre, al.apellido, "
+                    + "hor.id, hor.inicio, hor.fin, hor.dia_semana, "
+                    + "ins.id, ins.nombre, ins.apellido "
+                    + "FROM clase AS lec, alumno as al, horario as hor, empleado as ins "
+                    + "WHERE lec.fecha = '" + sdf.format(fecha) + "' "
+                    + "AND lec.id_horario = '" + horarioPar + "'  "
+                    + "AND lec.id_alumno = al.id "
+                    + "AND lec.id_horario = hor.id "
+                    + "AND lec.id_instructor = ins.id " ;
+            
+
+            ConexionBaseDatos connMysql = new ConexionBaseDatos();
+            java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
+            Clase lec;
+            try {
+                while (resultado.next()) {
+                    lec = new Clase();
+                    lec.setId(resultado.getInt(1));
+                    lec.setFecha(resultado.getDate(2));
+                    
+                    Alumno alumnoVar = new Alumno();
+                    alumnoVar.setId(resultado.getInt(3));
+                    alumnoVar.setNombre(resultado.getString(4));
+                    alumnoVar.setApellido(resultado.getString(5));
+                   
+                    
+                    
+                    Horario horarioVar = new Horario();
+                    horarioVar.setId(resultado.getInt(6));
+                    horarioVar.setInicio(resultado.getDate(7));
+                    horarioVar.setFin(resultado.getDate(8));
+                    horarioVar.setDiaSemana(resultado.getShort(9));
+                  
+                    Empleado empleadoVar = new Empleado();
+                    empleadoVar.setId(resultado.getInt(10));
+                    empleadoVar.setNombre(resultado.getString(11));
+                    empleadoVar.setApellido(resultado.getString(12));
+                    
+                    lec.setIdAlumno(alumnoVar);
+                    lec.setIdHorario(horarioVar);
+                    lec.setIdInstructor(empleadoVar);
+                    clases.add(lec);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(HorarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            connMysql.cerrarConexion();
+        } catch (IOException ex) {
+            Logger.getLogger(HorarioFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return clases;
+    }
 }

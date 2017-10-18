@@ -8,6 +8,7 @@ package com.repositorios;
 import com.entidades.Horario;
 import com.entidades.ListaEsperaClase;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,8 +33,9 @@ public class ListaEsperaClaseFacade extends AbstractFacade<ListaEsperaClase> {
     }
     
     
-       public <List>ListaEsperaClase getListaInscriptosClase(Horario horario, Date fechaClase) {  
-        return (ListaEsperaClase)getEntityManager().createNamedQuery("ListaEsperaClase.findByHorario").setParameter("horarioVar", horario).setParameter("fechaClase", fechaClase).getResultList();
+       public List<ListaEsperaClase> getListaInscriptosClase(int horario, Date fechaClase) {  
+        
+           return  getEntityManager().createNamedQuery("ListaEsperaClase.findByHorario").setParameter("horarioVar", horario).setParameter("fechaClase", fechaClase).getResultList();
      
     }
         

@@ -6,19 +6,24 @@
 package com.clases;
 
 import com.entidades.Alumno;
+import com.entidades.Clase;
 import com.entidades.Empleado;
 import com.entidades.Horario;
+import com.entidades.ListaEsperaClase;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author fmichel
  */
-public class HorarioCompuesto {
+public class HorarioCompuesto implements Serializable {
     
     private Horario horario;
     private List<Empleado> instructoresDispoinibles;
     private List<Alumno> alumnosDisponibles;
+    private List<ListaEsperaClase> listaEsperaClase;
+    private List<Clase> clases;
     
     
 
@@ -63,6 +68,34 @@ public class HorarioCompuesto {
      */
     public void setAlumnosDisponibles(List<Alumno> alumnosDisponibles) {
         this.alumnosDisponibles = alumnosDisponibles;
+    }
+
+    /**
+     * @return the listaEsperaClase
+     */
+    public List<ListaEsperaClase> getListaEsperaClase() {
+        return listaEsperaClase;
+    }
+
+    /**
+     * @param listaEsperaClase the listaEsperaClase to set
+     */
+    public void setListaEsperaClase(List<ListaEsperaClase> listaEsperaClase) {
+        this.listaEsperaClase = listaEsperaClase;
+    }
+
+    /**
+     * @return the clases
+     */
+    public List<Clase> getClases() {
+        return clases;
+    }
+
+    /**
+     * @param clases the clases to set
+     */
+    public void setClases(List<Clase> clases) {
+        this.clases = clases;
     }
 
     

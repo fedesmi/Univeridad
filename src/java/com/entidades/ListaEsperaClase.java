@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ListaEsperaClase.findAll", query = "SELECT l FROM ListaEsperaClase l")
     , @NamedQuery(name = "ListaEsperaClase.findById", query = "SELECT l FROM ListaEsperaClase l WHERE l.id = :id")
     , @NamedQuery(name = "ListaEsperaClase.findByFechaInscripcion", query = "SELECT l FROM ListaEsperaClase l WHERE l.fechaInscripcion = :fechaInscripcion")
-    , @NamedQuery(name = "ListaEsperaClase.findByHorario", query = "SELECT l FROM ListaEsperaClase l WHERE l.idHorario = :horarioVar AND l.fechaClase = :fechaClase ")
+    , @NamedQuery(name = "ListaEsperaClase.findByHorario", query = "SELECT l FROM ListaEsperaClase l WHERE l.idHorario.id = :horarioVar AND l.fechaClase = :fechaClase ")
     , @NamedQuery(name = "ListaEsperaClase.findByFechaClase", query = "SELECT l FROM ListaEsperaClase l WHERE l.fechaClase = :fechaClase")
 
 })

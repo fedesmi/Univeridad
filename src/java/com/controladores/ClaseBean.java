@@ -50,13 +50,14 @@ public class ClaseBean implements Serializable {
     private List<HorarioCompuesto> disponibilidadHora;
     private List<Alumno> alumnos;
     private HorarioCompuesto horarioSeleccionado;
-
+    private HorarioCompuesto horarioSeleccionadoVer;
     private HorarioCompuesto horarioSeleccionadoEspera;
 
     private Empleado instructor;
     private Alumno alumno;
-     private Alumno alumnoEspera;
+    private Alumno alumnoEspera;
 
+    private List<ListaEsperaClase> listaDeEspera;
     /**
      * Creates a new instance of ClaseBean
      */
@@ -306,6 +307,34 @@ public class ClaseBean implements Serializable {
      */
     public void setAlumnoEspera(Alumno alumnoEspera) {
         this.alumnoEspera = alumnoEspera;
+    }
+
+    /**
+     * @return the listaDeEspera
+     */
+    public List<ListaEsperaClase> getListaDeEspera() {
+        return listaDeEspera;
+    }
+
+    /**
+     * @param listaDeEspera the listaDeEspera to set
+     */
+    public void setListaDeEspera(List<ListaEsperaClase> listaDeEspera) {
+        this.listaDeEspera = listaDeEspera;
+    }
+
+    /**
+     * @return the horarioSeleccionadoVer
+     */
+    public HorarioCompuesto getHorarioSeleccionadoVer() {
+        return horarioSeleccionadoVer;
+    }
+
+    /**
+     * @param horarioSeleccionadoVer the horarioSeleccionadoVer to set
+     */
+    public void setHorarioSeleccionadoVer(HorarioCompuesto horarioSeleccionadoVer) {
+        this.horarioSeleccionadoVer = horarioSeleccionadoVer;
     }
 
 }
