@@ -16,6 +16,7 @@ import com.entidades.ListaEsperaClase;
 import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
+import com.repositorios.FormaPagoFacade;
 import com.repositorios.HorarioFacade;
 import com.repositorios.ListaEsperaClaseFacade;
 import java.text.SimpleDateFormat;
@@ -45,6 +46,7 @@ public class ClaseBean implements Serializable {
     private ClaseFacade claseFacade;
     @Inject
     private ListaEsperaClaseFacade listaEsperaClaseFacade;
+ 
 
     private Date fechaConsulta = new Date();
     private List<HorarioCompuesto> disponibilidadHora;
@@ -58,6 +60,7 @@ public class ClaseBean implements Serializable {
     private Alumno alumnoEspera;
 
     private List<ListaEsperaClase> listaDeEspera;
+
     /**
      * Creates a new instance of ClaseBean
      */
@@ -226,20 +229,21 @@ public class ClaseBean implements Serializable {
         this.alumnoFacade = alumnoFacade;
     }
 
-    public void crearClaseEspera(){
+    public void crearClaseEspera() {
         ListaEsperaClase espera = new ListaEsperaClase();
         espera.setIdHorario(horarioSeleccionadoEspera.getHorario());
         espera.setIdAlumno(alumnoEspera);
         espera.setFechaClase(fechaConsulta);
         espera.setFechaInscripcion(new Date());
-        
+
         listaEsperaClaseFacade.create(espera);
+        horarioSeleccionadoEspera=null;
+        actualizarDisponibilidad();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se agrego al alumno a la lista de espera"));
-        
+
     }
-    
-    
+
     public void crearClase() {
         Clase clase = new Clase();
         clase.setIdHorario(horarioSeleccionado.getHorario());
@@ -336,5 +340,6 @@ public class ClaseBean implements Serializable {
     public void setHorarioSeleccionadoVer(HorarioCompuesto horarioSeleccionadoVer) {
         this.horarioSeleccionadoVer = horarioSeleccionadoVer;
     }
+
 
 }

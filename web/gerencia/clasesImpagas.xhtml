@@ -1,0 +1,97 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="defineClasesImpagas">
+        <h:form id="formClasesImpagas">
+            
+            <h:outputScript library="js" name="calendar_es.js"  />
+            <p:growl id="msgs" showDetail="true" />
+            
+             <f:metadata>
+                 <f:viewAction action="#{clasesListBean.onloadImpagas()}" />
+            </f:metadata>
+            
+            
+            <p:outputLabel value="Clases Impagas" />
+
+            <br/>
+             
+            <p:dataTable id="tablaClasesImpagas" widgetVar="clasesImpagasWidget" var="clas"   value="#{clasesListBean.clasesImpagas}" 
+                         paginator="false" scrollable="true" scrollHeight="350" emptyMessage="sin registros"
+                         style="height: 300px; font-size: 12px; " >
+
+                <f:facet name="header">
+                    Lista de Clases Impagas
+                </f:facet>
+
+                <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
+                    <h:outputText value="#{clas.fecha}" > 
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column   headerText="Inicio" style="text-align: center;" sortBy="#{clas.idHorario.inicio}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}" >
+                    <h:outputText value="#{clas.idHorario.inicio}" >
+                        <f:convertDateTime pattern="HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column   headerText="Fin" style="text-align: center;" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
+                    <h:outputText value="#{clas.idHorario.fin}" >
+                        <f:convertDateTime pattern="HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column   headerText="Alumno" style="text-align: center;"   filterBy="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}" >
+                    <h:outputText value="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}" />
+                </p:column>
+
+                <p:column   headerText="Instructor" style="text-align: center;" filterBy="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}">
+                    <h:outputText value="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}" />
+                </p:column>
+                
+            </p:dataTable>
+             <p:commandButton update=":formGer:formClasesImpagas:pagoClase"   disabled="false"  oncomplete="PF('pagoClaseW').show()" icon="ui-icon-cart" title="Abonar">
+                       <f:setPropertyActionListener value="#{clas}" target="#{clasesListBean.claseSeleccionada}"  />
+             </p:commandButton>
+            
+            <p:dialog id="pagoClaseDlg" header="Pago de Clases" widgetVar="pagoClaseW" modal="false"
+                      resizable="false" height="400" width="600" style="font-size: 12px;">
+                <p:outputPanel id="pagoClase" >
+                   
+                    
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
+
+                    <p:outputLabel value="Medio de Pago"  />
+                    <p:selectOneMenu style="width:160px" value="#{clasesListBean.formaDePago}" >
+                        <f:selectItems value="#{clasesListBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+
+                    
+                    <div style="text-align: right;">
+
+                        <p:commandButton   ajax="false" update=":formGer"  value="Abonar"   />
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
+
+            <script type="text/javascript">
+                //<![CDATA[
+                function domingoDisabled(date)
+                {
+                    var day = date.getDay();
+                    return [(day != 0), '']
+                }
+                //]]>
+            </script> 
+
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

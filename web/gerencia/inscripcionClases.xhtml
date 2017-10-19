@@ -57,16 +57,16 @@
                     </p:commandButton>
                     
                 </p:column>
-                <p:column width="80px;" headerText="Ver" >
+                <p:column width="80px;" headerText="Inscriptos" >
                     
-                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos"  oncomplete="PF('verInscriptosW').show()" icon="ui-icon-search" title="Ver">
+                    <p:commandButton update=":formGer:formInscripcion:verInscriptos"  oncomplete="PF('verInscriptosW').show()" icon="ui-icon-search" title="Ver">
                         <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionadoVer}" />
                     </p:commandButton>
                     
                 </p:column>
                 <p:column width="80px;" headerText="Lista Espera" >
                     <h:outputText value="#{dis.listaEsperaClase.size()} " />
-                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos"   disabled="#{dis.instructoresDispoinibles.size()>0}" oncomplete="PF('inscribirEspera').show()" icon="ui-icon-pencil" title="Inscribir">
+                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnosEspera"   disabled="#{dis.instructoresDispoinibles.size()>0}" oncomplete="PF('inscribirEspera').show()" icon="ui-icon-pencil" title="Inscribir">
                         <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionadoEspera}"  />
 
                     </p:commandButton>

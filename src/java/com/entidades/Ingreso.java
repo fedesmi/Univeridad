@@ -16,9 +16,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,6 +44,18 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Ingreso.findByMonto", query = "SELECT i FROM Ingreso i WHERE i.monto = :monto")
     , @NamedQuery(name = "Ingreso.findByConcepto", query = "SELECT i FROM Ingreso i WHERE i.concepto = :concepto")})
 public class Ingreso implements Serializable {
+
+    @Column(name = "cuotas")
+    private Integer cuotas;
+    
+    @JoinColumn(name = "id_concepto", referencedColumnName = "id")
+    @OneToOne
+    private ConceptoIngreso idConcepto;
+   
+    
+    @JoinColumn(name = "id_forma_pago", referencedColumnName = "id")
+    @OneToOne
+    private FormaPago idFormaPago;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -141,6 +156,30 @@ public class Ingreso implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Ingreso[ id=" + id + " ]";
+    }
+
+    public Integer getCuotas() {
+        return cuotas;
+    }
+
+    public void setCuotas(Integer cuotas) {
+        this.cuotas = cuotas;
+    }
+
+    public ConceptoIngreso getIdConcepto() {
+        return idConcepto;
+    }
+
+    public void setIdConcepto(ConceptoIngreso idConcepto) {
+        this.idConcepto = idConcepto;
+    }
+
+    public FormaPago getIdFormaPago() {
+        return idFormaPago;
+    }
+
+    public void setIdFormaPago(FormaPago idFormaPago) {
+        this.idFormaPago = idFormaPago;
     }
     
 }

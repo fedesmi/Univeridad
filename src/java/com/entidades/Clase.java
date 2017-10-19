@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Clase.findAll", query = "SELECT c FROM Clase c ORDER BY c.fecha DESC")
     , @NamedQuery(name = "Clase.findById", query = "SELECT c FROM Clase c WHERE c.id = :id")
     , @NamedQuery(name = "Clase.findByFecha", query = "SELECT c FROM Clase c WHERE c.fecha = :fecha")
+    ,@NamedQuery(name = "Clase.findClasesImpagas", query = "SELECT c FROM Clase c WHERE c.idIngreso IS NULL")
     , @NamedQuery(name = "Clase.findByIdInstructor", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor ORDER BY c.fecha DESC")
    , @NamedQuery(name = "Clase.findAlumnosByIdInstructor", query = "SELECT c.idAlumno FROM Clase c WHERE c.idInstructor = :instructor GROUP BY c.idAlumno")
    
