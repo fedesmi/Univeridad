@@ -10,6 +10,7 @@ import com.entidades.FormaPago;
 import com.repositorios.ClaseFacade;
 import com.repositorios.FormaPagoFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
@@ -24,8 +25,11 @@ import javax.inject.Inject;
 @SessionScoped
 public class ClasesListBean implements Serializable {
 
+   
+
     private List<Clase> clases;
     private List<Clase> clasesImpagas;
+    private List<Clase> clasesImpagasSeleccionadas;
     private List<FormaPago> formasDePago;
     private FormaPago formaDePago;
     private Clase claseSeleccionada;
@@ -195,5 +199,20 @@ public class ClasesListBean implements Serializable {
      */
     public void setFormaDePago(FormaPago formaDePago) {
         this.formaDePago = formaDePago;
+    }
+    
+    
+     /**
+     * @return the clasesImpagasSeleccionadas
+     */
+    public List<Clase> getClasesImpagasSeleccionadas() {
+        return clasesImpagasSeleccionadas;
+    }
+
+    /**
+     * @param clasesImpagasSeleccionadas the clasesImpagasSeleccionadas to set
+     */
+    public void setClasesImpagasSeleccionadas(List<Clase> clasesImpagasSeleccionadas) {
+        this.clasesImpagasSeleccionadas = clasesImpagasSeleccionadas;
     }
 }

@@ -13,48 +13,48 @@
             <p:outputLabel value="Desperfectos" />
 
             <br/>
-                    <p:panel style="border-style: none; height: 300px; font-size: 12px;">
-                        
-                        <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
-                                     value="#{desperfectosBean.desperfectosDB}"
-                                     scrollable="true" scrollHeight="300" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
-                                     selection="#{desperfectosBean.desperfectoSeleccionado}" selectionMode="single" rowKey="#{des.id}"
-                                     emptyMessage="sin registros" >
-                            <f:facet name="header">
-                                Lista de Desperfectos
-                            </f:facet>
-                            <p:column  headerText="Fecha">
-                                <h:outputText value="#{des.fecha}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column  headerText="Descripción">
-                                <h:outputText value="#{des.descripcion}" />
-                            </p:column>
-                            <p:column  headerText="Patente">
-                                <h:outputText value="#{des.idVehiculo.patente}" />
-                            </p:column>
-                            <p:column  headerText="Marca">
-                                <h:outputText value="#{des.idVehiculo.marca}" />
-                            </p:column>
-                            <p:column  headerText="Modelo">
-                                <h:outputText value="#{des.idVehiculo.modelo}" />
-                            </p:column>
-                            <p:column  headerText="Fecha Solicitud Rep">
-                                <h:outputText value="#{des.idSolicitud.fecha}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column  headerText="Reparacion Autorizada">
-                                <h:outputText value="#{des.idSolicitud.autorizado==1?'SI':'NO'}" />
-                            </p:column>
-                            
-                        </p:dataTable> 
-                        
-                        <p:commandButton value="Solicitar" update="formDesperfectos:msgs, formDesperfectos:tablaDesperfectos" actionListener="#{desperfectosBean.solicitarReparacion()}" />
-                        <p:commandButton value="Autorizar" update="formDesperfectos:msgs, formDesperfectos:tablaDesperfectos" actionListener="#{desperfectosBean.autorizarReparacion()}" />
-                     
-                    </p:panel>
+
+            <div style="font-size: 12px;">
+            <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
+                         value="#{desperfectosBean.desperfectosDB}"
+                         scrollable="true" scrollHeight="300" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                         selection="#{desperfectosBean.desperfectoSeleccionado}" selectionMode="single" rowKey="#{des.id}"
+                         emptyMessage="sin registros" >
+                <f:facet name="header">
+                    Lista de Desperfectos
+                </f:facet>
+                <p:column  headerText="Fecha">
+                    <h:outputText value="#{des.fecha}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Descripción">
+                    <h:outputText value="#{des.descripcion}" />
+                </p:column>
+                <p:column  headerText="Patente">
+                    <h:outputText value="#{des.idVehiculo.patente}" />
+                </p:column>
+                <p:column  headerText="Marca">
+                    <h:outputText value="#{des.idVehiculo.marca}" />
+                </p:column>
+                <p:column  headerText="Modelo">
+                    <h:outputText value="#{des.idVehiculo.modelo}" />
+                </p:column>
+                <p:column  headerText="Fecha Solicitud Rep">
+                    <h:outputText value="#{des.idSolicitud.fecha}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Reparacion Autorizada">
+                    <h:outputText value="#{des.idSolicitud.autorizado==1?'SI':'NO'}" />
+                </p:column>
+
+            </p:dataTable> 
+
+            <p:commandButton value="Solicitar" update="formDesperfectos:msgs, formDesperfectos:tablaDesperfectos" actionListener="#{desperfectosBean.solicitarReparacion()}" />
+            <p:commandButton value="Autorizar" update="formDesperfectos:msgs, formDesperfectos:tablaDesperfectos" actionListener="#{desperfectosBean.autorizarReparacion()}" />
+
+</div>
 
         </h:form>
     </ui:define>

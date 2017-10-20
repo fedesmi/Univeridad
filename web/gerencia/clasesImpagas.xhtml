@@ -8,27 +8,31 @@
 
     <ui:define name="source"  id="defineClasesImpagas">
         <h:form id="formClasesImpagas">
-            
-            <h:outputScript library="js" name="calendar_es.js"  />
+
+
             <p:growl id="msgs" showDetail="true" />
-            
-             <f:metadata>
-                 <f:viewAction action="#{clasesListBean.onloadImpagas()}" />
+
+            <f:metadata>
+                <f:viewAction action="#{clasesListBean.onloadImpagas()}" />
             </f:metadata>
-            
-            
+
+
             <p:outputLabel value="Clases Impagas" />
 
             <br/>
-             
+
             <p:dataTable id="tablaClasesImpagas" widgetVar="clasesImpagasWidget" var="clas"   value="#{clasesListBean.clasesImpagas}" 
-                         paginator="false" scrollable="true" scrollHeight="350" emptyMessage="sin registros"
-                         style="height: 300px; font-size: 12px; " >
+                         paginator="false" scrollable="true" scrollHeight="200" emptyMessage="sin registros"
+                         style="height: 300px; font-size: 12px; " 
+                         selection="#{clasesListBean.clasesImpagasSeleccionadas}" rowKey="#{clas.id}"
+                         >
 
                 <f:facet name="header">
                     Lista de Clases Impagas
                 </f:facet>
 
+                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                
                 <p:column   headerText="Fecha" style="text-align: center;" sortBy="#{clas.fecha}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
                     <h:outputText value="#{clas.fecha}" > 
                         <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -51,42 +55,56 @@
                 <p:column   headerText="Instructor" style="text-align: center;" filterBy="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}">
                     <h:outputText value="#{clas.idInstructor.apellido} #{clas.idInstructor.nombre}" />
                 </p:column>
+
+                
                 
             </p:dataTable>
-             <p:commandButton update=":formGer:formClasesImpagas:pagoClase"   disabled="false"  oncomplete="PF('pagoClaseW').show()" icon="ui-icon-cart" title="Abonar">
-                       <f:setPropertyActionListener value="#{clas}" target="#{clasesListBean.claseSeleccionada}"  />
-             </p:commandButton>
-            
+            <br/>
+
+            <p:commandButton update=":formGer:formClasesImpagas:pagoClase" value="Pagar"   oncomplete="PF('pagoClaseW').show()" icon="ui-icon-cart" title="Abonar" />
+
             <p:dialog id="pagoClaseDlg" header="Pago de Clases" widgetVar="pagoClaseW" modal="false"
                       resizable="false" height="400" width="600" style="font-size: 12px;">
                 <p:outputPanel id="pagoClase" >
-                   
-                    
+
+                    <p:outputLabel value="tamaño #{clasesListBean.clasesImpagasSeleccionadas.size()}"  />
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
 
-                    <p:outputLabel value="Medio de Pago"  />
-                    <p:selectOneMenu style="width:160px" value="#{clasesListBean.formaDePago}" >
-                        <f:selectItems value="#{clasesListBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
+                        <p:outputLabel value="Medio de Pago"  />
+                        <p:selectOneMenu style="width:160px" value="#{clasesListBean.formaDePago}" >
+                            <f:selectItems value="#{clasesListBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
                         </p:selectOneMenu>
                     </p:panelGrid>
+                    <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{clasesListBean.clasesImpagasSeleccionadas}" 
+                                 paginator="false" scrollable="true" scrollHeight="200" emptyMessage="sin registros"
+                                 style="height: 200px; font-size: 12px; " >
 
-                    
+
+                        <p:column   headerText="Fecha" style="text-align: center;"  >
+                            <h:outputText value="#{clasImp.fecha}" > 
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column   headerText="Inicio" style="text-align: center;" >
+                            <h:outputText value="#{clasImp.idHorario.inicio}" >
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column   headerText="Fin" style="text-align: center;"  >
+                            <h:outputText value="#{clasImp.idHorario.fin}" >
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
+                        </p:column>
+
+
+                    </p:dataTable>
+
                     <div style="text-align: right;">
-
-                        <p:commandButton   ajax="false" update=":formGer"  value="Abonar"   />
+                        <p:commandButton   ajax="false"  update=":formGer"  value="Realizar Pago"   />
                     </div>
                 </p:outputPanel>
             </p:dialog>
 
-            <script type="text/javascript">
-                //<![CDATA[
-                function domingoDisabled(date)
-                {
-                    var day = date.getDay();
-                    return [(day != 0), '']
-                }
-                //]]>
-            </script> 
 
 
         </h:form>

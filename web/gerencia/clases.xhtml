@@ -20,19 +20,19 @@
             <p:outputLabel value="Clases" />
 
             <br/>
-            <p:outputLabel value="Fecha: " for="calendario" />
+            <p:outputLabel style=" font-size: 12px;" value="Fecha: " for="calendario" />
             <p:calendar id="calendario" style="font-size: 10px;" disabled="#{clasesListBean.todasLasClases}"  beforeShowDay="domingoDisabled" locale="es" pattern="dd-MM-yyyy" value="#{clasesListBean.fechaConsulta}" >
                 <p:ajax event="dateSelect"  oncomplete="PF('clasesWidget').filter()" listener="#{clasesListBean.actualizarListaClases()}" update=":formGer:formClases:tablaClases" />
             </p:calendar>
            
-             <h:outputText value="Todas las Clases " />
+            <h:outputText style=" font-size: 12px; " value="Todas las Clases " />
              <p:selectBooleanCheckbox value="#{clasesListBean.todasLasClases}">
                  <p:ajax  listener="#{clasesListBean.actualizarListaClases()}"  oncomplete="PF('clasesWidget').filter()"  update=":formGer:formClases:tablaClases,:formGer:formClases:calendario" />
             </p:selectBooleanCheckbox>
              
             <p:dataTable id="tablaClases" widgetVar="clasesWidget" var="clas"   value="#{clasesListBean.clases}" 
                          paginator="false" scrollable="true" scrollHeight="350" emptyMessage="sin registros"
-                         style="height: 300px;" >
+                         style="height: 300px;  font-size: 12px; " >
 
                 <f:facet name="header">
                     Lista de Clases
