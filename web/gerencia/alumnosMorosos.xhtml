@@ -1,0 +1,136 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="defineAlumnos">
+        <h:form id="formAlumnosMorosos">
+            <h:outputScript library="js" name="calendar_es.js"  />
+            <p:growl id="msgs" showDetail="true" />
+            <f:metadata>
+                <f:viewAction action="#{alumnosMorososBean.onLoadMorosos()}" />
+            </f:metadata>
+            <p:outputLabel value="Alumnos" />
+
+            <br/>
+
+            <p:dataTable id="tablaAlumnosMorosos" widgetVar="alumnosWidget" var="alucla" value="#{alumnosMorososBean.clasesAlumnosMorosos}" 
+                         paginator="false" scrollable="true" scrollHeight="390" emptyMessage="sin registros" 
+                         style="height: 300px; font-family: Open Sans,sans-serif;">
+
+                <f:facet name="header">
+                    Lista de Alumnos Morosos
+                </f:facet>
+
+
+
+                <p:column   headerText="DNI" style="text-align: center;" filterBy="#{alu.dni}" filterMatchMode="contains" >
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{alucla.idAlumno.dni}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Nombre" >
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{alucla.idAlumno.nombre}" />
+                    </div>
+                </p:column>
+                <p:column headerText="Apellido" sortBy="#{alucla.idAlumno.apellido}" filterBy="#{alucla.idAlumno.apellido}" filterMatchMode="contains" >
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{alucla.idAlumno.apellido}" />
+                    </div>
+                </p:column>
+                <p:column >
+                    <p:commandButton icon="ui-icon-cart" ajax="true" update=":formGer:formAlumnosMorosos:pagoClase" oncomplete="PF('pagoClaseW').show();">
+                        <f:setPropertyActionListener value="#{alucla}" target="#{alumnosMorososBean.claseAlumnoSeleccionado}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+
+            <p:dialog id="pagoClaseDlg" header="Pago deuda" widgetVar="pagoClaseW" modal="false"
+                      resizable="false" height="400" width="800" style="font-size: 12px;">
+                <p:outputPanel id="pagoClase" >
+
+
+                    <p:panelGrid columns="2"  >
+                        <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.claseCollection}" 
+                                     scrollable="true" scrollHeight="150" emptyMessage="sin registros"
+                                     style="height: 200px; font-size: 12px; " 
+                                     selection="#{alumnosMorososBean.clasesAlumnosMorososSeleccionada}" rowKey="#{clasImp.id}"
+                                     >
+                            <f:facet name="header">
+                                Clases Impagas
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <p:column   headerText="Fecha" style="text-align: center;"  >
+                                <h:outputText value="#{clasImp.fecha}" > 
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column   headerText="Inicio" style="text-align: center;" >
+                                <h:outputText value="#{clasImp.idHorario.inicio}" >
+                                    <f:convertDateTime pattern="HH:mm" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column   headerText="Fin" style="text-align: center;"  >
+                                <h:outputText value="#{clasImp.idHorario.fin}" >
+                                    <f:convertDateTime pattern="HH:mm" />
+                                </h:outputText>
+                            </p:column>
+
+
+                        </p:dataTable>
+                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.claseCollection}" 
+                                     paginator="false" scrollable="true" scrollHeight="150" emptyMessage="sin registros"
+                                     style="height: 200px; font-size: 12px; " 
+                                     selection="#{alumnosMorososBean.clasesAlumnosMorososSeleccionada}" rowKey="#{clasImp.id}"
+                                     >
+                            <f:facet name="header">
+                                Alquiler de Vehiculo Adeudado
+                            </f:facet>
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                            <p:column   headerText="Fecha" style="text-align: center;"  >
+                                <h:outputText value="#{clasImp.fecha}" > 
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column   headerText="Inicio" style="text-align: center;" >
+                                <h:outputText value="#{clasImp.idHorario.inicio}" >
+                                    <f:convertDateTime pattern="HH:mm" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column   headerText="Fin" style="text-align: center;"  >
+                                <h:outputText value="#{clasImp.idHorario.fin}" >
+                                    <f:convertDateTime pattern="HH:mm" />
+                                </h:outputText>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </p:panelGrid>
+                    <br/>
+                    <br/>
+                    <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" >
+
+                        <p:outputLabel value="Medio de Pago"  />
+                        <p:selectOneMenu style="width:160px" value="#{alumnosMorososBean.formaDePago}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItems value="#{alumnosMorososBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
+                        </p:selectOneMenu>
+
+                        <p:commandButton   ajax="false"  update=":formGer"  value="Realizar Pago"   />
+
+                    </p:panelGrid>
+
+                </p:outputPanel>
+            </p:dialog>
+
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

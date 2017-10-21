@@ -49,6 +49,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Horario implements Serializable {
 
     @OneToMany(mappedBy = "idHorario")
+    private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
+
+    @OneToMany(mappedBy = "idHorario")
     private Collection<ListaEsperaClase> listaEsperaClaseCollection;
 
     private static final long serialVersionUID = 1L;
@@ -165,6 +168,15 @@ public class Horario implements Serializable {
 
     public void setListaEsperaClaseCollection(Collection<ListaEsperaClase> listaEsperaClaseCollection) {
         this.listaEsperaClaseCollection = listaEsperaClaseCollection;
+    }
+
+    @XmlTransient
+    public Collection<AlquilerVehiculo> getAlquilerVehiculoCollection() {
+        return alquilerVehiculoCollection;
+    }
+
+    public void setAlquilerVehiculoCollection(Collection<AlquilerVehiculo> alquilerVehiculoCollection) {
+        this.alquilerVehiculoCollection = alquilerVehiculoCollection;
     }
     
 }

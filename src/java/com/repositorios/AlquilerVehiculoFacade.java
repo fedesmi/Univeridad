@@ -5,8 +5,9 @@
  */
 package com.repositorios;
 
-
-import com.entidades.FormaPago;
+import com.entidades.AlquilerVehiculo;
+import com.entidades.Alumno;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author fmichel
  */
 @Stateless
-public class FormaPagoFacade extends AbstractFacade<FormaPago> {
+public class AlquilerVehiculoFacade extends AbstractFacade<AlquilerVehiculo> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
@@ -26,12 +27,19 @@ public class FormaPagoFacade extends AbstractFacade<FormaPago> {
         return em;
     }
 
-    public FormaPagoFacade() {
-        super(FormaPago.class);
+    public AlquilerVehiculoFacade() {
+        super(AlquilerVehiculo.class);
     }
 
-  
- 
+    
+    
+    
+    public List<AlquilerVehiculo> getAlquileresImpagos(Alumno alumnoPar) {
+        return getEntityManager().createNamedQuery("AlquilerVehiculo.findAlquileresImpagos").setParameter("alumno", alumnoPar).getResultList();
+
+    }
+    
+    
     
 
 }

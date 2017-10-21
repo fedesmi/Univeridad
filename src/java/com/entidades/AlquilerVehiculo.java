@@ -35,8 +35,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "AlquilerVehiculo.findAll", query = "SELECT a FROM AlquilerVehiculo a")
     , @NamedQuery(name = "AlquilerVehiculo.findById", query = "SELECT a FROM AlquilerVehiculo a WHERE a.id = :id")
+    , @NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagos", query = "SELECT a FROM AlquilerVehiculo a  WHERE a.idAlumno = :alumno AND a.idIngreso IS NULL")
     , @NamedQuery(name = "AlquilerVehiculo.findByFecha", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha")})
 public class AlquilerVehiculo implements Serializable {
+
+    @JoinColumn(name = "id_alumno", referencedColumnName = "id")
+    @ManyToOne
+    private Alumno idAlumno;
+    @JoinColumn(name = "id_horario", referencedColumnName = "id")
+    @ManyToOne
+    private Horario idHorario;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -123,6 +131,22 @@ public class AlquilerVehiculo implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.AlquilerVehiculo[ id=" + id + " ]";
+    }
+
+    public Alumno getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Alumno idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public Horario getIdHorario() {
+        return idHorario;
+    }
+
+    public void setIdHorario(Horario idHorario) {
+        this.idHorario = idHorario;
     }
     
 }

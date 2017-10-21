@@ -10,7 +10,6 @@ import com.entidades.FormaPago;
 import com.repositorios.ClaseFacade;
 import com.repositorios.FormaPagoFacade;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
@@ -30,12 +29,15 @@ public class ClasesListBean implements Serializable {
     private List<Clase> clases;
     private List<Clase> clasesImpagas;
     private List<Clase> clasesImpagasSeleccionadas;
-    private List<FormaPago> formasDePago;
-    private FormaPago formaDePago;
+    
+    
+    
     private Clase claseSeleccionada;
 
     @Inject
     private FormaPagoFacade formaPagoFacade;
+    private List<FormaPago> formasDePago;
+    private FormaPago formaDePago;
 
     private boolean todasLasClases;
     private Date fechaConsulta;
@@ -58,7 +60,8 @@ public class ClasesListBean implements Serializable {
         formasDePago = formaPagoFacade.findAll();
         
     }
-
+   
+    
     public void actualizarListaClases() {
         if (todasLasClases) {
             clases = claseFacade.findAll();
@@ -155,9 +158,7 @@ public class ClasesListBean implements Serializable {
         this.claseSeleccionada = claseSeleccionada;
     }
 
-    private void getMedioDePago() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     /**
      * @return the formasDePago
@@ -215,4 +216,12 @@ public class ClasesListBean implements Serializable {
     public void setClasesImpagasSeleccionadas(List<Clase> clasesImpagasSeleccionadas) {
         this.clasesImpagasSeleccionadas = clasesImpagasSeleccionadas;
     }
+
+   
+  
+    
+    
+   
+ 
+   
 }

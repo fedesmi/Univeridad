@@ -67,17 +67,16 @@
                       resizable="false" height="400" width="600" style="font-size: 12px;">
                 <p:outputPanel id="pagoClase" >
 
-                    <p:outputLabel value="tamaño #{clasesListBean.clasesImpagasSeleccionadas.size()}"  />
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
 
                         <p:outputLabel value="Medio de Pago"  />
-                        <p:selectOneMenu style="width:160px" value="#{clasesListBean.formaDePago}" >
+                        <p:selectOneMenu style="width:160px" value="#{clasesListBean.formaDePago}"  converter="omnifaces.SelectItemsConverter" >
                             <f:selectItems value="#{clasesListBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{clasesListBean.clasesImpagasSeleccionadas}" 
-                                 paginator="false" scrollable="true" scrollHeight="200" emptyMessage="sin registros"
-                                 style="height: 200px; font-size: 12px; " >
+                                 paginator="false" scrollable="true" scrollHeight="300" emptyMessage="sin registros"
+                                 style="height: 330px; font-size: 12px; " >
 
 
                         <p:column   headerText="Fecha" style="text-align: center;"  >

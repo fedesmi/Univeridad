@@ -34,7 +34,6 @@ public class ListaEsperaClaseFacade extends AbstractFacade<ListaEsperaClase> {
     
     
        public List<ListaEsperaClase> getListaInscriptosClase(int horario, Date fechaClase) {  
-        
            return  getEntityManager().createNamedQuery("ListaEsperaClase.findByHorario").setParameter("horarioVar", horario).setParameter("fechaClase", fechaClase).getResultList();
      
     }
