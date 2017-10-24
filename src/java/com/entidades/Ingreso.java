@@ -17,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,16 +40,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ingreso.findAll", query = "SELECT i FROM Ingreso i")
     , @NamedQuery(name = "Ingreso.findById", query = "SELECT i FROM Ingreso i WHERE i.id = :id")
     , @NamedQuery(name = "Ingreso.findByFecha", query = "SELECT i FROM Ingreso i WHERE i.fecha = :fecha")
-    , @NamedQuery(name = "Ingreso.findByMonto", query = "SELECT i FROM Ingreso i WHERE i.monto = :monto")
-    , @NamedQuery(name = "Ingreso.findByConcepto", query = "SELECT i FROM Ingreso i WHERE i.concepto = :concepto")})
+    , @NamedQuery(name = "Ingreso.findByMonto", query = "SELECT i FROM Ingreso i WHERE i.monto = :monto")})
+
 public class Ingreso implements Serializable {
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "monto")
+    private Double monto;
 
     @Column(name = "cuotas")
     private Integer cuotas;
     
-    @JoinColumn(name = "id_concepto", referencedColumnName = "id")
-    @OneToOne
-    private ConceptoIngreso idConcepto;
    
     
     @JoinColumn(name = "id_forma_pago", referencedColumnName = "id")
@@ -66,11 +66,8 @@ public class Ingreso implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Column(name = "monto")
-    private Integer monto;
     @Size(max = 50)
-    @Column(name = "concepto")
-    private String concepto;
+   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idIngreso")
     private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
     @OneToMany(mappedBy = "idIngreso")
@@ -99,21 +96,8 @@ public class Ingreso implements Serializable {
         this.fecha = fecha;
     }
 
-    public Integer getMonto() {
-        return monto;
-    }
 
-    public void setMonto(Integer monto) {
-        this.monto = monto;
-    }
-
-    public String getConcepto() {
-        return concepto;
-    }
-
-    public void setConcepto(String concepto) {
-        this.concepto = concepto;
-    }
+  
 
     @XmlTransient
     public Collection<AlquilerVehiculo> getAlquilerVehiculoCollection() {
@@ -166,20 +150,20 @@ public class Ingreso implements Serializable {
         this.cuotas = cuotas;
     }
 
-    public ConceptoIngreso getIdConcepto() {
-        return idConcepto;
-    }
-
-    public void setIdConcepto(ConceptoIngreso idConcepto) {
-        this.idConcepto = idConcepto;
-    }
-
     public FormaPago getIdFormaPago() {
         return idFormaPago;
     }
 
     public void setIdFormaPago(FormaPago idFormaPago) {
         this.idFormaPago = idFormaPago;
+    }
+
+    public Double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Double monto) {
+        this.monto = monto;
     }
     
 }

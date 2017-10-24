@@ -5,8 +5,7 @@
  */
 package com.repositorios;
 
-import com.entidades.Alumno;
-import java.util.List;
+import com.entidades.Ingreso;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author fmichel
  */
 @Stateless
-public class AlumnoFacade extends AbstractFacade<Alumno> {
+public class IngresoFacade extends AbstractFacade<Ingreso> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
@@ -26,9 +25,11 @@ public class AlumnoFacade extends AbstractFacade<Alumno> {
         return em;
     }
 
-    public AlumnoFacade() {
-        super(Alumno.class);
+    public IngresoFacade() {
+        super(Ingreso.class);
     }
+    
+    
 
     
 

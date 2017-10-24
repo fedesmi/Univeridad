@@ -42,7 +42,7 @@
                         <h:outputText value="#{alucla.idAlumno.apellido}" />
                     </div>
                 </p:column>
-                <p:column >
+                <p:column headerText="Abonar Deuda" >
                     <p:commandButton icon="ui-icon-cart" ajax="true" update=":formGer:formAlumnosMorosos:pagoClase" oncomplete="PF('pagoClaseW').show();">
                         <f:setPropertyActionListener value="#{alucla}" target="#{alumnosMorososBean.claseAlumnoSeleccionado}" />
                     </p:commandButton>
@@ -54,56 +54,65 @@
                       resizable="false" height="400" width="800" style="font-size: 12px;">
                 <p:outputPanel id="pagoClase" >
 
-
+                    <!-- SE FILTRAN SOLO LAS CLASES CON INGRESO NULO  -->
                     <p:panelGrid columns="2"  >
                         <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.claseCollection}" 
                                      scrollable="true" scrollHeight="150" emptyMessage="sin registros"
-                                     style="height: 200px; font-size: 12px; " 
+                                     style="height: 200px; font-size: 12px; "  rowStyleClass="highlightTableRow"
                                      selection="#{alumnosMorososBean.clasesAlumnosMorososSeleccionada}" rowKey="#{clasImp.id}"
                                      >
+
                             <f:facet name="header">
                                 Clases Impagas
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                            <p:column   headerText="Fecha" style="text-align: center;"  >
+
+                            
+
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" />
+                            <p:column   headerText="Fecha" style="text-align: center;" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" >
                                 <h:outputText value="#{clasImp.fecha}" > 
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Inicio" style="text-align: center;" >
+                            <p:column   headerText="Inicio" style="text-align: center;" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" >
                                 <h:outputText value="#{clasImp.idHorario.inicio}" >
                                     <f:convertDateTime pattern="HH:mm" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Fin" style="text-align: center;"  >
+                            <p:column   headerText="Fin" style="text-align: center;"  rendered="#{clasImp.idIngreso==NULL?'true':'false'}">
                                 <h:outputText value="#{clasImp.idHorario.fin}" >
                                     <f:convertDateTime pattern="HH:mm" />
                                 </h:outputText>
                             </p:column>
 
-
                         </p:dataTable>
-                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.claseCollection}" 
+
+                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="alqveh"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.alquilerVehiculoCollection}" 
                                      paginator="false" scrollable="true" scrollHeight="150" emptyMessage="sin registros"
-                                     style="height: 200px; font-size: 12px; " 
-                                     selection="#{alumnosMorososBean.clasesAlumnosMorososSeleccionada}" rowKey="#{clasImp.id}"
+                                     style="height: 200px; font-size: 12px; " rowStyleClass="highlightTableRow"
+                                     selection="#{alumnosMorososBean.alquilerVehiculoListSeleccionado}" rowKey="#{alqveh.id}"
                                      >
+
+
                             <f:facet name="header">
                                 Alquiler de Vehiculo Adeudado
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                            <p:column   headerText="Fecha" style="text-align: center;"  >
-                                <h:outputText value="#{clasImp.fecha}" > 
+
+                         
+
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{alqveh.idIngreso==NULL?'true':'false'}"/>
+                            <p:column   headerText="Fecha" style="text-align: center;" rendered="#{alqveh.idIngreso==NULL?'true':'false'}" >
+                                <h:outputText value="#{alqveh.fecha}"  > 
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Inicio" style="text-align: center;" >
-                                <h:outputText value="#{clasImp.idHorario.inicio}" >
+                            <p:column   headerText="Inicio" style="text-align: center;" rendered="#{alqveh.idIngreso==NULL?'true':'false'}">
+                                <h:outputText value="#{alqveh.idHorario.inicio}" >
                                     <f:convertDateTime pattern="HH:mm" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Fin" style="text-align: center;"  >
-                                <h:outputText value="#{clasImp.idHorario.fin}" >
+                            <p:column   headerText="Fin" style="text-align: center;"  rendered="#{alqveh.idIngreso==NULL?'true':'false'}">
+                                <h:outputText value="#{alqveh.idHorario.fin}" >
                                     <f:convertDateTime pattern="HH:mm" />
                                 </h:outputText>
                             </p:column>
@@ -113,16 +122,31 @@
                     </p:panelGrid>
                     <br/>
                     <br/>
-                    <p:panelGrid columns="3" styleClass="ui-panelgrid-blank" >
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
 
                         <p:outputLabel value="Medio de Pago"  />
-                        <p:selectOneMenu style="width:160px" value="#{alumnosMorososBean.formaDePago}" converter="omnifaces.SelectItemsConverter">
-                            <f:selectItems value="#{alumnosMorososBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
+                        <p:selectOneMenu style="width:100px"  value="#{alumnosMorososBean.formaDePago}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItems value="#{alumnosMorososBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"   itemValue="#{form}" />
+                            <p:ajax process="@this" update="cuotas" />
                         </p:selectOneMenu>
 
-                        <p:commandButton   ajax="false"  update=":formGer"  value="Realizar Pago"   />
 
+                        <p:outputLabel for="cuotas" value="Cuotas"  />
+                        <p:selectOneMenu id="cuotas" disabled="#{alumnosMorososBean.formaDePago.descripcion=='EFECTIVO'}" value="#{alumnosMorososBean.cuotas}" style="width:30px">
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                            <f:selectItem itemLabel="3" itemValue="3" />
+                            <f:selectItem itemLabel="4" itemValue="4" />
+                            <f:selectItem itemLabel="5" itemValue="5" />
+                            <f:selectItem itemLabel="6" itemValue="6" />
+                        </p:selectOneMenu>
                     </p:panelGrid>
+                    <p:commandButton  id="botonPagar"  ajax="true"  update=":formGer:formAlumnosMorosos:montoFinalLbl" disabled="false"  value="Calcular" actionListener="#{alumnosMorososBean.calcularMonto()}" />
+
+                    <h:outputText id="montoFinalLbl"  value="Monto a Pagar: #{alumnosMorososBean.montoFinal}"  >
+                         <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                    <p:commandButton  id="botonConfirmar"  ajax="false"   disabled="false"  value="Confirmar Pago" actionListener="#{alumnosMorososBean.efectuarPago()}" />
 
                 </p:outputPanel>
             </p:dialog>

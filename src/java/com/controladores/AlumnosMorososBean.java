@@ -8,11 +8,14 @@ package com.controladores;
 import com.entidades.AlquilerVehiculo;
 import com.entidades.Clase;
 import com.entidades.FormaPago;
+import com.entidades.Ingreso;
 import com.repositorios.AlquilerVehiculoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.FormaPagoFacade;
+import com.repositorios.IngresoFacade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -29,16 +32,20 @@ public class AlumnosMorososBean implements Serializable {
     private List<Clase> clasesAlumnosMorosos;
     private List<Clase> clasesAlumnosMorososSeleccionada;
     private Clase claseAlumnoSeleccionado;
-    private List<AlquilerVehiculo> alquilerVehiculoList;
-    
-    private AlquilerVehiculo alquilerVehiculoSeleccionado;
-    
+
+    private int cuotas;
+    private double montoFinal = 0;
+
+    private List<AlquilerVehiculo> alquilerVehiculoListSeleccionado;
+
     @Inject
     private ClaseFacade claseFacade;
+    @Inject
+    private IngresoFacade ingresoFacade;
 
     @Inject
     private AlquilerVehiculoFacade alquilerVehiculoFacade;
-    
+
     @Inject
     private FormaPagoFacade formaPagoFacade;
     private List<FormaPago> formasDePago;
@@ -53,7 +60,7 @@ public class AlumnosMorososBean implements Serializable {
     public void onLoadMorosos() {
         clasesAlumnosMorosos = claseFacade.getClasesImpagasAlumnos();
         formasDePago = formaPagoFacade.findAll();
-        
+
     }
 
     /**
@@ -96,10 +103,6 @@ public class AlumnosMorososBean implements Serializable {
      */
     public void setClaseFacade(ClaseFacade claseFacade) {
         this.claseFacade = claseFacade;
-    }
-
-    public void onRowSelect(SelectEvent event) {
-        System.out.println("hola");
     }
 
     /**
@@ -152,7 +155,8 @@ public class AlumnosMorososBean implements Serializable {
     }
 
     /**
-     * @param clasesAlumnosMorososSeleccionada the clasesAlumnosMorososSeleccionada to set
+     * @param clasesAlumnosMorososSeleccionada the
+     * clasesAlumnosMorososSeleccionada to set
      */
     public void setClasesAlumnosMorososSeleccionada(List<Clase> clasesAlumnosMorososSeleccionada) {
         this.clasesAlumnosMorososSeleccionada = clasesAlumnosMorososSeleccionada;
@@ -173,33 +177,89 @@ public class AlumnosMorososBean implements Serializable {
     }
 
     /**
-     * @return the alquilerVehiculoList
+     * @return the alquilerVehiculoListSeleccionado
      */
-    public List<AlquilerVehiculo> getAlquilerVehiculoList() {
-        return alquilerVehiculoList;
+    public List<AlquilerVehiculo> getAlquilerVehiculoListSeleccionado() {
+        return alquilerVehiculoListSeleccionado;
     }
 
     /**
-     * @param alquilerVehiculoList the alquilerVehiculoList to set
+     * @param alquilerVehiculoListSeleccionado the
+     * alquilerVehiculoListSeleccionado to set
      */
-    public void setAlquilerVehiculoList(List<AlquilerVehiculo> alquilerVehiculoList) {
-        this.alquilerVehiculoList = alquilerVehiculoList;
+    public void setAlquilerVehiculoListSeleccionado(List<AlquilerVehiculo> alquilerVehiculoListSeleccionado) {
+        this.alquilerVehiculoListSeleccionado = alquilerVehiculoListSeleccionado;
+    }
+
+    public void calcularMonto() {
+        montoFinal = (clasesAlumnosMorososSeleccionada.size() * 400) + (alquilerVehiculoListSeleccionado.size() * 400);
+        if (formaDePago.getDescripcion().equals("TARJETA")) {
+            montoFinal = montoFinal * 1.1;
+        }
+
+    }
+
+    public void efectuarPago() {
+        Ingreso ingreso = new Ingreso();
+        ingreso.setIdFormaPago(formaDePago);
+        ingreso.setCuotas(cuotas);
+        ingreso.setMonto(montoFinal);
+        ingreso.setFecha(new Date());
+        ingreso.setClaseCollection(clasesAlumnosMorososSeleccionada);
+        ingreso.setAlquilerVehiculoCollection(alquilerVehiculoListSeleccionado);
+        ingresoFacade.create(ingreso);
+        for (Clase clasesAlumnosMorososSeleccionada1 : clasesAlumnosMorososSeleccionada) {
+            clasesAlumnosMorososSeleccionada1.setIdIngreso(ingreso);
+            claseFacade.edit(clasesAlumnosMorososSeleccionada1);
+        }
+        for (AlquilerVehiculo alquilerVehiculoListSeleccionado1 : alquilerVehiculoListSeleccionado) {
+            alquilerVehiculoListSeleccionado1.setIdIngreso(ingreso);
+            alquilerVehiculoFacade.edit(alquilerVehiculoListSeleccionado1);
+        }
+        
+        
     }
 
     /**
-     * @return the alquilerVehiculoSeleccionado
+     * @return the ingresoFacade
      */
-    public AlquilerVehiculo getAlquilerVehiculoSeleccionado() {
-        return alquilerVehiculoSeleccionado;
+    public IngresoFacade getIngresoFacade() {
+        return ingresoFacade;
     }
 
     /**
-     * @param alquilerVehiculoSeleccionado the alquilerVehiculoSeleccionado to set
+     * @param ingresoFacade the ingresoFacade to set
      */
-    public void setAlquilerVehiculoSeleccionado(AlquilerVehiculo alquilerVehiculoSeleccionado) {
-        this.alquilerVehiculoSeleccionado = alquilerVehiculoSeleccionado;
+    public void setIngresoFacade(IngresoFacade ingresoFacade) {
+        this.ingresoFacade = ingresoFacade;
     }
 
-    
+    /**
+     * @return the cuotas
+     */
+    public int getCuotas() {
+        return cuotas;
+    }
+
+    /**
+     * @param cuotas the cuotas to set
+     */
+    public void setCuotas(int cuotas) {
+        this.cuotas = cuotas;
+    }
+
+    /**
+     * @return the montoFinal
+     */
+    public Double getMontoFinal() {
+        return montoFinal;
+    }
+
+    /**
+     * @param montoFinal the montoFinal to set
+     */
+    public void setMontoFinal(Double montoFinal) {
+        this.montoFinal = montoFinal;
+    }
 
 }
