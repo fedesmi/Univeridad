@@ -39,6 +39,10 @@ public class AlquilerVehiculoFacade extends AbstractFacade<AlquilerVehiculo> {
 
     }
     
+     public List<AlquilerVehiculo> getAlumnosAlquileresImpagos() {
+        return getEntityManager().createNamedQuery("AlquilerVehiculo.findAlquileresImpagosAlumnos").getResultList();
+
+    }
     
     
 

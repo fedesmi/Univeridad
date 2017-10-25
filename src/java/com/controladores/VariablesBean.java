@@ -5,8 +5,8 @@
  */
 package com.controladores;
 
-import com.entidades.Variable;
-import com.repositorios.VariableFacade;
+import com.entidades.Concepto;
+import com.repositorios.ConceptoFacade;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -25,9 +25,9 @@ import org.primefaces.event.RowEditEvent;
 public class VariablesBean {
 
      @Inject
-    private VariableFacade variableFacade;
+    private ConceptoFacade conceptoFacade;
      
-    private List<Variable> variables;
+    private List<Concepto> conceptos;
     /**
      * Creates a new instance of VariablesBean
      */
@@ -37,48 +37,47 @@ public class VariablesBean {
     // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-        variables= variableFacade.findAll();
+        conceptos= conceptoFacade.findAll();
     }
 
 
     /**
-     * @return the variableFacade
+     * @return the conceptoFacade
      */
-    public VariableFacade getVariableFacade() {
-        return variableFacade;
+    public ConceptoFacade getConceptoFacade() {
+        return conceptoFacade;
     }
 
     /**
-     * @param variableFacade the variableFacade to set
+     * @param conceptoFacade the conceptoFacade to set
      */
-    public void setVariableFacade(VariableFacade variableFacade) {
-        this.variableFacade = variableFacade;
+    public void setConceptoFacade(ConceptoFacade conceptoFacade) {
+        this.conceptoFacade = conceptoFacade;
     }
 
     /**
-     * @return the variables
+     * @return the conceptos
      */
-    public List<Variable> getVariables() {
-        return variables;
+    public List<Concepto> getConceptos() {
+        return conceptos;
     }
 
     /**
-     * @param variables the variables to set
+     * @param conceptos the variables to set
      */
-    public void setVariables(List<Variable> variables) {
-        this.variables = variables;
+    public void setConceptos(List<Concepto> conceptos) {
+        this.conceptos = conceptos;
     }
     
         public void onRowEdit(RowEditEvent event)  {
-        Variable var = (Variable) event.getObject();
-        this.variableFacade.edit(var);
-        //GuardarEdicion(empVar);
-        FacesMessage msg = new FacesMessage("Variable Editada", String.valueOf(var.getDescripcion()));
+        Concepto var = (Concepto) event.getObject();
+        this.conceptoFacade.edit(var);
+        FacesMessage msg = new FacesMessage("Concepto Editada", String.valueOf(var.getDescripcion()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
     public void onRowCancel(RowEditEvent event) {
-        Variable var = (Variable) event.getObject();
+        Concepto var = (Concepto) event.getObject();
         FacesMessage msg = new FacesMessage("Edición Cancelada", String.valueOf(var.getDescripcion()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

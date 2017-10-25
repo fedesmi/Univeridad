@@ -66,7 +66,9 @@
                                 Clases Impagas
                             </f:facet>
 
-                            
+                            <p:ajax event="rowSelectCheckbox" listener="#{alumnosMorososBean.calcularMonto()}" update="formGer:formAlumnosMorosos:montoFinalLbl" />
+                            <p:ajax event="rowUnselectCheckbox" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" />
+                            <p:ajax event="toggleSelect" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" partialSubmit="true" />
 
                             <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" />
                             <p:column   headerText="Fecha" style="text-align: center;" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" >
@@ -98,7 +100,9 @@
                                 Alquiler de Vehiculo Adeudado
                             </f:facet>
 
-                         
+                            <p:ajax event="rowSelectCheckbox" listener="#{alumnosMorososBean.calcularMonto()}" update="formGer:formAlumnosMorosos:montoFinalLbl" />
+                            <p:ajax event="rowUnselectCheckbox" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" />
+                            <p:ajax event="toggleSelect" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" partialSubmit="true" />
 
                             <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{alqveh.idIngreso==NULL?'true':'false'}"/>
                             <p:column   headerText="Fecha" style="text-align: center;" rendered="#{alqveh.idIngreso==NULL?'true':'false'}" >
@@ -122,12 +126,14 @@
                     </p:panelGrid>
                     <br/>
                     <br/>
-                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
+                    
+                    <p:panelGrid style="text-align: right;" columns="2" styleClass="ui-panelgrid-blank" >
 
                         <p:outputLabel value="Medio de Pago"  />
                         <p:selectOneMenu style="width:100px"  value="#{alumnosMorososBean.formaDePago}" converter="omnifaces.SelectItemsConverter">
+                            <p:ajax event="change" update="formGer:formAlumnosMorosos:montoFinalLbl" listener="#{alumnosMorososBean.calcularMonto()}" />
                             <f:selectItems value="#{alumnosMorososBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"   itemValue="#{form}" />
-                            <p:ajax process="@this" update="cuotas" />
+                           
                         </p:selectOneMenu>
 
 
@@ -140,14 +146,16 @@
                             <f:selectItem itemLabel="5" itemValue="5" />
                             <f:selectItem itemLabel="6" itemValue="6" />
                         </p:selectOneMenu>
+
+                        <h:outputText  value="Monto a Pagar: " />
+
+                        <h:outputText id="montoFinalLbl"  value="#{alumnosMorososBean.montoFinal}"  >
+                            <f:convertNumber  currencySymbol="$" type="currency" />
+                        </h:outputText>
                     </p:panelGrid>
-                    <p:commandButton  id="botonPagar"  ajax="true"  update=":formGer:formAlumnosMorosos:montoFinalLbl" disabled="false"  value="Calcular" actionListener="#{alumnosMorososBean.calcularMonto()}" />
-
-                    <h:outputText id="montoFinalLbl"  value="Monto a Pagar: #{alumnosMorososBean.montoFinal}"  >
-                         <f:convertNumber type="currency" currencySymbol="$" />
-                    </h:outputText>
-                    <p:commandButton  id="botonConfirmar"  ajax="false"   disabled="false"  value="Confirmar Pago" actionListener="#{alumnosMorososBean.efectuarPago()}" />
-
+                    <div style="text-align: right;">
+                        <p:commandButton  id="botonConfirmar"  ajax="false"   disabled="false"  value="Confirmar Pago" actionListener="#{alumnosMorososBean.efectuarPago()}" />
+                    </div>
                 </p:outputPanel>
             </p:dialog>
 

@@ -13,13 +13,15 @@ import com.repositorios.AlquilerVehiculoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.FormaPagoFacade;
 import com.repositorios.IngresoFacade;
+import com.repositorios.ConceptoFacade;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -30,6 +32,8 @@ import org.primefaces.event.SelectEvent;
 public class AlumnosMorososBean implements Serializable {
 
     private List<Clase> clasesAlumnosMorosos;
+    private List<AlquilerVehiculo> alquilerAlumnosMorosos;
+    
     private List<Clase> clasesAlumnosMorososSeleccionada;
     private Clase claseAlumnoSeleccionado;
 
@@ -42,6 +46,9 @@ public class AlumnosMorososBean implements Serializable {
     private ClaseFacade claseFacade;
     @Inject
     private IngresoFacade ingresoFacade;
+    
+    @Inject
+    private ConceptoFacade conceptoFacade;
 
     @Inject
     private AlquilerVehiculoFacade alquilerVehiculoFacade;
@@ -59,6 +66,7 @@ public class AlumnosMorososBean implements Serializable {
 
     public void onLoadMorosos() {
         clasesAlumnosMorosos = claseFacade.getClasesImpagasAlumnos();
+        alquilerAlumnosMorosos = alquilerVehiculoFacade.getAlumnosAlquileresImpagos();
         formasDePago = formaPagoFacade.findAll();
 
     }
@@ -192,11 +200,22 @@ public class AlumnosMorososBean implements Serializable {
     }
 
     public void calcularMonto() {
-        montoFinal = (clasesAlumnosMorososSeleccionada.size() * 400) + (alquilerVehiculoListSeleccionado.size() * 400);
-        if (formaDePago.getDescripcion().equals("TARJETA")) {
-            montoFinal = montoFinal * 1.1;
-        }
-
+      
+        
+        
+     double valorClase = conceptoFacade.getValorHoraClase().getValor();
+     double valorVehiculo = conceptoFacade.getValorHoraVehiculo().getValor();
+     
+     montoFinal = (clasesAlumnosMorososSeleccionada.size() * valorClase) + (alquilerVehiculoListSeleccionado.size() * valorVehiculo);
+       
+    
+        
+    if(formaDePago.getPorcentajeRecargo()>0){
+        double porcentaje = (formaDePago.getPorcentajeRecargo()*0.01)+1;
+        montoFinal = montoFinal * porcentaje;
+     }
+     montoFinal =(double) Math.round(montoFinal);
+     
     }
 
     public void efectuarPago() {
@@ -216,6 +235,10 @@ public class AlumnosMorososBean implements Serializable {
             alquilerVehiculoListSeleccionado1.setIdIngreso(ingreso);
             alquilerVehiculoFacade.edit(alquilerVehiculoListSeleccionado1);
         }
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Pago fue registrado exitosamente"));
+
         
         
     }
@@ -260,6 +283,34 @@ public class AlumnosMorososBean implements Serializable {
      */
     public void setMontoFinal(Double montoFinal) {
         this.montoFinal = montoFinal;
+    }
+
+    /**
+     * @return the variableFacade
+     */
+    public ConceptoFacade getConceptoFacade() {
+        return conceptoFacade;
+    }
+
+    /**
+     * @param conceptoFacade the variableFacade to set
+     */
+    public void setConceptoFacade(ConceptoFacade conceptoFacade) {
+        this.conceptoFacade = conceptoFacade;
+    }
+
+    /**
+     * @return the alquilerAlumnosMorosos
+     */
+    public List<AlquilerVehiculo> getAlquilerAlumnosMorosos() {
+        return alquilerAlumnosMorosos;
+    }
+
+    /**
+     * @param alquilerAlumnosMorosos the alquilerAlumnosMorosos to set
+     */
+    public void setAlquilerAlumnosMorosos(List<AlquilerVehiculo> alquilerAlumnosMorosos) {
+        this.alquilerAlumnosMorosos = alquilerAlumnosMorosos;
     }
 
 }

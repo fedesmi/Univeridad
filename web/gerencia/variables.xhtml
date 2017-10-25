@@ -14,7 +14,7 @@
 
             <br/>
 
-            <p:dataTable id="tablaValores" widgetVar="varWidget" var="variable" editable="true"  value="#{variablesBean.variables}"  emptyMessage="sin registros" >
+            <p:dataTable id="tablaValores" widgetVar="varWidget" var="concepto" editable="true"  value="#{variablesBean.conceptos}"  emptyMessage="sin registros" >
                  <f:facet name="header">
                     Lista de Valores
                 </f:facet>
@@ -25,16 +25,16 @@
                 <p:column   headerText="Descripcion" style="text-align: center;" >
                       <div style="text-align: center; font-size: 14px;" >
                     <p:cellEditor>
-                        <f:facet name="output"> <h:outputText  value="#{variable.descripcion}" ></h:outputText></f:facet>
-                        <f:facet name="input"><p:inputText value="#{variable.descripcion}" /></f:facet>
+                        <f:facet name="output"> <h:outputText  value="#{concepto.descripcion}" ></h:outputText></f:facet>
+                        <f:facet name="input"><p:inputText value="#{concepto.descripcion}" /></f:facet>
                     </p:cellEditor>
                     </div>  
                 </p:column>
                 <p:column   headerText="Valor" style="text-align: center;" >
                       <div style="text-align: center; font-size: 14px;" >
                     <p:cellEditor>
-                        <f:facet name="output"> <h:outputText value="#{variable.valor}" ></h:outputText></f:facet>
-                        <f:facet name="input"><p:inputText value="#{variable.valor}" /></f:facet> 
+                        <f:facet name="output"> <h:outputText value="#{concepto.valor}" ></h:outputText></f:facet>
+                        <f:facet name="input"><p:inputText value="#{concepto.valor}" /></f:facet> 
                     </p:cellEditor>
                     </div>
                 </p:column>

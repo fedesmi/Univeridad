@@ -25,14 +25,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Cacheable(false)
-@Table(name = "forma_pago")
+@Table(name = "concepto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FormaPago.findAll", query = "SELECT f FROM FormaPago f")
-    , @NamedQuery(name = "FormaPago.findById", query = "SELECT f FROM FormaPago f WHERE f.id = :id")
-    , @NamedQuery(name = "FormaPago.findByDescripcion", query = "SELECT f FROM FormaPago f WHERE f.descripcion = :descripcion")
-    , @NamedQuery(name = "FormaPago.findByPorcentajeRecargo", query = "SELECT f FROM FormaPago f WHERE f.porcentajeRecargo = :porcentajeRecargo")})
-public class FormaPago implements Serializable {
+    @NamedQuery(name = "Concepto.findAll", query = "SELECT c FROM Concepto c")
+    , @NamedQuery(name = "Concepto.findById", query = "SELECT c FROM Concepto c WHERE c.id = :id")
+    , @NamedQuery(name = "Concepto.findByDescripcion", query = "SELECT c FROM Concepto c WHERE c.descripcion = :descripcion")
+    , @NamedQuery(name = "Concepto.findByValor", query = "SELECT c FROM Concepto c WHERE c.valor = :valor")})
+public class Concepto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,16 +40,17 @@ public class FormaPago implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 10)
+    @Size(max = 20)
     @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "porcentajeRecargo")
-    private Integer porcentajeRecargo;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor")
+    private Double valor;
 
-    public FormaPago() {
+    public Concepto() {
     }
 
-    public FormaPago(Integer id) {
+    public Concepto(Integer id) {
         this.id = id;
     }
 
@@ -69,12 +70,12 @@ public class FormaPago implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Integer getPorcentajeRecargo() {
-        return porcentajeRecargo;
+    public Double getValor() {
+        return valor;
     }
 
-    public void setPorcentajeRecargo(Integer porcentajeRecargo) {
-        this.porcentajeRecargo = porcentajeRecargo;
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
     @Override
@@ -87,10 +88,10 @@ public class FormaPago implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FormaPago)) {
+        if (!(object instanceof Concepto)) {
             return false;
         }
-        FormaPago other = (FormaPago) object;
+        Concepto other = (Concepto) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -99,7 +100,7 @@ public class FormaPago implements Serializable {
 
     @Override
     public String toString() {
-        return "com.entidades.FormaPago[ id=" + id + " ]";
+        return "com.entidades.Concepto[ id=" + id + " ]";
     }
     
 }
