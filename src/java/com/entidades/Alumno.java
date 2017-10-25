@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -40,7 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumno.findById", query = "SELECT a FROM Alumno a WHERE a.id = :id")
     , @NamedQuery(name = "Alumno.findByDni", query = "SELECT a FROM Alumno a WHERE a.dni = :dni")
     , @NamedQuery(name = "Alumno.findByNombre", query = "SELECT a FROM Alumno a WHERE a.nombre = :nombre")
-    , @NamedQuery(name = "Alumno.findByApellido", query = "SELECT a FROM Alumno a WHERE a.apellido = :apellido")
+    , @NamedQuery(name = "Alumno.findByApellido", query = "SELECT a FROM Alumno a WHERE a.apellido = :apellido")        
+    , @NamedQuery(name = "Alumno.findMorosos", query = "SELECT a FROM Alumno a INNER JOIN a.claseCollection Clase LEFT JOIN a.alquilerVehiculoCollection AlquilerVehiculo "
+            + "WHERE (Clase.id IS NOT NULL AND Clase.idIngreso IS NULL) OR (AlquilerVehiculo.id IS NOT NULL AND AlquilerVehiculo.idIngreso IS NULL)  GROUP BY a.id") 
     , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")})
 public class Alumno implements Serializable {
 
@@ -77,10 +80,12 @@ public class Alumno implements Serializable {
     @NotNull
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaNacimiento;
+    private Date fechaNacimiento;  
+
     @OneToMany(mappedBy = "idAlumno")
     private Collection<Clase> claseCollection;
-
+     
+    
     public Alumno() {
     }
 

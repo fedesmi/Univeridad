@@ -17,7 +17,7 @@
 
             <br/>
 
-            <p:dataTable id="tablaAlumnosMorosos" widgetVar="alumnosWidget" var="alucla" value="#{alumnosMorososBean.clasesAlumnosMorosos}" 
+            <p:dataTable id="tablaAlumnosMorosos" widgetVar="alumnosWidget" var="alu" value="#{alumnosMorososBean.alumnosMorosos}" 
                          paginator="false" scrollable="true" scrollHeight="390" emptyMessage="sin registros" 
                          style="height: 300px; font-family: Open Sans,sans-serif;">
 
@@ -29,22 +29,23 @@
 
                 <p:column   headerText="DNI" style="text-align: center;" filterBy="#{alu.dni}" filterMatchMode="contains" >
                     <div style="text-align: center; font-size: 12px;" >
-                        <h:outputText value="#{alucla.idAlumno.dni}" />
+                        <h:outputText value="#{alu.dni}" />
                     </div>
                 </p:column>
                 <p:column  headerText="Nombre" >
                     <div style="text-align: center; font-size: 12px;" >
-                        <h:outputText value="#{alucla.idAlumno.nombre}" />
+                        <h:outputText value="#{alu.nombre}" />
                     </div>
                 </p:column>
-                <p:column headerText="Apellido" sortBy="#{alucla.idAlumno.apellido}" filterBy="#{alucla.idAlumno.apellido}" filterMatchMode="contains" >
+                <p:column headerText="Apellido" sortBy="#{alu.apellido}" filterBy="#{alu.apellido}" filterMatchMode="contains" >
                     <div style="text-align: center; font-size: 12px;" >
-                        <h:outputText value="#{alucla.idAlumno.apellido}" />
+                        <h:outputText value="#{alu.apellido}" />
                     </div>
                 </p:column>
-                <p:column headerText="Abonar Deuda" >
+               
+                <p:column headerText="Deuda"  style="text-align: center; width: 100px;">
                     <p:commandButton icon="ui-icon-cart" ajax="true" update=":formGer:formAlumnosMorosos:pagoClase" oncomplete="PF('pagoClaseW').show();">
-                        <f:setPropertyActionListener value="#{alucla}" target="#{alumnosMorososBean.claseAlumnoSeleccionado}" />
+                        <f:setPropertyActionListener value="#{alu}" target="#{alumnosMorososBean.alumnoSeleccionado}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -56,7 +57,7 @@
 
                     <!-- SE FILTRAN SOLO LAS CLASES CON INGRESO NULO  -->
                     <p:panelGrid columns="2"  >
-                        <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.claseCollection}" 
+                        <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.alumnoSeleccionado.claseCollection}" 
                                      scrollable="true" scrollHeight="150" emptyMessage="sin registros"
                                      style="height: 200px; font-size: 12px; "  rowStyleClass="highlightTableRow"
                                      selection="#{alumnosMorososBean.clasesAlumnosMorososSeleccionada}" rowKey="#{clasImp.id}"
@@ -89,7 +90,7 @@
 
                         </p:dataTable>
 
-                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="alqveh"   value="#{alumnosMorososBean.claseAlumnoSeleccionado.idAlumno.alquilerVehiculoCollection}" 
+                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="alqveh"   value="#{alumnosMorososBean.alumnoSeleccionado.alquilerVehiculoCollection}" 
                                      paginator="false" scrollable="true" scrollHeight="150" emptyMessage="sin registros"
                                      style="height: 200px; font-size: 12px; " rowStyleClass="highlightTableRow"
                                      selection="#{alumnosMorososBean.alquilerVehiculoListSeleccionado}" rowKey="#{alqveh.id}"
@@ -131,7 +132,7 @@
 
                         <p:outputLabel value="Medio de Pago"  />
                         <p:selectOneMenu style="width:100px"  value="#{alumnosMorososBean.formaDePago}" converter="omnifaces.SelectItemsConverter">
-                            <p:ajax event="change" update="formGer:formAlumnosMorosos:montoFinalLbl" listener="#{alumnosMorososBean.calcularMonto()}" />
+                            <p:ajax event="change" update="formGer:formAlumnosMorosos:montoFinalLbl,formGer:formAlumnosMorosos:cuotas" listener="#{alumnosMorososBean.calcularMonto()}" />
                             <f:selectItems value="#{alumnosMorososBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"   itemValue="#{form}" />
                            
                         </p:selectOneMenu>

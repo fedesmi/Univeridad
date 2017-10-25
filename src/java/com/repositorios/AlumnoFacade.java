@@ -6,6 +6,8 @@
 package com.repositorios;
 
 import com.entidades.Alumno;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +30,13 @@ public class AlumnoFacade extends AbstractFacade<Alumno> {
     public AlumnoFacade() {
         super(Alumno.class);
     }
-
     
+    
+     public List<Alumno> getAlumnosMorosos() {
+        
+         return getEntityManager().createNamedQuery("Alumno.findMorosos").getResultList();
+
+    }
+
 
 }

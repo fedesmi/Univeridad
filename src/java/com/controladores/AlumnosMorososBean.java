@@ -6,10 +6,12 @@
 package com.controladores;
 
 import com.entidades.AlquilerVehiculo;
+import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.FormaPago;
 import com.entidades.Ingreso;
 import com.repositorios.AlquilerVehiculoFacade;
+import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.FormaPagoFacade;
 import com.repositorios.IngresoFacade;
@@ -31,19 +33,23 @@ import javax.inject.Inject;
 @ViewScoped
 public class AlumnosMorososBean implements Serializable {
 
-    private List<Clase> clasesAlumnosMorosos;
-    private List<AlquilerVehiculo> alquilerAlumnosMorosos;
     
-    private List<Clase> clasesAlumnosMorososSeleccionada;
-    private Clase claseAlumnoSeleccionado;
+    
+    
+    
+    
+    
+    
 
     private int cuotas;
     private double montoFinal = 0;
 
-    private List<AlquilerVehiculo> alquilerVehiculoListSeleccionado;
+    
 
     @Inject
     private ClaseFacade claseFacade;
+    private List<Clase> clasesAlumnosMorososSeleccionada;
+    
     @Inject
     private IngresoFacade ingresoFacade;
     
@@ -52,6 +58,12 @@ public class AlumnosMorososBean implements Serializable {
 
     @Inject
     private AlquilerVehiculoFacade alquilerVehiculoFacade;
+    private List<AlquilerVehiculo> alquilerVehiculoListSeleccionado;
+    
+     @Inject
+    private AlumnoFacade alumnoFacade;
+    private List<Alumno> alumnosMorosos;
+    private Alumno alumnoSeleccionado;
 
     @Inject
     private FormaPagoFacade formaPagoFacade;
@@ -65,39 +77,14 @@ public class AlumnosMorososBean implements Serializable {
     }
 
     public void onLoadMorosos() {
-        clasesAlumnosMorosos = claseFacade.getClasesImpagasAlumnos();
-        alquilerAlumnosMorosos = alquilerVehiculoFacade.getAlumnosAlquileresImpagos();
+        
+        setAlumnosMorosos(alumnoFacade.getAlumnosMorosos());
         formasDePago = formaPagoFacade.findAll();
 
     }
 
-    /**
-     * @return the clasesAlumnosMorosos
-     */
-    public List<Clase> getClasesAlumnosMorosos() {
-        return clasesAlumnosMorosos;
-    }
+  
 
-    /**
-     * @param clasesAlumnosMorosos the clasesAlumnosMorosos to set
-     */
-    public void setClasesAlumnosMorosos(List<Clase> clasesAlumnosMorosos) {
-        this.clasesAlumnosMorosos = clasesAlumnosMorosos;
-    }
-
-    /**
-     * @return the claseAlumnoSeleccionado
-     */
-    public Clase getClaseAlumnoSeleccionado() {
-        return claseAlumnoSeleccionado;
-    }
-
-    /**
-     * @param claseAlumnoSeleccionado the claseAlumnoSeleccionado to set
-     */
-    public void setClaseAlumnoSeleccionado(Clase claseAlumnoSeleccionado) {
-        this.claseAlumnoSeleccionado = claseAlumnoSeleccionado;
-    }
 
     /**
      * @return the claseFacade
@@ -227,14 +214,18 @@ public class AlumnosMorososBean implements Serializable {
         ingreso.setClaseCollection(clasesAlumnosMorososSeleccionada);
         ingreso.setAlquilerVehiculoCollection(alquilerVehiculoListSeleccionado);
         ingresoFacade.create(ingreso);
-        for (Clase clasesAlumnosMorososSeleccionada1 : clasesAlumnosMorososSeleccionada) {
-            clasesAlumnosMorososSeleccionada1.setIdIngreso(ingreso);
-            claseFacade.edit(clasesAlumnosMorososSeleccionada1);
-        }
+        
+        
         for (AlquilerVehiculo alquilerVehiculoListSeleccionado1 : alquilerVehiculoListSeleccionado) {
             alquilerVehiculoListSeleccionado1.setIdIngreso(ingreso);
             alquilerVehiculoFacade.edit(alquilerVehiculoListSeleccionado1);
         }
+        
+        for (Clase clasesAlumnosMorososSeleccionada1 : clasesAlumnosMorososSeleccionada) {
+            clasesAlumnosMorososSeleccionada1.setIdIngreso(ingreso);
+            claseFacade.edit(clasesAlumnosMorososSeleccionada1);
+        }
+        
         
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Pago fue registrado exitosamente"));
@@ -299,18 +290,48 @@ public class AlumnosMorososBean implements Serializable {
         this.conceptoFacade = conceptoFacade;
     }
 
+   
+
     /**
-     * @return the alquilerAlumnosMorosos
+     * @return the alumnoFacade
      */
-    public List<AlquilerVehiculo> getAlquilerAlumnosMorosos() {
-        return alquilerAlumnosMorosos;
+    public AlumnoFacade getAlumnoFacade() {
+        return alumnoFacade;
     }
 
     /**
-     * @param alquilerAlumnosMorosos the alquilerAlumnosMorosos to set
+     * @param alumnoFacade the alumnoFacade to set
      */
-    public void setAlquilerAlumnosMorosos(List<AlquilerVehiculo> alquilerAlumnosMorosos) {
-        this.alquilerAlumnosMorosos = alquilerAlumnosMorosos;
+    public void setAlumnoFacade(AlumnoFacade alumnoFacade) {
+        this.alumnoFacade = alumnoFacade;
+    }
+
+    /**
+     * @return the alumnosMorosos
+     */
+    public List<Alumno> getAlumnosMorosos() {
+        return alumnosMorosos;
+    }
+
+    /**
+     * @param alumnosMorosos the alumnosMorosos to set
+     */
+    public void setAlumnosMorosos(List<Alumno> alumnosMorosos) {
+        this.alumnosMorosos = alumnosMorosos;
+    }
+
+    /**
+     * @return the alumnoSeleccionado
+     */
+    public Alumno getAlumnoSeleccionado() {
+        return alumnoSeleccionado;
+    }
+
+    /**
+     * @param alumnoSeleccionado the alumnoSeleccionado to set
+     */
+    public void setAlumnoSeleccionado(Alumno alumnoSeleccionado) {
+        this.alumnoSeleccionado = alumnoSeleccionado;
     }
 
 }

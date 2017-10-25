@@ -68,7 +68,7 @@ public class Ingreso implements Serializable {
     private Date fecha;
     @Size(max = 50)
    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idIngreso")
+    @OneToMany(mappedBy = "idIngreso")
     private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
     @OneToMany(mappedBy = "idIngreso")
     private Collection<Clase> claseCollection;
