@@ -22,7 +22,7 @@
             <br/>
 
             <p:dataTable id="tablaClasesImpagas" widgetVar="clasesImpagasWidget" var="clas"   value="#{clasesListBean.clasesImpagas}" 
-                         paginator="false" scrollable="true" scrollHeight="200" emptyMessage="sin registros"
+                         paginator="false" scrollable="true" scrollHeight="440" emptyMessage="sin registros"
                          style="height: 300px; font-size: 12px; " 
                          selection="#{clasesListBean.clasesImpagasSeleccionadas}" rowKey="#{clas.id}"
                          >
@@ -59,50 +59,7 @@
                 
                 
             </p:dataTable>
-            <br/>
-
-            <p:commandButton update=":formGer:formClasesImpagas:pagoClase" value="Pagar"   oncomplete="PF('pagoClaseW').show()" icon="ui-icon-cart" title="Abonar" />
-
-            <p:dialog id="pagoClaseDlg" header="Pago de Clases" widgetVar="pagoClaseW" modal="false"
-                      resizable="false" height="400" width="600" style="font-size: 12px;">
-                <p:outputPanel id="pagoClase" >
-
-                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
-
-                        <p:outputLabel value="Medio de Pago"  />
-                        <p:selectOneMenu style="width:160px" value="#{clasesListBean.formaDePago}"  converter="omnifaces.SelectItemsConverter" >
-                            <f:selectItems value="#{clasesListBean.formasDePago}" var="form" itemLabel="#{form.descripcion}"  itemValue="#{form}" />
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{clasesListBean.clasesImpagasSeleccionadas}" 
-                                 paginator="false" scrollable="true" scrollHeight="300" emptyMessage="sin registros"
-                                 style="height: 330px; font-size: 12px; " >
-
-
-                        <p:column   headerText="Fecha" style="text-align: center;"  >
-                            <h:outputText value="#{clasImp.fecha}" > 
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column   headerText="Inicio" style="text-align: center;" >
-                            <h:outputText value="#{clasImp.idHorario.inicio}" >
-                                <f:convertDateTime pattern="HH:mm" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column   headerText="Fin" style="text-align: center;"  >
-                            <h:outputText value="#{clasImp.idHorario.fin}" >
-                                <f:convertDateTime pattern="HH:mm" />
-                            </h:outputText>
-                        </p:column>
-
-
-                    </p:dataTable>
-
-                    <div style="text-align: right;">
-                        <p:commandButton   ajax="false"  update=":formGer"  value="Realizar Pago"   />
-                    </div>
-                </p:outputPanel>
-            </p:dialog>
+            
 
 
 

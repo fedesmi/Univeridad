@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class Clase implements Serializable {
 
-    @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
+      @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
     @ManyToOne
     private Ingreso idIngreso;
 
@@ -146,5 +146,7 @@ public class Clase implements Serializable {
     public void setIdIngreso(Ingreso idIngreso) {
         this.idIngreso = idIngreso;
     }
+
+   
 
 }

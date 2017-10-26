@@ -7,6 +7,8 @@ package com.repositorios;
 
 import com.entidades.Empleado;
 import com.entidades.Vehiculo;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,5 +40,9 @@ public class VehiculoFacade extends AbstractFacade<Vehiculo> {
       public Vehiculo buscarVehiculoPorEmpleado(Empleado emp) {  
          return (Vehiculo) getEntityManager().createNamedQuery("Vehiculo.findByEmpleado").setParameter("empleado", emp).getSingleResult();
     } 
+      
+       public List<Vehiculo> getVehiculosOcupados(Date fecha) {  
+         return getEntityManager().createNamedQuery("Vehiculo.findOcupadosByFecha").setParameter("fecha", fecha).getResultList();
+    }
      
 }

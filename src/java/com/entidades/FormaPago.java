@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -15,9 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "FormaPago.findByDescripcion", query = "SELECT f FROM FormaPago f WHERE f.descripcion = :descripcion")
     , @NamedQuery(name = "FormaPago.findByPorcentajeRecargo", query = "SELECT f FROM FormaPago f WHERE f.porcentajeRecargo = :porcentajeRecargo")})
 public class FormaPago implements Serializable {
+
+    @OneToMany(mappedBy = "idFormaPago")
+    private Collection<Ingreso> ingresoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -100,6 +106,15 @@ public class FormaPago implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.FormaPago[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Ingreso> getIngresoCollection() {
+        return ingresoCollection;
+    }
+
+    public void setIngresoCollection(Collection<Ingreso> ingresoCollection) {
+        this.ingresoCollection = ingresoCollection;
     }
     
 }

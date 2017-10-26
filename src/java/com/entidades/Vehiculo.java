@@ -45,8 +45,14 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vehiculo.findByNumeroMotor", query = "SELECT v FROM Vehiculo v WHERE v.numeroMotor = :numeroMotor")
     , @NamedQuery(name = "Vehiculo.asignarEmpleado", query = "UPDATE Vehiculo v SET v.idEmpleado = :empleadoPar WHERE v.id = :id")
     , @NamedQuery(name = "Vehiculo.findByYear", query = "SELECT v FROM Vehiculo v WHERE v.year = :year")
-    , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")})
+    , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")
+
+    , @NamedQuery(name = "Vehiculo.findOcupadosByFecha", query = "SELECT v FROM Vehiculo v LEFT JOIN v.alquilerVehiculoCollection AlquilerVehiculo WHERE AlquilerVehiculo.fecha = :fecha ")
+        
+    
+})
 public class Vehiculo implements Serializable {
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
     private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
@@ -229,6 +235,8 @@ public class Vehiculo implements Serializable {
     public void setAlquilerVehiculoCollection(Collection<AlquilerVehiculo> alquilerVehiculoCollection) {
         this.alquilerVehiculoCollection = alquilerVehiculoCollection;
     }
+
+
 
   
     

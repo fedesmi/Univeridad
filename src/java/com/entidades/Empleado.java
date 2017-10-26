@@ -17,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -96,8 +95,8 @@ public class Empleado implements Serializable {
      @OneToMany(mappedBy = "idInstructor")
     private Collection<Clase> claseCollection;
 
-    @OneToMany(mappedBy = "idEmpleado")
-    private Collection<Vehiculo> vehiculoCollection;
+    @OneToOne(mappedBy = "idEmpleado")
+    private Vehiculo vehiculo;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -261,14 +260,6 @@ public class Empleado implements Serializable {
         return "com.entidades.Empleado[ id=" + id + " ]";
     }
 
-    @XmlTransient
-    public Collection<Vehiculo> getVehiculoCollection() {
-        return vehiculoCollection;
-    }
-
-    public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
-        this.vehiculoCollection = vehiculoCollection;
-    }
 
     @XmlTransient
     public Collection<Clase> getClaseCollection() {
@@ -300,6 +291,20 @@ public class Empleado implements Serializable {
 
     public void setEvaluacionCollection(Collection<Evaluacion> evaluacionCollection) {
         this.evaluacionCollection = evaluacionCollection;
+    }
+
+    /**
+     * @return the vehiculo
+     */
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    /**
+     * @param vehiculo the vehiculo to set
+     */
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
   

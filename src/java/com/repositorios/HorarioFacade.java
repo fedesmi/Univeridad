@@ -104,6 +104,8 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         return horarios;
 
     }
+    
+   
 
     private List<Empleado> getInstructoresDisponiblesHorario(Date fecha, Integer id) {
         List<Empleado> empleados = new ArrayList<>();
