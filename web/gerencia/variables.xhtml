@@ -15,36 +15,42 @@
             <br/>
 
             <p:dataTable id="tablaValores" widgetVar="varWidget" var="concepto" editable="true"  value="#{variablesBean.conceptos}"  emptyMessage="sin registros" >
-                 <f:facet name="header">
+                <f:facet name="header">
                     Lista de Valores
                 </f:facet>
                 <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
                 <p:ajax event="rowEdit" listener="#{variablesBean.onRowEdit}" update="formGer:formVariables:msgs" oncomplete="PF('varWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
                 <p:ajax event="rowEditCancel" listener="#{variablesBean.onRowCancel}" update="formGer:formVariables:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
-                <p:column   headerText="Descripcion" style="text-align: center;" >
+                <!--<p:column   headerText="Descripcion" style="text-align: center;" >
                       <div style="text-align: center; font-size: 14px;" >
                     <p:cellEditor>
                         <f:facet name="output"> <h:outputText  value="#{concepto.descripcion}" ></h:outputText></f:facet>
                         <f:facet name="input"><p:inputText value="#{concepto.descripcion}" /></f:facet>
                     </p:cellEditor>
                     </div>  
+                </p:column>-->
+                <p:column   headerText="Descripcion" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText  value="#{concepto.descripcion}" />
+
+                    </div>  
                 </p:column>
                 <p:column   headerText="Valor" style="text-align: center;" >
-                      <div style="text-align: center; font-size: 14px;" >
-                    <p:cellEditor>
-                        <f:facet name="output"> <h:outputText value="#{concepto.valor}" ></h:outputText></f:facet>
-                        <f:facet name="input"><p:inputText value="#{concepto.valor}" /></f:facet> 
-                    </p:cellEditor>
+                    <div style="text-align: center; font-size: 14px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{concepto.valor}" ></h:outputText></f:facet>
+                            <f:facet name="input"><p:inputText value="#{concepto.valor}" /></f:facet> 
+                        </p:cellEditor>
                     </div>
                 </p:column>
-                
+
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
             </p:dataTable>
 
- 
+
         </h:form>
     </ui:define>
 

@@ -79,12 +79,12 @@
                             </p:column>
                             <p:column   headerText="Inicio" style="text-align: center;" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" >
                                 <h:outputText value="#{clasImp.idHorario.inicio}" >
-                                    <f:convertDateTime pattern="HH:mm" />
+                                    <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
                             </p:column>
                             <p:column   headerText="Fin" style="text-align: center;"  rendered="#{clasImp.idIngreso==NULL?'true':'false'}">
                                 <h:outputText value="#{clasImp.idHorario.fin}" >
-                                    <f:convertDateTime pattern="HH:mm" />
+                                    <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
                             </p:column>
 
@@ -113,12 +113,12 @@
                             </p:column>
                             <p:column   headerText="Inicio" style="text-align: center;" rendered="#{alqveh.idIngreso==NULL?'true':'false'}">
                                 <h:outputText value="#{alqveh.idHorario.inicio}" >
-                                    <f:convertDateTime pattern="HH:mm" />
+                                    <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
                             </p:column>
                             <p:column   headerText="Fin" style="text-align: center;"  rendered="#{alqveh.idIngreso==NULL?'true':'false'}">
                                 <h:outputText value="#{alqveh.idHorario.fin}" >
-                                    <f:convertDateTime pattern="HH:mm" />
+                                    <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
                             </p:column>
 

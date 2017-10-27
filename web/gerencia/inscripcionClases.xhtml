@@ -153,12 +153,12 @@
                         </p:column> 
                         <p:column  headerText="Hora inicio">
                             <h:outputText value="#{esp.idHorario.inicio}" >
-                                <f:convertDateTime pattern="HH:mm" />
+                                <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                             </h:outputText>
                         </p:column>
                         <p:column  headerText="Hora fin">
                             <h:outputText value="#{esp.idHorario.fin}"  >
-                                <f:convertDateTime pattern="HH:mm" />
+                                <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                             </h:outputText>
                         </p:column>
                     </p:dataTable> 

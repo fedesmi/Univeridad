@@ -45,12 +45,12 @@
                 </p:column>
                 <p:column   headerText="Inicio" style="text-align: center;" sortBy="#{clas.idHorario.inicio}" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}" >
                     <h:outputText value="#{clas.idHorario.inicio}" >
-                        <f:convertDateTime pattern="HH:mm" />
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                     </h:outputText>
                 </p:column>
                 <p:column   headerText="Fin" style="text-align: center;" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}"  >
                     <h:outputText value="#{clas.idHorario.fin}" >
-                        <f:convertDateTime pattern="HH:mm" />
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                     </h:outputText>
                 </p:column>
                 <p:column   headerText="Alumno" style="text-align: center;"   filterBy="#{clas.idAlumno.apellido} #{clas.idAlumno.nombre}"  filterMatchMode="contains" styleClass="#{clas.fecha>now?'highlightTableRowYellow':''}" >
