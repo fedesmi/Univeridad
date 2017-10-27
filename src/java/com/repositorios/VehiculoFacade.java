@@ -44,5 +44,8 @@ public class VehiculoFacade extends AbstractFacade<Vehiculo> {
        public List<Vehiculo> getVehiculosOcupados(Date fecha) {  
          return getEntityManager().createNamedQuery("Vehiculo.findOcupadosByFecha").setParameter("fecha", fecha).getResultList();
     }
+       
+       
+       
      
 }

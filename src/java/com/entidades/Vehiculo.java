@@ -47,11 +47,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Vehiculo.findByYear", query = "SELECT v FROM Vehiculo v WHERE v.year = :year")
     , @NamedQuery(name = "Vehiculo.findByApto", query = "SELECT v FROM Vehiculo v WHERE v.apto = :apto")
 
-    , @NamedQuery(name = "Vehiculo.findOcupadosByFecha", query = "SELECT v FROM Vehiculo v LEFT JOIN v.alquilerVehiculoCollection AlquilerVehiculo WHERE AlquilerVehiculo.fecha = :fecha ")
+    , @NamedQuery(name = "Vehiculo.findOcupadosByFechayHorario", query = "SELECT v FROM Vehiculo v JOIN v.alquilerVehiculoCollection AlquilerVehiculo WHERE v.alquiler = 0 AND AlquilerVehiculo.fecha = :fecha AND AlquilerVehiculo.idHorario = :horario")
+    , @NamedQuery(name = "Vehiculo.findbyAlquiler", query = "SELECT v FROM Vehiculo v WHERE v.alquiler = 0 ")
+    , @NamedQuery(name = "Vehiculo.findbyAlquilerLibres", query = "SELECT v FROM Vehiculo v WHERE v.alquiler = 0 AND v NOT IN (SELECT av.idVehiculo FROM AlquilerVehiculo av WHERE av.fecha =:fecha AND av.idHorario = :horario ) ")
         
     
 })
 public class Vehiculo implements Serializable {
+
+    @Column(name = "alquiler")
+    private Short alquiler;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
@@ -234,6 +239,14 @@ public class Vehiculo implements Serializable {
 
     public void setAlquilerVehiculoCollection(Collection<AlquilerVehiculo> alquilerVehiculoCollection) {
         this.alquilerVehiculoCollection = alquilerVehiculoCollection;
+    }
+
+    public Short getAlquiler() {
+        return alquiler;
+    }
+
+    public void setAlquiler(Short alquiler) {
+        this.alquiler = alquiler;
     }
 
 

@@ -86,6 +86,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Empleado implements Serializable {
 
+    @OneToMany(mappedBy = "idEmpleado")
+    private Collection<Vehiculo> vehiculoCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInstructor")
     private Collection<Evaluacion> evaluacionCollection;
 
@@ -305,6 +308,15 @@ public class Empleado implements Serializable {
      */
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
+    }
+
+    @XmlTransient
+    public Collection<Vehiculo> getVehiculoCollection() {
+        return vehiculoCollection;
+    }
+
+    public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
+        this.vehiculoCollection = vehiculoCollection;
     }
 
   

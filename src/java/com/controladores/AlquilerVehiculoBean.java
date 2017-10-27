@@ -5,9 +5,8 @@
  */
 package com.controladores;
 
-import com.entidades.Vehiculo;
-import com.repositorios.VehiculoFacade;
-import java.util.ArrayList;
+import com.clases.HorarioCompuestoAlquiler;
+import com.repositorios.HorarioFacade;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
@@ -21,10 +20,10 @@ import javax.inject.Inject;
 @Named(value = "alquilerVehiculoBean")
 @RequestScoped
 public class AlquilerVehiculoBean {
-    private List<Vehiculo> vehiculosDisponibles;
+    private List<HorarioCompuestoAlquiler> horarioCompuestoAlquiler;
     
     @Inject
-    private VehiculoFacade vehiculofacade;
+    private HorarioFacade horarioFacade;
 
      private Date fechaConsulta = new Date();
      
@@ -37,23 +36,25 @@ public class AlquilerVehiculoBean {
     public void onload() {
 
         fechaConsulta = new Date();
-        vehiculosDisponibles = vehiculofacade.getVehiculosOcupados(fechaConsulta);
+        horarioCompuestoAlquiler = horarioFacade.getHorarioVehiculosOcupados(fechaConsulta);
 
     }
    
 
+    
+
     /**
-     * @return the vehiculosDisponibles
+     * @return the horarioCompuestoAlquiler
      */
-    public List<Vehiculo> getVehiculosDisponibles() {
-        return vehiculosDisponibles;
+    public List<HorarioCompuestoAlquiler> getHorarioCompuestoAlquiler() {
+        return horarioCompuestoAlquiler;
     }
 
     /**
-     * @param vehiculosDisponibles the vehiculosDisponibles to set
+     * @param horarioCompuestoAlquiler the horarioCompuestoAlquiler to set
      */
-    public void setVehiculosDisponibles(List<Vehiculo> vehiculosDisponibles) {
-        this.vehiculosDisponibles = vehiculosDisponibles;
+    public void setHorarioCompuestoAlquiler(List<HorarioCompuestoAlquiler> horarioCompuestoAlquiler) {
+        this.horarioCompuestoAlquiler = horarioCompuestoAlquiler;
     }
     
 }

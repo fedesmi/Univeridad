@@ -40,12 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Horario.findById", query = "SELECT h FROM Horario h WHERE h.id = :id")
     , @NamedQuery(name = "Horario.findByInicio", query = "SELECT h FROM Horario h WHERE h.inicio = :inicio")
     , @NamedQuery(name = "Horario.findByFin", query = "SELECT h FROM Horario h WHERE h.fin = :fin")
+     
     , @NamedQuery(name = "Horario.findByDiaSemana", query = "SELECT h FROM Horario h WHERE h.diaSemana = :diaSemana")
-
-   
-
-
-})
+  
+  
+}) 
 public class Horario implements Serializable {
 
     @OneToMany(mappedBy = "idHorario")
