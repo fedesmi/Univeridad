@@ -9,6 +9,7 @@ import com.clases.HorarioCompuesto;
 import com.clases.HorarioCompuestoAlquiler;
 import com.controladores.Authorization;
 import com.controladores.ConexionBaseDatos;
+import com.entidades.AlquilerVehiculo;
 import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Empleado;
@@ -322,11 +323,14 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         List<HorarioCompuestoAlquiler> horariosC = new ArrayList<>();
         List<Horario> horarios = getHorariosByFecha(fecha);
         
+        
         for (Horario horario1 : horarios) {
             horarioCompuestoA = new HorarioCompuestoAlquiler();
             horarioCompuestoA.setHorario(horario1);
             horarioCompuestoA.setVehiculosOcupados(getVehiculosOcupados(fecha, horario1));
             horarioCompuestoA.setVehiculosLibres(getVehiculosAlquilerLibres(fecha, horario1));
+            horarioCompuestoA.setAlumnosDisponibles(getAlumnosDisponiblesHorario(fecha, horario1.getId()));
+            horarioCompuestoA.setAlquileres(getAlquilerByFechaHorario(fecha, horario1));
             horariosC.add(horarioCompuestoA);
         }
         
@@ -334,22 +338,24 @@ public class HorarioFacade extends AbstractFacade<Horario> {
     }
     
     public List<Horario> getHorariosByFecha(Date fecha) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(fecha);
         int diaSemana = c.get(Calendar.DAY_OF_WEEK);
-        return getEntityManager().createNamedQuery("Horario.findByDiaSemana").setParameter("fecha", sdf.format(fecha)).setParameter("diaFecha", diaSemana).getResultList();
+        return getEntityManager().createNamedQuery("Horario.findByDiaSemana").setParameter("diaSemana", diaSemana).getResultList();
     }
     
     public List<Vehiculo> getVehiculosOcupados(Date fecha, Horario horario) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return getEntityManager().createNamedQuery("Vehiculo.findOcupadosByFechayHorario").setParameter("fecha", sdf.format(fecha)).setParameter("horario", horario).getResultList();
+        return getEntityManager().createNamedQuery("Vehiculo.findOcupadosByFechayHorario").setParameter("fecha", fecha).setParameter("horario", horario).getResultList();
     }
     
     public List<Vehiculo> getVehiculosAlquilerLibres(Date fecha, Horario horario) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return getEntityManager().createNamedQuery("Vehiculo.findbyAlquilerLibres").setParameter("fecha", sdf.format(fecha)).setParameter("horario", horario).getResultList();
+        return getEntityManager().createNamedQuery("Vehiculo.findbyAlquilerLibres").setParameter("fecha", fecha).setParameter("horario", horario).getResultList();
     }
+    
+     public List<AlquilerVehiculo> getAlquilerByFechaHorario(Date fecha, Horario horario) {
+        return getEntityManager().createNamedQuery("AlquilerVehiculo.findByFechaYHorario").setParameter("fecha", fecha).setParameter("horario", horario).getResultList();
+    }
+    
     
 }
 

@@ -42,12 +42,12 @@
 
                 <p:column  headerText="Hora inicio">
                     <h:outputText value="#{dis.horario.inicio}" >
-                        <f:convertDateTime pattern="HH:mm" />
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                     </h:outputText>
                 </p:column>
                 <p:column  headerText="Hora fin">
                     <h:outputText value="#{dis.horario.fin}"  >
-                        <f:convertDateTime pattern="HH:mm" />
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3"/>
                     </h:outputText>
                 </p:column>
                 <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.instructoresDispoinibles.size()>0?'highlightTableRowGreen':'highlightTableRow'}">
@@ -83,11 +83,11 @@
 
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
                         <p:outputLabel value="Elegir Instructor"  />
-                        <p:selectOneMenu style="width:160px" value="#{claseBean.instructor}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter"> >
+                        <p:selectOneMenu style="width:160px" value="#{claseBean.instructor}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter"> 
                             <f:selectItems value="#{claseBean.horarioSeleccionado.instructoresDispoinibles}" var="inst" itemLabel="#{inst.nombre} #{inst.apellido}" itemValue="#{inst}" />
                         </p:selectOneMenu>
                         <p:outputLabel value="Elegir Alumno"  />
-                        <p:selectOneMenu style="width:160px" value="#{claseBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">>
+                        <p:selectOneMenu style="width:160px" value="#{claseBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
                             <f:selectItems value="#{claseBean.horarioSeleccionado.alumnosDisponibles}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
                         </p:selectOneMenu>
                     </p:panelGrid>

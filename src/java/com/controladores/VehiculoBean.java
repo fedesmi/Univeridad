@@ -9,10 +9,12 @@ import com.entidades.Empleado;
 import com.entidades.Vehiculo;
 import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -23,7 +25,7 @@ import org.primefaces.event.RowEditEvent;
  * @author fmichel
  */
 @Named(value = "vehiculoBean")
-@RequestScoped
+@SessionScoped
 public class VehiculoBean implements Serializable {
 
     @Inject
@@ -42,9 +44,19 @@ public class VehiculoBean implements Serializable {
     // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-        vehiculos = getVehiculosDB();
-        vehiculoVar = new Vehiculo();
+    //vehiculoVar = new Vehiculo();
 
+    }
+    
+      public void onloadLista() {
+
+        vehiculos = getVehiculosAll();
+
+    }
+        public void onloadAsignar() {
+
+        vehiculos = getVehiculosParaClase();
+   
     }
 
     /**
@@ -61,7 +73,10 @@ public class VehiculoBean implements Serializable {
         this.vehiculos = vehiculos;
     }
 
-    private List<Vehiculo> getVehiculosDB() {
+    private List<Vehiculo> getVehiculosParaClase() {
+        return this.vehiculoFacade.getVehiculosParaClases();
+    }
+    private List<Vehiculo> getVehiculosAll() {
         return this.vehiculoFacade.findAll();
     }
 
@@ -126,9 +141,7 @@ public class VehiculoBean implements Serializable {
     }
 
     
-     public void mostrarHola(){
-        System.out.println("mostrar hola");
-    }
+ 
     
     
 

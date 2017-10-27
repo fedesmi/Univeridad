@@ -5,6 +5,8 @@
  */
 package com.clases;
 
+import com.entidades.AlquilerVehiculo;
+import com.entidades.Alumno;
 import com.entidades.Horario;
 import com.entidades.Vehiculo;
 import java.io.Serializable;
@@ -19,6 +21,8 @@ public class HorarioCompuestoAlquiler implements Serializable {
     private Horario horario;
     private List<Vehiculo> vehiculosOcupados;
     private List<Vehiculo> vehiculosLibres;
+    private List<Alumno> alumnosDisponibles;
+    private List<AlquilerVehiculo> alquileres;
     
 
     /**
@@ -61,6 +65,34 @@ public class HorarioCompuestoAlquiler implements Serializable {
      */
     public void setVehiculosLibres(List<Vehiculo> vehiculosLibres) {
         this.vehiculosLibres = vehiculosLibres;
+    }
+
+    /**
+     * @return the alumnosDisponibles
+     */
+    public List<Alumno> getAlumnosDisponibles() {
+        return alumnosDisponibles;
+    }
+
+    /**
+     * @param alumnosDisponibles the alumnosDisponibles to set
+     */
+    public void setAlumnosDisponibles(List<Alumno> alumnosDisponibles) {
+        this.alumnosDisponibles = alumnosDisponibles;
+    }
+
+    /**
+     * @return the alquileres
+     */
+    public List<AlquilerVehiculo> getAlquileres() {
+        return alquileres;
+    }
+
+    /**
+     * @param alquileres the alquileres to set
+     */
+    public void setAlquileres(List<AlquilerVehiculo> alquileres) {
+        this.alquileres = alquileres;
     }
 
     

@@ -37,7 +37,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "AlquilerVehiculo.findById", query = "SELECT a FROM AlquilerVehiculo a WHERE a.id = :id")
     ,@NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagosAlumnos", query = "SELECT a FROM AlquilerVehiculo a WHERE a.idIngreso IS NULL GROUP BY a.idAlumno")
     , @NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagos", query = "SELECT a FROM AlquilerVehiculo a  WHERE a.idAlumno = :alumno AND a.idIngreso IS NULL")
-    , @NamedQuery(name = "AlquilerVehiculo.findByFecha", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha")})
+    , @NamedQuery(name = "AlquilerVehiculo.findByFecha", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha")
+    , @NamedQuery(name = "AlquilerVehiculo.findByFechaYHorario", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha AND a.idHorario = :horario")
+
+})
+
 public class AlquilerVehiculo implements Serializable {
 
     @JoinColumn(name = "id_alumno", referencedColumnName = "id")

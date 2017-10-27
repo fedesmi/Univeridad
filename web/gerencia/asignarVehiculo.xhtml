@@ -9,6 +9,9 @@
     <ui:define  name="source">
         <h:form id="formAsignar">
             <p:outputLabel value="Vehiculos" />
+            <f:metadata>
+                <f:viewAction action="#{vehiculoBean.onloadAsignar()}" />
+            </f:metadata>
              <p:growl id="msgs" showDetail="true" />
             <br/>
             <h:panelGrid columns="2">
