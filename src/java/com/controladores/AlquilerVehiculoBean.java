@@ -105,7 +105,7 @@ public class AlquilerVehiculoBean implements Serializable {
      * @param horarioSeleccionado the horarioSeleccionado to set
      */
     public void setHorarioSeleccionado(HorarioCompuestoAlquiler horarioSeleccionado) {
-        System.out.println("ouuu shit");
+        
         this.horarioSeleccionado = horarioSeleccionado;
     }
 
