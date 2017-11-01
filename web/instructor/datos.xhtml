@@ -16,8 +16,7 @@
             </f:metadata>
 
             <p:outputLabel value="Informacion Personal"  />
-            <br/>
-            <p:commandButton style="font-size: 10px;" disabled="#{clasesListInstructorBean.editar}" value="Editar" actionListener="#{clasesListInstructorBean.editarComponentes()}" update="selectOneFormaCobro,botonGuardar"  icon="ui-icon-pencil" />
+            
             <p:panelGrid columns="2">
                 <p:outputLabel value="Nombre "  />
                 <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.nombre}"  />
@@ -27,24 +26,14 @@
                 <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.telefono}"  />
                 <p:outputLabel value="Fecha de Ingreso "  />
                 <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.fechaAlta}">
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                     <f:convertDateTime pattern="dd/MM/yyyy" />
                 </p:outputLabel> 
-                <p:outputLabel value="Forma de Cobro "  /> 
-
-
-                
-                <p:selectOneMenu id="selectOneFormaCobro" disabled="#{!clasesListInstructorBean.editar}" value="#{clasesListInstructorBean.usuarioVar.idEmpleado.idformaCobro}" converter="omnifaces.SelectItemsConverter" >
-                        
-                        <f:selectItems var="tcobro" value="#{clasesListInstructorBean.formasCobro}" itemLabel="#{tcobro.descripcion}" itemValue="#{tcobro}"  />
-                    </p:selectOneMenu>
-                
-
             </p:panelGrid>
             <br/><br/>
             <p:outputLabel value="Vehiculo Asignado "  />
-            <br/>
+                <br/>
             <p:panelGrid columns="2">
-
+                
                 <p:outputLabel value="Marca "  />
                 <p:outputLabel value="#{clasesListInstructorBean.vehiculoVar.marca}"  />
                 <p:outputLabel value="Modelo "  />
@@ -55,10 +44,6 @@
                 <p:outputLabel value="#{clasesListInstructorBean.vehiculoVar.year}"  />
 
             </p:panelGrid>
-            
-            <br/>
-            <p:commandButton id="botonGuardar" value="Guardar" ajax="false" update="formDatos" actionListener="#{clasesListInstructorBean.guardarDatos()}" disabled="#{!clasesListInstructorBean.editar}" />
-            
         </h:form>
     </ui:define>
 

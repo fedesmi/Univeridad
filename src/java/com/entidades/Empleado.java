@@ -17,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -86,10 +85,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 
 public class Empleado implements Serializable {
-
-    @JoinColumn(name = "id_formaCobro", referencedColumnName = "id")
-    @ManyToOne
-    private FormaCobro idformaCobro;
 
     @OneToMany(mappedBy = "idEmpleado")
     private Collection<Vehiculo> vehiculoCollection;
@@ -322,14 +317,6 @@ public class Empleado implements Serializable {
 
     public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
         this.vehiculoCollection = vehiculoCollection;
-    }
-
-    public FormaCobro getIdformaCobro() {
-        return idformaCobro;
-    }
-
-    public void setIdformaCobro(FormaCobro idformaCobro) {
-        this.idformaCobro = idformaCobro;
     }
 
   

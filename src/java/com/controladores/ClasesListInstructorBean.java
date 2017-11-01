@@ -7,15 +7,11 @@ package com.controladores;
 
 import com.entidades.Alumno;
 import com.entidades.Clase;
-import com.entidades.Empleado;
 import com.entidades.Evaluacion;
-import com.entidades.FormaCobro;
 import com.entidades.Usuario;
 import com.entidades.Vehiculo;
 import com.repositorios.ClaseFacade;
-import com.repositorios.EmpleadoFacade;
 import com.repositorios.EvaluacionFacade;
-import com.repositorios.FormaCobroFacade;
 import com.repositorios.UsuarioFacade;
 import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
@@ -45,23 +41,15 @@ public class ClasesListInstructorBean implements Serializable {
     private EvaluacionFacade evaluacionFacade;
     @Inject
     private VehiculoFacade vehiculoFacade;
-
-    @Inject
-    private FormaCobroFacade formaCobroFacade;
     
-     @Inject
-    private EmpleadoFacade empleadoFacade;
-
     private Alumno alumnoSeleccionado;
-
+    
     private String evaluacion;
-
+    
     private Usuario usuarioVar;
     private Vehiculo vehiculoVar;
-    private List<FormaCobro> formasCobro;
-
-    private boolean editar = false;
-
+    
+    
     /**
      * Creates a new instance of ClasesListInstructorBean
      */
@@ -75,12 +63,12 @@ public class ClasesListInstructorBean implements Serializable {
     public void onloadAlumnos() {
         actualizarListaAlumnos();
     }
-
-    public void onLoadDatosPersonales() {
-        String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-        usuarioVar = usuarioFacade.getUsuario(nombreUsuario);
-        vehiculoVar = vehiculoFacade.buscarVehiculoPorEmpleado(usuarioVar.getIdEmpleado());
-        formasCobro = formaCobroFacade.findAll();
+    
+     public void onLoadDatosPersonales() {
+         String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+         usuarioVar = usuarioFacade.getUsuario(nombreUsuario);
+         vehiculoVar = vehiculoFacade.buscarVehiculoPorEmpleado(usuarioVar.getIdEmpleado());
+        
     }
 
     public void actualizarListaClases() {
@@ -88,10 +76,6 @@ public class ClasesListInstructorBean implements Serializable {
         Usuario usuario = usuarioFacade.getUsuario(nombreUsuario);
         clases = claseFacade.getClasesByInstructor(usuario.getIdEmpleado());
 
-    }
-
-    public void editarComponentes() {
-        editar = true;
     }
 
     /**
@@ -108,12 +92,15 @@ public class ClasesListInstructorBean implements Serializable {
         this.clases = clases;
     }
 
+
     private void actualizarListaAlumnos() {
         String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         Usuario usuario = usuarioFacade.getUsuario(nombreUsuario);
-        alumnos = claseFacade.getAlumnosByInstructor(usuario.getIdEmpleado());
-
+        alumnos = claseFacade.getAlumnosByInstructor(usuario.getIdEmpleado()); 
+        
     }
+
+   
 
     /**
      * @return the alumnos
@@ -129,6 +116,7 @@ public class ClasesListInstructorBean implements Serializable {
         this.alumnos = alumnos;
     }
 
+    
     /**
      * @return the alumnoSeleccionado
      */
@@ -156,20 +144,22 @@ public class ClasesListInstructorBean implements Serializable {
     public void setEvaluacion(String evaluacion) {
         this.evaluacion = evaluacion;
     }
-
-    public void guardarEvaluacion() {
+    
+    
+    public void guardarEvaluacion(){
         Evaluacion evaluacionVar = new Evaluacion();
         evaluacionVar.setDescripcion(evaluacion);
         evaluacionVar.setFecha(new Date());
         evaluacionVar.setIdAlumno(alumnoSeleccionado);
-
+        
+        
         String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
         Usuario usuario = usuarioFacade.getUsuario(nombreUsuario);
-
+        
         evaluacionVar.setIdInstructor(usuario.getIdEmpleado());
         evaluacionFacade.create(evaluacionVar);
         evaluacion = "";
-
+        
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La evaluación fue registrada exitosamente"));
     }
@@ -230,55 +220,7 @@ public class ClasesListInstructorBean implements Serializable {
         this.vehiculoVar = vehiculoVar;
     }
 
-    /**
-     * @return the editar
-     */
-    public boolean isEditar() {
-        return editar;
-    }
-
-    /**
-     * @param editar the editar to set
-     */
-    public void setEditar(boolean editar) {
-        this.editar = editar;
-    }
-
-    /**
-     * @return the formaCobroFacade
-     */
-    public FormaCobroFacade getFormaCobroFacade() {
-        return formaCobroFacade;
-    }
-
-    /**
-     * @param formaCobroFacade the formaCobroFacade to set
-     */
-    public void setFormaCobroFacade(FormaCobroFacade formaCobroFacade) {
-        this.formaCobroFacade = formaCobroFacade;
-    }
-
-    /**
-     * @return the formasCobro
-     */
-    public List<FormaCobro> getFormasCobro() {
-        return formasCobro;
-    }
-
-    /**
-     * @param formasCobro the formasCobro to set
-     */
-    public void setFormasCobro(List<FormaCobro> formasCobro) {
-        this.formasCobro = formasCobro;
-    }
-
-    public void guardarDatos() {
-        
-        empleadoFacade.edit(usuarioVar.getIdEmpleado());
-        editar = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Los datos se han guardado exitosamente"));
-
-    }
-
+    
+    
+    
 }
