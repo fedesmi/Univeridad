@@ -87,6 +87,11 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Empleado implements Serializable {
 
+    @OneToMany(mappedBy = "idGerenteAutorizo")
+    private Collection<Egreso> egresoCollection;
+    @OneToMany(mappedBy = "idEmpleado")
+    private Collection<Liquidacion> liquidacionCollection;
+
     @JoinColumn(name = "id_formaCobro", referencedColumnName = "id")
     @ManyToOne
     private FormaCobro idformaCobro;
@@ -330,6 +335,24 @@ public class Empleado implements Serializable {
 
     public void setIdformaCobro(FormaCobro idformaCobro) {
         this.idformaCobro = idformaCobro;
+    }
+
+    @XmlTransient
+    public Collection<Egreso> getEgresoCollection() {
+        return egresoCollection;
+    }
+
+    public void setEgresoCollection(Collection<Egreso> egresoCollection) {
+        this.egresoCollection = egresoCollection;
+    }
+
+    @XmlTransient
+    public Collection<Liquidacion> getLiquidacionCollection() {
+        return liquidacionCollection;
+    }
+
+    public void setLiquidacionCollection(Collection<Liquidacion> liquidacionCollection) {
+        this.liquidacionCollection = liquidacionCollection;
     }
 
   

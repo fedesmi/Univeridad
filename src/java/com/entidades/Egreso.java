@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,6 +43,18 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Egreso.findByConcepto", query = "SELECT e FROM Egreso e WHERE e.concepto = :concepto")})
 public class Egreso implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "monto")
+    private Float monto;
+    @JoinColumn(name = "id_gerente_autorizo", referencedColumnName = "id")
+    @ManyToOne
+    private Empleado idGerenteAutorizo;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @ManyToOne
+    private Usuario idUsuario;
+    @OneToMany(mappedBy = "idEgreso")
+    private Collection<Liquidacion> liquidacionCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +64,6 @@ public class Egreso implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Column(name = "monto")
-    private Integer monto;
     @Size(max = 50)
     @Column(name = "concepto")
     private String concepto;
@@ -83,13 +95,6 @@ public class Egreso implements Serializable {
         this.fecha = fecha;
     }
 
-    public Integer getMonto() {
-        return monto;
-    }
-
-    public void setMonto(Integer monto) {
-        this.monto = monto;
-    }
 
     public String getConcepto() {
         return concepto;
@@ -140,6 +145,39 @@ public class Egreso implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Egreso[ id=" + id + " ]";
+    }
+
+    public Float getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Float monto) {
+        this.monto = monto;
+    }
+
+    public Empleado getIdGerenteAutorizo() {
+        return idGerenteAutorizo;
+    }
+
+    public void setIdGerenteAutorizo(Empleado idGerenteAutorizo) {
+        this.idGerenteAutorizo = idGerenteAutorizo;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    @XmlTransient
+    public Collection<Liquidacion> getLiquidacionCollection() {
+        return liquidacionCollection;
+    }
+
+    public void setLiquidacionCollection(Collection<Liquidacion> liquidacionCollection) {
+        this.liquidacionCollection = liquidacionCollection;
     }
     
 }
