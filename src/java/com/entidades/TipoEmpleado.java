@@ -39,8 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "TipoEmpleado.findById", query = "SELECT t FROM TipoEmpleado t WHERE t.id = :id")
     , @NamedQuery(name = "TipoEmpleado.findByRol", query = "SELECT t FROM TipoEmpleado t WHERE t.rol = :rol")
     , @NamedQuery(name = "TipoEmpleado.findBySueldoBase", query = "SELECT t FROM TipoEmpleado t WHERE t.sueldoBase = :sueldoBase")
-    , @NamedQuery(name = "TipoEmpleado.findByPorcentajePorClase", query = "SELECT t FROM TipoEmpleado t WHERE t.porcentajePorClase = :porcentajePorClase")})
+})
 public class TipoEmpleado implements Serializable {
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "sueldoBase")
+    private Float sueldoBase;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRol")
     private Collection<Usuario> usuarioCollection1;
@@ -60,10 +64,7 @@ public class TipoEmpleado implements Serializable {
     @Size(max = 20)
     @Column(name = "rol")
     private String rol;
-    @Column(name = "sueldoBase")
-    private Integer sueldoBase;
-    @Column(name = "porcentajePorClase")
-    private Short porcentajePorClase;
+   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoEmpleado")
     private Collection<Empleado> empleadoCollection;
 
@@ -90,21 +91,8 @@ public class TipoEmpleado implements Serializable {
         this.rol = rol;
     }
 
-    public Integer getSueldoBase() {
-        return sueldoBase;
-    }
 
-    public void setSueldoBase(Integer sueldoBase) {
-        this.sueldoBase = sueldoBase;
-    }
-
-    public Short getPorcentajePorClase() {
-        return porcentajePorClase;
-    }
-
-    public void setPorcentajePorClase(Short porcentajePorClase) {
-        this.porcentajePorClase = porcentajePorClase;
-    }
+  
 
     @XmlTransient
     public Collection<Empleado> getEmpleadoCollection() {
@@ -156,6 +144,14 @@ public class TipoEmpleado implements Serializable {
 
     public void setUsuarioCollection1(Collection<Usuario> usuarioCollection1) {
         this.usuarioCollection1 = usuarioCollection1;
+    }
+
+    public Float getSueldoBase() {
+        return sueldoBase;
+    }
+
+    public void setSueldoBase(Float sueldoBase) {
+        this.sueldoBase = sueldoBase;
     }
     
 }

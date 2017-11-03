@@ -147,8 +147,7 @@ public class HorarioFacade extends AbstractFacade<Horario> {
                     empVar.setAutorizo(resultado.getInt(9));
                     tipoEmpleadoVar.setId(resultado.getInt(10));
                     tipoEmpleadoVar.setRol(resultado.getString(11));
-                    tipoEmpleadoVar.setSueldoBase(resultado.getInt(12));
-                    tipoEmpleadoVar.setPorcentajePorClase(resultado.getShort(13));
+                    tipoEmpleadoVar.setSueldoBase(resultado.getFloat(12));
                     empVar.setIdTipoEmpleado(tipoEmpleadoVar);
                     empleados.add(empVar);
                 }

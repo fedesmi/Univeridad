@@ -22,7 +22,7 @@
                 <p:ajax event="rowEdit" listener="#{tipoEmpleadoBean.onRowEdit}" update="formGer:formSueldos:msgs" oncomplete="PF('valoresWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
                 <p:ajax event="rowEditCancel" listener="#{tipoEmpleadoBean.onRowCancel}" update="formGer:formSueldos:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
-                <p:column   headerText="Tipo" style="text-align: center;" >
+                <p:column   headerText="Tipo Empleado" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >
                    
                    <h:outputText value="#{templeado.rol}" />
@@ -37,20 +37,42 @@
                     </p:cellEditor>
                     </div>  
                 </p:column>
-                <p:column   headerText="% por Clase" style="text-align: center;" >
-                      <div style="text-align: center; font-size: 14px;" >
-                    <p:cellEditor>
-                        <f:facet name="output"> <h:outputText value="#{templeado.porcentajePorClase}%" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{templeado.porcentajePorClase}" /></f:facet>
-                    </p:cellEditor>
-                    </div>
-                </p:column>
+               
                 
-                <p:column style="width:32px">
+                <p:column style="width:42px">
                     <p:rowEditor />
                 </p:column>
             </p:dataTable>
 
+            
+            <p:dataTable id="tablaItems" widgetVar="itemsWidget" var="titems" editable="true"  value="#{tipoEmpleadoBean.itemsRecibo}"  emptyMessage="sin registros" >
+                 <f:facet name="header">
+                    Lista de Items Sueldo
+                </f:facet>
+                <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
+                <p:ajax event="rowEdit" listener="#{tipoEmpleadoBean.onRowEditItem}"  update="formGer:formSueldos:msgs" oncomplete="PF('valoresWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{tipoEmpleadoBean.onRowCancelItem}" update="formGer:formSueldos:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
+
+                <p:column   headerText="Item" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{titems.item}" />
+                    </div>
+                </p:column>
+                
+                <p:column   headerText="Porcentaje" style="text-align: center;" >
+                      <div style="text-align: center; font-size: 14px;" >
+                    <p:cellEditor>
+                        <f:facet name="output"> <h:outputText  value="#{titems.porcentaje}" ><f:convertNumber type="currency" currencySymbol="$" locale="es_AR" /></h:outputText></f:facet>
+                        <f:facet name="input"><p:inputText value="#{titems.porcentaje}" /></f:facet>
+                    </p:cellEditor>
+                    </div>  
+                </p:column>
+               
+                
+                <p:column style="width:42px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
  
         </h:form>
     </ui:define>

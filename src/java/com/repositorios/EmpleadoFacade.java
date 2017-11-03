@@ -58,7 +58,7 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
          try {
 
                     String consulta = "SELECT e.id, e.legajo, e.dni, e.nombre, e.apellido, e.telefono, "
-                                      + "e.fechaAlta, e.fechaBaja, e.autorizo, te.id, te.rol, te.sueldoBase, te.porcentajePorClase "
+                                      + "e.fechaAlta, e.fechaBaja, e.autorizo, te.id, te.rol, te.sueldoBase "
                                       +"FROM empleado as e, tipo_empleado as te  "
                                       +"WHERE  e.idTipoEmpleado = te.id "
                                       +"AND e.fechaBaja  IS NULL "
@@ -91,8 +91,7 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
                     temp = new TipoEmpleado();
                     temp.setId(resultado.getInt(10));
                     temp.setRol(resultado.getString(11));
-                    temp.setSueldoBase(resultado.getInt(12));
-                    temp.setPorcentajePorClase(resultado.getShort(13));
+                    temp.setSueldoBase(resultado.getFloat(12));
                     emp.setIdTipoEmpleado(temp);
                     
                     instructores.add(emp);
