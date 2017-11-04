@@ -172,27 +172,10 @@
                             
                         
                         
-                        <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto" widgetVar="dlgAgregarD" modal="false"
-                                  resizable="false" height="170" width="400" style="font-size: 12px;">
-                            <p:outputPanel id="abmDesperfectos" >
-                                
-                                <p:outputLabel value="Descripcion"  />
-                                <br/>
-                                <br/>
-                                <div style="text-align: right;">
-                                    <p:inputTextarea autoResize="true" cols="50" rows="5" maxlength="255"  value="#{desperfectosBean.desperfectoVar.descripcion}" />
-                                </div>
-                                <br/>
-                                <input type="text" hidden="true" id="propiedadVal" name="propiedadVal" value="#{vehiculoBean.vehiculoSelected.id}"  />
-                                <br/>
-                                <div style="text-align: right;">
-                                    <p:commandButton   ajax="false"  value="Guardar"   action="#{desperfectosBean.guardar(vehiculoBean.vehiculoSelected)}" />
-                                </div>
-                            </p:outputPanel>
-                        </p:dialog>
                         
+
                     </p:panel>
-                        
+
                 </p:outputPanel>
             </p:dialog>
 

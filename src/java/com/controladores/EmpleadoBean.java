@@ -150,6 +150,9 @@ public class EmpleadoBean implements Serializable {
         e.setTelefono(telefono);
         e.setFechaAlta(new Date());
         e.setLegajo(this.empleadoFacade.buscarUltimoLegajo());
+        FormaCobro fc = new FormaCobro();
+        fc.setId(1);
+        e.setIdformaCobro(fc);
         try {
             e.setIdTipoEmpleado(tipoEmpleado);
         } catch (Exception ex) {
@@ -158,6 +161,7 @@ public class EmpleadoBean implements Serializable {
         usuario.setClave("03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4");
         usuario.setIdRol(tipoEmpleado);
         usuario.setIdEmpleado(e);
+        
         
         this.usuarioFacade.create(usuario);
         //this.empleadoFacade.create(e);

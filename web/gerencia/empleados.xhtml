@@ -55,7 +55,7 @@
                         </p:cellEditor>
                     </div>
                 </p:column>
-                
+
                 <p:column  headerText="Telefono" >
                     <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
@@ -67,13 +67,13 @@
                 <p:column  headerText="Tipo">
                     <div  style="text-align: left; font-size: 12px;">
                         <p:cellEditor>
-                         <f:facet name="output"><h:outputText value="#{emp.idTipoEmpleado.rol}" /></f:facet>
-                        <f:facet name="input">
-                         <p:selectOneMenu value="#{emp.idTipoEmpleado}" converter="omnifaces.SelectItemsConverter" >
-                            <f:selectItem itemLabel="Seleccionar..." itemValue="" />
-                            <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.rol}" itemValue="#{templeado}"  />
-                        </p:selectOneMenu>
-                         </f:facet>
+                            <f:facet name="output"><h:outputText value="#{emp.idTipoEmpleado.rol}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{emp.idTipoEmpleado}" converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="Seleccionar..." itemValue="" />
+                                    <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.rol}" itemValue="#{templeado}"  />
+                                </p:selectOneMenu>
+                            </f:facet>
                         </p:cellEditor>
                     </div>
                 </p:column>
@@ -82,11 +82,94 @@
                 </p:column>
 
                 <p:column  headerText="Recibos">
-                    <p:commandButton icon="ui-icon-search"/>
+                    <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:form1:recibosPanel" oncomplete="PF('dlgRecibos').show();">
+                        <f:setPropertyActionListener value="#{emp}" target="#{recibosBean.empleadoSeleccionado}" />
+                    </p:commandButton>
                 </p:column>
-                
+
             </p:dataTable>
 
+
+
+            <p:dialog id="dlgRecibosID" header="Liquidaciones" widgetVar="dlgRecibos" modal="false"
+                      resizable="false" height="250" width="600" style="font-size: 12px;">
+                <p:outputPanel id="recibosPanel" >
+
+                    <p:outputLabel value="Recibos"  />
+                    <br/> <br/>
+                    
+                    <p:dataTable id="tablaRecibos" widgetVar="recibosWidget" var="rec"
+                                 value="#{recibosBean.empleadoSeleccionado.liquidacionCollection}"  rows="8"
+                                 scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                 emptyMessage="sin registros">
+
+                        <f:facet name="header">
+                            Recibos
+                        </f:facet>
+
+                        <p:column  headerText="Mes">
+                            <h:outputText value="#{rec.mes}" />
+                        </p:column>
+
+                        <p:column  headerText="Año">
+                            <h:outputText value="#{rec.year}" />
+                        </p:column>
+
+                        <p:column  headerText="Sueldo Base">
+                            <h:outputText value="#{rec.sueldoBase}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  headerText="Sueldo Percibido">
+                            <h:outputText value="#{rec.idEgreso.monto}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+
+                        
+                        <p:column  headerText="Detalle">
+                            <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:form1:recibosDetallePanel" oncomplete="PF('dlgRecibosDetalle').show();">
+                                <f:setPropertyActionListener value="#{rec}" target="#{recibosBean.liquidacionSeleccionado}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:dialog>
+            
+            <p:dialog id="dlgRecibosDetalleID" header="Detalle Sueldo" widgetVar="dlgRecibosDetalle" modal="false"
+                      resizable="false" height="250" width="600" style="font-size: 12px;">
+                <p:outputPanel id="recibosDetallePanel" >
+
+                    <p:outputLabel value="Recibos"  />
+                    <br/> <br/>
+                    
+                    <p:dataTable id="tablaRecibosDetalle" widgetVar="recibosDetalleWidget" var="det"
+                                 value="#{recibosBean.liquidacionSeleccionado.reciboSueldoCollection}"  rows="8"
+                                 scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                 emptyMessage="sin registros">
+
+                        <f:facet name="header">
+                            Recibos
+                        </f:facet>
+
+                        <p:column  headerText="item">
+                            <h:outputText value="#{det.idItem.item}" />
+                        </p:column>
+                        
+                        <p:column  headerText="Porcentaje">
+                            <h:outputText value="#{det.idItem.porcentaje}" />
+                        </p:column>
+
+                        <p:column  headerText="Unidades">
+                            <h:outputText value="#{det.unidades}" />
+                        </p:column>
+
+                        
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:dialog>
 
 
         </h:form>

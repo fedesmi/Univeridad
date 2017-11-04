@@ -13,7 +13,7 @@
             <p:outputLabel value="Empleados" />
 
             <br/>
-            <p:dataTable id="tablaEmpleadosSinAutorizar" widgetVar="sinAutorizar" var="emp"   value="#{empleadoBean.empleadosSinAutorizar}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            <p:dataTable id="tablaEmpleadosSinAutorizar" widgetVar="sinAutorizar" var="emp" scrollable="true" scrollHeight="390"  value="#{empleadoBean.empleadosSinAutorizar}"  emptyMessage="sin registros" >
 
                 <f:facet name="header">
                     Lista de Empleados a ser Autorizados
