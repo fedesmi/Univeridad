@@ -80,7 +80,11 @@ import javax.xml.bind.annotation.XmlTransient;
             + "AND m.autorizo IS NOT NULL "
             + "AND m.idTipoEmpleado.rol =:instructor "
             + "ORDER BY m.legajo ")
-    
+     , @NamedQuery(name = "Empleado.todosSinFechaBaja",
+            query = "SELECT e "
+            + "FROM Empleado e "
+            + "WHERE e.fechaBaja IS NULL "
+            + "ORDER BY e.legajo ") 
        
 })
 
@@ -102,8 +106,8 @@ public class Empleado implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInstructor")
     private Collection<Evaluacion> evaluacionCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
-    private Collection<Usuario> usuarioCollection;
+    @OneToOne( mappedBy = "idEmpleado")
+    private Usuario usuario;
 
      @OneToMany(mappedBy = "idInstructor")
     private Collection<Clase> claseCollection;
@@ -288,14 +292,7 @@ public class Empleado implements Serializable {
 
   
 
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
-    }
-
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
-    }
+    
 
     @XmlTransient
     public Collection<Evaluacion> getEvaluacionCollection() {
@@ -353,6 +350,20 @@ public class Empleado implements Serializable {
 
     public void setLiquidacionCollection(Collection<Liquidacion> liquidacionCollection) {
         this.liquidacionCollection = liquidacionCollection;
+    }
+
+    /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
   

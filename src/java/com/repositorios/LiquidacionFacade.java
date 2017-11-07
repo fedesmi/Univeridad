@@ -5,7 +5,7 @@
  */
 package com.repositorios;
 
-import com.entidades.Usuario;
+import com.entidades.Liquidacion;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,24 +15,21 @@ import javax.persistence.PersistenceContext;
  * @author fmichel
  */
 @Stateless
-public class UsuarioFacade extends AbstractFacade<Usuario> {
+public class LiquidacionFacade extends AbstractFacade<Liquidacion> {
 
     @PersistenceContext(unitName = "DAMPU")
     private EntityManager em;
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public UsuarioFacade() {
-        super(Usuario.class);
+    public LiquidacionFacade() {
+        super(Liquidacion.class);
     }
+
+  
     
-    
-   public Usuario getUsuario(String usuario) {  
-        return (Usuario) getEntityManager().createNamedQuery("Usuario.findByUsuario").setParameter("usuario", usuario).getSingleResult();
-     
-    }
-        
+
 }

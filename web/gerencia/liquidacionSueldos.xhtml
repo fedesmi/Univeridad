@@ -31,7 +31,7 @@
                 </p:selectOneMenu>
                 <h:outputLabel for="anio" value="Año" />
                 <p:spinner id="anio" value="#{liquidacionSueldosBean.yearSeleccionado}" min="2017" max="3000" />
-                <p:commandButton value="Liquidar" />
+                <p:commandButton value="Liquidar" actionListener="#{liquidacionSueldosBean.liquidar()}" />
             </p:panelGrid>
 
             

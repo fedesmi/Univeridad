@@ -15,6 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -38,6 +41,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "ItemRecibo.findByItem", query = "SELECT i FROM ItemRecibo i WHERE i.item = :item")
     , @NamedQuery(name = "ItemRecibo.findByPorcentaje", query = "SELECT i FROM ItemRecibo i WHERE i.porcentaje = :porcentaje")})
 public class ItemRecibo implements Serializable {
+
+    @JoinTable(name = "item_recibo_tipo_empleado", joinColumns = {
+        @JoinColumn(name = "id_item_recibo", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_tipo_empleado", referencedColumnName = "id")})
+    @ManyToMany
+    private Collection<TipoEmpleado> tipoEmpleadoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,6 +135,15 @@ public class ItemRecibo implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.ItemRecibo[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<TipoEmpleado> getTipoEmpleadoCollection() {
+        return tipoEmpleadoCollection;
+    }
+
+    public void setTipoEmpleadoCollection(Collection<TipoEmpleado> tipoEmpleadoCollection) {
+        this.tipoEmpleadoCollection = tipoEmpleadoCollection;
     }
     
 }

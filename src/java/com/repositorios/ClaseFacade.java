@@ -56,6 +56,14 @@ public class ClaseFacade extends AbstractFacade<Clase> {
         return getEntityManager().createNamedQuery("Clase.findByIdInstructor").setParameter("instructor", instructor).getResultList();
 
     }
+    public List<Clase> getClasesByInstructorAndMes(Empleado instructor, int mes) {
+        return getEntityManager().createNamedQuery("Clase.findByIdInstructorAndMes").setParameter("instructor", instructor).setParameter("mes", mes).getResultList();
+
+    }
+     public int getCantidadClasesByInstructorAndMes(Empleado instructor, int mes) {
+        return (int)getEntityManager().createNamedQuery("Clase.findByIdInstructorAndMesCantidad").setParameter("instructor", instructor).setParameter("mes", mes).getSingleResult();
+
+    }
     
     public List<Alumno> getAlumnosByInstructor(Empleado instructor) {
         return getEntityManager().createNamedQuery("Clase.findAlumnosByIdInstructor").setParameter("instructor", instructor).getResultList();
