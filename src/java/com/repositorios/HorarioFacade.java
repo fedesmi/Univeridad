@@ -80,6 +80,7 @@ public class HorarioFacade extends AbstractFacade<Horario> {
                     + "WHERE dia_semana = DAYOFWEEK('" + sdf.format(fecha) + "') "
                     + "GROUP BY h.id; ";
             
+             
             ConexionBaseDatos connMysql = new ConexionBaseDatos();
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
             try {
@@ -108,6 +109,7 @@ public class HorarioFacade extends AbstractFacade<Horario> {
             Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        System.out.println("tamaño "+horarios.size());
         return horarios;
 
     }
@@ -120,13 +122,14 @@ public class HorarioFacade extends AbstractFacade<Horario> {
         try {
 
             String consulta = "SELECT e.id, e.legajo, e.dni, e.nombre, e.apellido, e.telefono, "
-                    + "e.fechaAlta, e.fechaBaja, e.autorizo, te.id, te.rol, te.sueldoBase, "
-                    + "te.porcentajePorClase FROM empleado as e, tipo_empleado as te "
+                    + "e.fechaAlta, e.fechaBaja, e.autorizo, te.id, te.rol, te.sueldoBase "
+                    + "FROM empleado as e, tipo_empleado as te "
                     + "WHERE e.fechaBaja  IS NULL AND e.autorizo IS NOT NULL AND e.idtipoempleado = 3 "
                     + "AND e.id NOT IN (SELECT c.id_instructor FROM clase as c, horario as ho  "
                     + "WHERE c.id_horario=ho.id AND c.fecha='" + sdf.format(fecha) + "' AND ho.id = " + id + " ) "
                     + "AND e.idTipoEmpleado=te.id  ";
 
+            System.out.println(consulta);
             ConexionBaseDatos connMysql = new ConexionBaseDatos();
             java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
 
