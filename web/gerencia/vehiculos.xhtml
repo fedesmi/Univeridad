@@ -92,19 +92,7 @@
                         </p:cellEditor>
                     </div>
                 </p:column>
-                <p:column  headerText="Alquiler" >
-                    <div style="text-align: center; font-size: 12px;" >
-                        <p:cellEditor>
-                            <f:facet name="output"> <h:outputText value="#{veh.alquiler==0 ? 'SI' : 'NO'}" /></f:facet>
-                            <f:facet name="input">
-                                <p:selectOneMenu id="console2" value="#{veh.alquiler}">
-                                    <f:selectItem itemLabel="SI" itemValue="0" />
-                                    <f:selectItem itemLabel="NO" itemValue="1" />
-                                </p:selectOneMenu>
-                            </f:facet>
-                        </p:cellEditor>
-                    </div>
-                </p:column>
+              
                 <p:column headerText="Asignado" >
                     <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{(veh.idEmpleado.nombre != null ? veh.idEmpleado.nombre.toUpperCase().concat(' ').concat(veh.idEmpleado.apellido.toUpperCase()) : ' - ')}" />

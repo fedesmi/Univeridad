@@ -5,11 +5,13 @@
  */
 package com.clases;
 
+import com.entidades.AlquilerVehiculo;
 import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Empleado;
 import com.entidades.Horario;
 import com.entidades.ListaEsperaClase;
+import com.entidades.Vehiculo;
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class HorarioCompuesto implements Serializable {
     private List<Alumno> alumnosDisponibles;
     private List<ListaEsperaClase> listaEsperaClase;
     private List<Clase> clases;
+    private List<AlquilerVehiculo> alquileresVehiculo;
     
     
 
@@ -96,6 +99,20 @@ public class HorarioCompuesto implements Serializable {
      */
     public void setClases(List<Clase> clases) {
         this.clases = clases;
+    }
+
+    /**
+     * @return the alquileresVehiculo
+     */
+    public List<AlquilerVehiculo> getAlquileresVehiculo() {
+        return alquileresVehiculo;
+    }
+
+    /**
+     * @param alquileresVehiculo the alquileresVehiculo to set
+     */
+    public void setAlquileresVehiculo(List<AlquilerVehiculo> alquileresVehiculo) {
+        this.alquileresVehiculo = alquileresVehiculo;
     }
 
     

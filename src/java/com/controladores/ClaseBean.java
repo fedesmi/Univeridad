@@ -74,7 +74,6 @@ public class ClaseBean implements Serializable {
     }
 
     public void onload() {
-
         fechaConsulta = new Date();
         actualizarDisponibilidad();
 

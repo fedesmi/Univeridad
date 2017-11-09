@@ -49,7 +49,7 @@ public class VehiculoFacade extends AbstractFacade<Vehiculo> {
     }
 
     public List<Vehiculo> getVehiculosParaClases() {
-        return getEntityManager().createNamedQuery("Vehiculo.findParaClase").getResultList();
+        return getEntityManager().createNamedQuery("Vehiculo.findbyAptos").getResultList();
     }
 
 }
