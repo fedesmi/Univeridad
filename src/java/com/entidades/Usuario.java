@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -44,6 +45,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")
     , @NamedQuery(name = "Usuario.findByFechaBaja", query = "SELECT u FROM Usuario u WHERE u.fechaBaja = :fechaBaja")})
 public class Usuario implements Serializable {
+
+    @OneToMany(mappedBy = "idUsuario")
+    private Collection<Egreso> egresoCollection;
+    @OneToMany(mappedBy = "idUsuario")
+    private Collection<Liquidacion> liquidacionCollection;
 
     @JoinColumn(name = "id_rol", referencedColumnName = "id")
     @OneToOne(optional = false)
@@ -183,6 +189,24 @@ public class Usuario implements Serializable {
      */
     public TipoEmpleado getIdRol() {
         return idRol;
+    }
+
+    @XmlTransient
+    public Collection<Egreso> getEgresoCollection() {
+        return egresoCollection;
+    }
+
+    public void setEgresoCollection(Collection<Egreso> egresoCollection) {
+        this.egresoCollection = egresoCollection;
+    }
+
+    @XmlTransient
+    public Collection<Liquidacion> getLiquidacionCollection() {
+        return liquidacionCollection;
+    }
+
+    public void setLiquidacionCollection(Collection<Liquidacion> liquidacionCollection) {
+        this.liquidacionCollection = liquidacionCollection;
     }
 
   

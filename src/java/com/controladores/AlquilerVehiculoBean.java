@@ -11,7 +11,6 @@ import com.entidades.Alumno;
 import com.entidades.Vehiculo;
 import com.repositorios.AlquilerVehiculoFacade;
 import com.repositorios.HorarioFacade;
-import static com.sun.xml.bind.util.CalendarConv.formatter;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +38,8 @@ public class AlquilerVehiculoBean implements Serializable {
     private HorarioCompuestoAlquiler horarioSeleccionadoVer;
     private Vehiculo vehiculoSeleccionado;
     private Alumno alumno;
-
+    private AlquilerVehiculo alquilerSeleccionado;
+    
     @Inject
     private HorarioFacade horarioFacade;
 
@@ -163,6 +163,18 @@ public class AlquilerVehiculoBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El alquiler fue dado de alta Exitosamente"));
     }
+      
+     public void cancelarAlquiler() {
+        if (alquilerSeleccionado != null) {
+            alquilerVehiculoFacade.cancelarClase(alquilerSeleccionado);
+            actualizarDisponibilidad();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se anulo el alquiler seleccionada"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se debe seleccionar un alquiler"));
+        }
+    }
 
     /**
      * @return the alumno
@@ -190,6 +202,20 @@ public class AlquilerVehiculoBean implements Serializable {
      */
     public void setAlquilerVehiculoFacade(AlquilerVehiculoFacade alquilerVehiculoFacade) {
         this.alquilerVehiculoFacade = alquilerVehiculoFacade;
+    }
+
+    /**
+     * @return the alquilerSeleccionado
+     */
+    public AlquilerVehiculo getAlquilerSeleccionado() {
+        return alquilerSeleccionado;
+    }
+
+    /**
+     * @param alquilerSeleccionado the alquilerSeleccionado to set
+     */
+    public void setAlquilerSeleccionado(AlquilerVehiculo alquilerSeleccionado) {
+        this.alquilerSeleccionado = alquilerSeleccionado;
     }
 
 }

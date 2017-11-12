@@ -50,85 +50,93 @@
                         <f:convertDateTime pattern="HH:mm" timeZone="GMT-3"/>
                     </h:outputText>
                 </p:column>
-                <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.instructoresDispoinibles.size()>0?'highlightTableRowGreen':'highlightTableRow'}">
+                <p:column width="100px;" headerText="Vacantes" styleClass="#{dis.instructoresDispoinibles.size()>0?'highlightTableRowGreen':'highlightTableRow'}">
                     <h:outputText value="#{dis.instructoresDispoinibles.size()} " />
-                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnos" disabled="#{dis.instructoresDispoinibles.size()==0}" oncomplete="PF('inscribirW').show()" icon="ui-icon-pencil" title="Inscribir">
+                    <p:commandButton update=":formGer:formInscripcion:inscribirDlg"  oncomplete="PF('inscribirW').show()" icon="ui-icon-pencil" title="Inscribir">
                         <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionado}" />
                     </p:commandButton>
-                    
                 </p:column>
-                <p:column width="80px;" headerText="Inscriptos" >
-                    
-                    <p:commandButton update=":formGer:formInscripcion:verInscriptos"  oncomplete="PF('verInscriptosW').show()" icon="ui-icon-search" title="Ver">
-                        <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionadoVer}" />
-                    </p:commandButton>
-                    
-                </p:column>
-                <p:column width="80px;" headerText="Lista Espera" >
-                    <h:outputText value="#{dis.listaEsperaClase.size()} " />
-                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnosEspera"   disabled="#{dis.instructoresDispoinibles.size()>0}" oncomplete="PF('inscribirEspera').show()" icon="ui-icon-pencil" title="Inscribir">
-                        <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionadoEspera}"  />
 
+
+                <p:column width="100px;" headerText="Lista Espera" >
+                    <h:outputText value="#{dis.listaEsperaClase.size()} " />
+                    <p:commandButton update=":formGer:formInscripcion:inscribirAlumnosEspera"    oncomplete="PF('inscribirEspera').show()" icon="ui-icon-pencil" title="Inscribir">
+                        <f:setPropertyActionListener value="#{dis}" target="#{claseBean.horarioSeleccionadoEspera}"  />
                     </p:commandButton>
-                    
-                   
+
                 </p:column> 
+             
             </p:dataTable> 
 
 
-            <p:dialog id="inscribirDlg" header="Inscribir alumno" widgetVar="inscribirW" modal="false"
-                      resizable="false" height="170" width="400" style="font-size: 12px;">
-                <p:outputPanel id="inscribirAlumnos" >
+            <p:dialog id="inscribirDlg" header="Inscripción a Clases" widgetVar="inscribirW" modal="false"
+                      resizable="false" height="500" width="800" style="font-size: 12px;">
+                <br/>
+                <p:panelGrid columns="2" >
+                    <p:outputPanel id="inscribirAlumnos" >
+                        <p:panel header="Inscribir" style="height: 450px;">
+                            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
+                                <p:outputLabel value="Instructor"  />
+                                <p:selectOneMenu style="width:160px; margin-top: 10px;"  value="#{claseBean.instructor}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter"> 
+                                    <f:selectItems value="#{claseBean.horarioSeleccionado.instructoresDispoinibles}" var="inst" itemLabel="#{inst.nombre} #{inst.apellido}" itemValue="#{inst}" />
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Alumno"  />
+                                <p:selectOneMenu style="width:160px; margin-top: 20px;" value="#{claseBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItems value="#{claseBean.horarioSeleccionado.alumnosDisponibles}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
+                                </p:selectOneMenu>
+                            </p:panelGrid>
 
-
-                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
-                        <p:outputLabel value="Elegir Instructor"  />
-                        <p:selectOneMenu style="width:160px" value="#{claseBean.instructor}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter"> 
-                            <f:selectItems value="#{claseBean.horarioSeleccionado.instructoresDispoinibles}" var="inst" itemLabel="#{inst.nombre} #{inst.apellido}" itemValue="#{inst}" />
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Elegir Alumno"  />
-                        <p:selectOneMenu style="width:160px" value="#{claseBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
-                            <f:selectItems value="#{claseBean.horarioSeleccionado.alumnosDisponibles}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div style="text-align: right;">
-
-                        <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Guardar Clase" actionListener="#{claseBean.crearClase}"   />
-                    </div>
-                </p:outputPanel>
-            </p:dialog>
-            
-            <p:dialog id="verInscriptosDlg" header="Ver Inscriptos" widgetVar="verInscriptosW" modal="false"
-                      resizable="false" height="170" width="400" style="font-size: 12px;">
-                <p:outputPanel id="verInscriptos" >
-
-
-                     <p:dataTable  id="tablaInscriptos" widgetVar="verInscriptosWidget" var="insc" 
-                                   value="#{claseBean.horarioSeleccionadoVer.clases}" 
-                                  style="border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
-                                  emptyMessage="sin registros" >
-
-
+                            <div  style="position: absolute !important; bottom: 50px !important; left: 230px; vertical-align: bottom !important;">
+                                <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Inscribir" actionListener="#{claseBean.crearClase}"   />
+                            </div>
+                        </p:panel>
+                    </p:outputPanel>
+                    <p:outputPanel id="verInscriptos" >
+                        <p:dataTable  id="tablaInscriptos" widgetVar="verInscriptosWidget" var="insc" 
+                                      value="#{claseBean.horarioSeleccionado.clases}" 
+                                      style="border-style: solid; font-weight: 500;  height: 225px;
+                                      color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
+                                      selection="#{claseBean.claseSeleccionada}" selectionMode="single" rowKey="#{insc.id}"
+                                      emptyMessage="sin registros" >
+                            <f:facet name="header">
+                                Inscriptos
+                            </f:facet>
+                            <p:column width="80px;" headerText="Alumno" >
+                                <h:outputText value="#{insc.idAlumno.nombre}  #{insc.idAlumno.apellido} " />
+                            </p:column> 
+                            <p:column width="80px;" headerText="Instructor" >
+                                <h:outputText value="#{insc.idInstructor.nombre}  #{insc.idInstructor.apellido} " />
+                            </p:column>
+                        </p:dataTable> 
+                        <div style="text-align: right;">
+                            <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Anular Clase" actionListener="#{claseBean.cancelarClase()}"    />    
+                         </div>
+                         <p:dataTable  id="tablaInscriptos2" widgetVar="verInscriptos2Widget" var="alc" 
+                                       value="#{claseBean.horarioSeleccionado.alquileresVehiculo}" 
+                                      style="border-style: solid; font-weight: 500;  height: 225px;
+                                      color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
+                                      emptyMessage="sin registros" >
+                            <f:facet name="header">
+                                Alquileres
+                            </f:facet>
+                            <p:column width="80px;" headerText="Alumno" >
+                                <h:outputText value="#{alc.idAlumno.nombre}  #{alc.idAlumno.apellido} " />
+                            </p:column> 
+                            <p:column width="80px;" headerText="Patente Vehiculo" >
+                                <h:outputText value="#{alc.idVehiculo.patente}" />
+                            </p:column>
+                        </p:dataTable> 
                         
-                        <p:column width="80px;" headerText="Alumno" >
-                            <h:outputText value="#{insc.idAlumno.nombre}  #{insc.idAlumno.apellido} " />
-                        </p:column> 
-                         <p:column width="80px;" headerText="Instructor" >
-                             <h:outputText value="#{insc.idInstructor.nombre}  #{insc.idInstructor.apellido} " />
-                        </p:column>
-                        
-                    </p:dataTable> 
-                    
-                    
-                </p:outputPanel>
+                    </p:outputPanel>
+                </p:panelGrid>
             </p:dialog>
+
+
 
 
             <p:dialog id="inscribirEsperaDlg" header="Lista de Espera" widgetVar="inscribirEspera" modal="false"
-                      resizable="false" height="400" width="600" style="font-size: 12px;">
+                      resizable="false" height="300" width="800" style="font-size: 12px;">
                 <p:outputPanel id="inscribirAlumnosEspera" >
-                   
-                    
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
 
                         <p:outputLabel value="Elegir Alumno"  />
@@ -140,30 +148,38 @@
                     <p:dataTable  id="tablaEspera" widgetVar="esperaWidget" var="esp" 
                                   value="#{claseBean.horarioSeleccionadoEspera.listaEsperaClase}" 
                                   style="border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
+                                  selection="#{claseBean.listaEsperaSeleccionada}" selectionMode="single" rowKey="#{esp.id}"
                                   emptyMessage="sin registros" >
 
 
-                        <p:column width="80px;" headerText="fecha inscripcion" >
+                        <p:column width="60px;" headerText="fecha inscripcion">
                             <h:outputText value="#{esp.fechaInscripcion} " >
                                 <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                             </h:outputText>
                         </p:column> 
-                        <p:column width="80px;" headerText="Alumno" >
+                        <p:column width="80px;" headerText="Alumno"  >
                             <h:outputText value="#{esp.idAlumno.nombre}  #{esp.idAlumno.apellido} " />
                         </p:column> 
-                        <p:column  headerText="Hora inicio">
+                        <p:column width="80px;" headerText="Telefono"  >
+                            <h:outputText value="#{esp.idAlumno.telefono}" />
+                        </p:column> 
+                        <p:column width="80px;" headerText="Email"  >
+                            <h:outputText value="#{esp.idAlumno.email}" title="#{esp.idAlumno.email}" />
+                        </p:column> 
+                        <p:column  headerText="Hora inicio"  width="40">
                             <h:outputText value="#{esp.idHorario.inicio}" >
                                 <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                             </h:outputText>
                         </p:column>
-                        <p:column  headerText="Hora fin">
+                        <p:column  headerText="Hora fin" width="40">
                             <h:outputText value="#{esp.idHorario.fin}"  >
                                 <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                             </h:outputText>
                         </p:column>
                     </p:dataTable> 
+                  
                     <div style="text-align: right;">
-
+                        <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="quitar de lista" actionListener="#{claseBean.borrarEspera()}"   />
                         <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Poner en lista" actionListener="#{claseBean.crearClaseEspera()}"   />
                     </div>
                 </p:outputPanel>

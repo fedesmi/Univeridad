@@ -6,7 +6,7 @@
     template="gerenteIndex.xhtml"
     xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="source"    >
+    <ui:define name="source"   id="defineAlquiler" >
         <h:form id="formInscripcionAlquiler" >
             <h:outputScript library="js" name="calendar_es.js"  />
             <p:growl id="msgs" showDetail="true" />
@@ -55,16 +55,16 @@
                     <p:commandButton update="formGer:formInscripcionAlquiler:inscribirDlg" disabled="#{dis.vehiculosLibres.size()==0}" oncomplete="PF('alquilarW').show()" icon="ui-icon-pencil" title="Alquilar">
                         <f:setPropertyActionListener value="#{dis}" target="#{alquilerVehiculoBean.horarioSeleccionado}" />
                     </p:commandButton>
-                    
+
                 </p:column>
                 <p:column width="80px;" headerText="Alquilados" >
-                    
+
                     <p:commandButton update=":formGer:formInscripcionAlquiler:verAlquiler"  oncomplete="PF('verInscriptosW').show()" icon="ui-icon-search" title="Ver">
                         <f:setPropertyActionListener value="#{dis}" target="#{alquilerVehiculoBean.horarioSeleccionadoVer}" />
                     </p:commandButton>
-                    
+
                 </p:column>
-               
+
             </p:dataTable> 
 
 
@@ -78,7 +78,7 @@
                         <p:selectOneMenu style="width:160px" value="#{alquilerVehiculoBean.vehiculoSeleccionado}"  converter="omnifaces.SelectItemsConverter"> 
                             <f:selectItems value="#{alquilerVehiculoBean.horarioSeleccionado.vehiculosLibres}" var="veh" itemLabel="#{veh.patente} #{veh.marca} #{veh.modelo}" itemValue="#{veh}" />
                         </p:selectOneMenu>
-                         <p:outputLabel value="Elegir Alumno"  />
+                        <p:outputLabel value="Elegir Alumno"  />
                         <p:selectOneMenu style="width:160px" value="#{alquilerVehiculoBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
                             <f:selectItems value="#{alquilerVehiculoBean.horarioSeleccionado.alumnosDisponibles}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
                         </p:selectOneMenu>
@@ -89,37 +89,40 @@
                     </div>
                 </p:outputPanel>
             </p:dialog>
-            
+
             <p:dialog id="verInscriptosDlg" header="Ver Alquileres" widgetVar="verInscriptosW" modal="false"
                       resizable="false" height="170" width="400" style="font-size: 12px;">
                 <p:outputPanel id="verAlquiler" >
 
 
-                     <p:dataTable  id="tablaAlquilados" widgetVar="verInscriptosWidget" var="veh" 
-                                   value="#{alquilerVehiculoBean.horarioSeleccionadoVer.alquileres}" 
+                    <p:dataTable  id="tablaAlquilados" widgetVar="verInscriptosWidget" var="veh" 
+                                  value="#{alquilerVehiculoBean.horarioSeleccionadoVer.alquileres}" 
                                   style="border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
+                                  selection="#{alquilerVehiculoBean.alquilerSeleccionado}" selectionMode="single" rowKey="#{veh.id}"
                                   emptyMessage="sin registros" >
 
 
-                        
+
                         <p:column width="80px;" headerText="Patente" >
                             <h:outputText value="#{veh.idVehiculo.patente}" />
                         </p:column> 
-                         <p:column width="80px;" headerText="Marca Modelo" >
-                             <h:outputText value="#{veh.idVehiculo.marca}  #{veh.idVehiculo.modelo} " />
+                        <p:column width="80px;" headerText="Marca Modelo" >
+                            <h:outputText value="#{veh.idVehiculo.marca}  #{veh.idVehiculo.modelo} " />
                         </p:column>
-                         <p:column width="80px;" headerText="Alumno" >
-                             <h:outputText value="#{veh.idAlumno.nombre}  #{veh.idAlumno.apellido} " />
+                        <p:column width="80px;" headerText="Alumno" >
+                            <h:outputText value="#{veh.idAlumno.nombre}  #{veh.idAlumno.apellido} " />
                         </p:column> 
-                        
+
                     </p:dataTable> 
-                    
-                    
+                    <div style="text-align: right;">
+                        <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Anular Clase" actionListener="#{alquilerVehiculoBean.cancelarClase()}"    />    
+                    </div>
+
                 </p:outputPanel>
             </p:dialog>
 
 
-            
+
 
 
 

@@ -32,6 +32,8 @@ public class AlumnoBean implements Serializable {
     private String apellido;
     private int dni; 
     private Date fechaNacimiento ;
+    private String telefono;
+    private String email;
     
    
   
@@ -81,6 +83,8 @@ public class AlumnoBean implements Serializable {
         alumnoVar.setNombre(nombre);
         alumnoVar.setDni(dni);
         alumnoVar.setFechaNacimiento(fechaNacimiento);
+        alumnoVar.setTelefono(telefono);
+        alumnoVar.setEmail(email);
         this.alumnoFacade.create(alumnoVar);
         
         apellido="";
@@ -88,6 +92,8 @@ public class AlumnoBean implements Serializable {
         dni=0;
         fechaNacimiento = null;
         alumnoVar = null;
+        telefono="";
+        email="";
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Alumno fue registrado exitosamente"));
@@ -196,5 +202,33 @@ public class AlumnoBean implements Serializable {
         Alumno alumnoLocalVar = (Alumno) event.getObject();
         FacesMessage msg = new FacesMessage("Edición Cancelada",  "DNI: "+String.valueOf(alumnoLocalVar.getDni()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    /**
+     * @return the telefono
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * @param telefono the telefono to set
+     */
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

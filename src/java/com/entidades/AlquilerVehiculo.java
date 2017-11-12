@@ -38,11 +38,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,@NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagosAlumnos", query = "SELECT a FROM AlquilerVehiculo a WHERE a.idIngreso IS NULL GROUP BY a.idAlumno")
     , @NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagos", query = "SELECT a FROM AlquilerVehiculo a  WHERE a.idAlumno = :alumno AND a.idIngreso IS NULL")
     , @NamedQuery(name = "AlquilerVehiculo.findByFecha", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha")
-    , @NamedQuery(name = "AlquilerVehiculo.findByFechaYHorario", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha AND a.idHorario = :horario")
-
+    , @NamedQuery(name = "AlquilerVehiculo.findByFechaYHorario", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha AND a.idHorario = :horario AND a.fechaCancelado IS NULL ")
+         , @NamedQuery(name = "AlquilerVehiculo.cancelarAlquiler", query = "UPDATE AlquilerVehiculo av SET av.fechaCancelado = FUNC('CURDATE()')  WHERE av = :alquiler")
 })
 
 public class AlquilerVehiculo implements Serializable {
+
+    @Column(name = "fecha_cancelado")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCancelado;
 
     @JoinColumn(name = "id_alumno", referencedColumnName = "id")
     @ManyToOne
@@ -152,6 +156,14 @@ public class AlquilerVehiculo implements Serializable {
 
     public void setIdHorario(Horario idHorario) {
         this.idHorario = idHorario;
+    }
+
+    public Date getFechaCancelado() {
+        return fechaCancelado;
+    }
+
+    public void setFechaCancelado(Date fechaCancelado) {
+        this.fechaCancelado = fechaCancelado;
     }
     
 }

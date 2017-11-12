@@ -91,8 +91,7 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
                     temp = new TipoEmpleado();
                     temp.setId(resultado.getInt(10));
                     temp.setRol(resultado.getString(11));
-                    temp.setSueldoBase(resultado.getInt(12));
-                    temp.setPorcentajePorClase(resultado.getShort(13));
+                    temp.setSueldoBase(resultado.getFloat(12));
                     emp.setIdTipoEmpleado(temp);
                     
                     instructores.add(emp);

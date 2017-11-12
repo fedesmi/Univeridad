@@ -15,39 +15,6 @@
              <p:growl id="msgs" showDetail="true" />
             <br/>
             <h:panelGrid columns="2">
-            <p:dataTable id="tablaAsignarVehiculos" widgetVar="tablaAsignarVehiculosWidget" var="veh"
-                         selectionMode="single" selection="#{vehiculoBean.vehiculoSelected}" rowKey="#{veh.id}"
-                          value="#{vehiculoBean.vehiculos}"   paginator="false" scrollable="true" scrollHeight="250" 
-                         emptyMessage="sin registros" 
-                         rowStyleClass="#{veh.apto==1?'highlightTableRow':''}"
-                         style="font-size: 12px; border: solid thin #dbdbdb; width: 600px;">
-
-                <f:facet name="header">
-                    Lista de Vehiculos Para dar Clases
-                </f:facet>
-               
-
-                <p:column   headerText="Patente" width="15%" style="text-align: center;" >
-                    <h:outputText value="#{veh.patente}" />
-                </p:column>
-                <p:column  headerText="Marca">
-                    <h:outputText value="#{veh.marca}" />
-                </p:column>
-                <p:column headerText="Modelo" >
-                  <h:outputText value="#{veh.modelo}" />
-                </p:column>
-               <p:column headerText="Asignado" >
-                  <h:outputText value="#{veh.modelo}" />
-                </p:column>
-                <p:column headerText="Asignado" width="25%" >
-                    <h:outputText value="#{(veh.idEmpleado.nombre != null ? veh.idEmpleado.nombre.toUpperCase().concat(' ').concat(veh.idEmpleado.apellido.toUpperCase()) : ' - ')}" />
-                </p:column>
-               
-                 
-            </p:dataTable>
-            
-            
-            
                 <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp"  value="#{empleadoBean.instructores}" 
                          paginator="false" scrollable="true" scrollHeight="250" emptyMessage="sin registros"
                          selectionMode="single" selection="#{empleadoBean.empleadoSeleccionado}" rowKey="#{emp.id}" 
@@ -66,12 +33,38 @@
                 <p:column headerText="Apellido" >
                     <h:outputText value="#{emp.apellido}" />
                 </p:column>
-               
+               <p:column headerText="Asignado" >
+                   <h:outputText value="#{emp.vehiculo.patente}" />
+                </p:column>
             </p:dataTable>
+                
+            <p:dataTable id="tablaAsignarVehiculos" widgetVar="tablaAsignarVehiculosWidget" var="veh"
+                         selectionMode="single" selection="#{vehiculoBean.vehiculoSelected}" rowKey="#{veh.id}"
+                          value="#{vehiculoBean.vehiculos}"   paginator="false" scrollable="true" scrollHeight="250" 
+                         emptyMessage="sin registros" 
+                         rowStyleClass="#{veh.apto==1?'highlightTableRow':''}"
+                         style="font-size: 12px; border: solid thin #dbdbdb; width: 600px;">
+
+                <f:facet name="header">
+                    Lista de Vehiculos
+                </f:facet>
+
+                <p:column   headerText="Patente" width="15%" style="text-align: center;" >
+                    <h:outputText value="#{veh.patente}" />
+                </p:column>
+                <p:column  headerText="Marca">
+                    <h:outputText value="#{veh.marca}" />
+                </p:column>
+                <p:column headerText="Modelo" >
+                  <h:outputText value="#{veh.modelo}" />
+                </p:column>
+    
+            </p:dataTable>
+ 
             </h:panelGrid>
           
             
-            <p:commandButton value="Asignar"  oncomplete="PF('tablaAsignarVehiculosWidget').filter()"  update="formGer:formAsignar:msgs" actionListener="#{vehiculoBean.asignarEmpleadoVehiculo(empleadoBean.empleadoSeleccionado)}" />
+            <p:commandButton value="Asignar"  oncomplete="PF('empleadosWidget').filter()"  update="formGer:formAsignar:msgs" actionListener="#{vehiculoBean.asignarEmpleadoVehiculo(empleadoBean.empleadoSeleccionado)}" />
         </h:form>
         
         

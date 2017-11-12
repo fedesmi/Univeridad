@@ -38,10 +38,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,@NamedQuery(name = "Clase.findClasesImpagas", query = "SELECT c FROM Clase c WHERE c.idIngreso IS NULL")
     ,@NamedQuery(name = "Clase.findClasesImpagasAlumnos", query = "SELECT c FROM Clase c WHERE c.idIngreso IS NULL  GROUP BY c.idAlumno")
     , @NamedQuery(name = "Clase.findByIdInstructor", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor ORDER BY c.fecha DESC")
+    ,@NamedQuery(name = "Clase.findByIdInstructorAndMes", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor AND   FUNC('MONTH', c.fecha) = :mes  ORDER BY c.fecha DESC")
+    ,@NamedQuery(name = "Clase.findByIdInstructorAndMesCantidad", query = "SELECT COUNT(c) FROM Clase c WHERE c.idInstructor = :instructor AND  FUNC('MONTH', c.fecha) = :mes  ORDER BY c.fecha DESC")
     , @NamedQuery(name = "Clase.findAlumnosByIdInstructor", query = "SELECT c.idAlumno FROM Clase c WHERE c.idInstructor = :instructor GROUP BY c.idAlumno")
-
+    , @NamedQuery(name = "Clase.cancelarClase", query = "UPDATE Clase c SET c.fechaCancelado = FUNC('CURDATE')  WHERE c = :clase")
+ 
 })
 public class Clase implements Serializable {
+
+    @Column(name = "fecha_cancelado")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCancelado;
 
       @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
     @ManyToOne
@@ -145,6 +152,14 @@ public class Clase implements Serializable {
 
     public void setIdIngreso(Ingreso idIngreso) {
         this.idIngreso = idIngreso;
+    }
+
+    public Date getFechaCancelado() {
+        return fechaCancelado;
+    }
+
+    public void setFechaCancelado(Date fechaCancelado) {
+        this.fechaCancelado = fechaCancelado;
     }
 
    

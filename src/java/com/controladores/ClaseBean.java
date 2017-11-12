@@ -16,7 +16,6 @@ import com.entidades.ListaEsperaClase;
 import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EmpleadoFacade;
-import com.repositorios.FormaPagoFacade;
 import com.repositorios.HorarioFacade;
 import com.repositorios.ListaEsperaClaseFacade;
 import java.text.SimpleDateFormat;
@@ -46,7 +45,6 @@ public class ClaseBean implements Serializable {
     private ClaseFacade claseFacade;
     @Inject
     private ListaEsperaClaseFacade listaEsperaClaseFacade;
- 
 
     private Date fechaConsulta = new Date();
     private List<HorarioCompuesto> disponibilidadHora;
@@ -54,6 +52,9 @@ public class ClaseBean implements Serializable {
     private HorarioCompuesto horarioSeleccionado;
     private HorarioCompuesto horarioSeleccionadoVer;
     private HorarioCompuesto horarioSeleccionadoEspera;
+
+    private ListaEsperaClase listaEsperaSeleccionada;
+    private Clase claseSeleccionada;
 
     private Empleado instructor;
     private Alumno alumno;
@@ -74,7 +75,6 @@ public class ClaseBean implements Serializable {
     }
 
     public void onload() {
-
         fechaConsulta = new Date();
         actualizarDisponibilidad();
 
@@ -230,31 +230,66 @@ public class ClaseBean implements Serializable {
     }
 
     public void crearClaseEspera() {
-        ListaEsperaClase espera = new ListaEsperaClase();
-        espera.setIdHorario(horarioSeleccionadoEspera.getHorario());
-        espera.setIdAlumno(alumnoEspera);
-        espera.setFechaClase(fechaConsulta);
-        espera.setFechaInscripcion(new Date());
+        if (horarioSeleccionadoEspera != null) {
+            ListaEsperaClase espera = new ListaEsperaClase();
+            espera.setIdHorario(horarioSeleccionadoEspera.getHorario());
+            espera.setIdAlumno(alumnoEspera);
+            espera.setFechaClase(fechaConsulta);
+            espera.setFechaInscripcion(new Date());
 
-        listaEsperaClaseFacade.create(espera);
-        horarioSeleccionadoEspera=null;
-        actualizarDisponibilidad();
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se agrego al alumno a la lista de espera"));
+            listaEsperaClaseFacade.create(espera);
+            horarioSeleccionadoEspera = null;
+            actualizarDisponibilidad();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se agrego al alumno a la lista de espera"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se debe seleccionar una clase"));
+        }
+    }
 
+    public void borrarEspera() {
+        if (listaEsperaSeleccionada != null) {
+            listaEsperaClaseFacade.remove(listaEsperaSeleccionada);
+            actualizarDisponibilidad();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se borro el alumno a la lista de espera"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se debe seleccionar una clase"));
+        }
+    }
+
+    public void cancelarClase() {
+        if (claseSeleccionada != null) {
+            claseFacade.cancelarClase(claseSeleccionada);
+            actualizarDisponibilidad();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se anulo la clase seleccionada"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se debe seleccionar una clase"));
+        }
     }
 
     public void crearClase() {
         Clase clase = new Clase();
-        clase.setIdHorario(horarioSeleccionado.getHorario());
+        if (alumno != null && instructor != null) {
 
-        clase.setIdAlumno(alumno);
-        clase.setIdInstructor(instructor);
-        clase.setFecha(fechaConsulta);
-        claseFacade.create(clase);
-        actualizarDisponibilidad();
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La clase fue dada de alta Exitosamente"));
+            clase.setIdHorario(horarioSeleccionado.getHorario());
+
+            clase.setIdAlumno(alumno);
+            clase.setIdInstructor(instructor);
+            clase.setFecha(fechaConsulta);
+            claseFacade.create(clase);
+            actualizarDisponibilidad();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La clase fue dada de alta Exitosamente"));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Debe seleccionar un Alumno y Instructor"));
+        }
+
     }
 
     /**
@@ -341,5 +376,32 @@ public class ClaseBean implements Serializable {
         this.horarioSeleccionadoVer = horarioSeleccionadoVer;
     }
 
+    /**
+     * @return the listaEsperaSeleccionada
+     */
+    public ListaEsperaClase getListaEsperaSeleccionada() {
+        return listaEsperaSeleccionada;
+    }
+
+    /**
+     * @param listaEsperaSeleccionada the listaEsperaSeleccionada to set
+     */
+    public void setListaEsperaSeleccionada(ListaEsperaClase listaEsperaSeleccionada) {
+        this.listaEsperaSeleccionada = listaEsperaSeleccionada;
+    }
+
+    /**
+     * @return the claseSeleccionada
+     */
+    public Clase getClaseSeleccionada() {
+        return claseSeleccionada;
+    }
+
+    /**
+     * @param claseSeleccionada the claseSeleccionada to set
+     */
+    public void setClaseSeleccionada(Clase claseSeleccionada) {
+        this.claseSeleccionada = claseSeleccionada;
+    }
 
 }

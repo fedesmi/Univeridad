@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -79,12 +80,30 @@ import javax.xml.bind.annotation.XmlTransient;
             + "AND m.autorizo IS NOT NULL "
             + "AND m.idTipoEmpleado.rol =:instructor "
             + "ORDER BY m.legajo ")
-    
+     , @NamedQuery(name = "Empleado.todosSinFechaBaja",
+            query = "SELECT e "
+            + "FROM Empleado e "
+            + "WHERE e.fechaBaja IS NULL "
+            + "ORDER BY e.legajo ") 
        
 })
 
 
 public class Empleado implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
+    private Collection<Usuario> usuarioCollection;
+
+
+    @OneToMany(mappedBy = "idGerenteAutorizo")
+    private Collection<Egreso> egresoCollection;
+    @OneToMany(mappedBy = "idEmpleado")
+    private Collection<Liquidacion> liquidacionCollection;
+
+    @JoinColumn(name = "id_formaCobro", referencedColumnName = "id")
+    @ManyToOne
+    private FormaCobro idformaCobro; 
+
 
     @OneToMany(mappedBy = "idEmpleado")
     private Collection<Vehiculo> vehiculoCollection;
@@ -92,8 +111,8 @@ public class Empleado implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInstructor")
     private Collection<Evaluacion> evaluacionCollection;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpleado")
-    private Collection<Usuario> usuarioCollection;
+    @OneToOne( mappedBy = "idEmpleado")
+    private Usuario usuario;
 
      @OneToMany(mappedBy = "idInstructor")
     private Collection<Clase> claseCollection;
@@ -278,14 +297,7 @@ public class Empleado implements Serializable {
 
   
 
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
-    }
-
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
-    }
+    
 
     @XmlTransient
     public Collection<Evaluacion> getEvaluacionCollection() {
@@ -317,6 +329,61 @@ public class Empleado implements Serializable {
 
     public void setVehiculoCollection(Collection<Vehiculo> vehiculoCollection) {
         this.vehiculoCollection = vehiculoCollection;
+    }
+
+    @XmlTransient
+    public Collection<Egreso> getEgresoCollection() {
+        return egresoCollection;
+    }
+
+    public void setEgresoCollection(Collection<Egreso> egresoCollection) {
+        this.egresoCollection = egresoCollection;
+    }
+
+    @XmlTransient
+    public Collection<Liquidacion> getLiquidacionCollection() {
+        return liquidacionCollection;
+    }
+
+    public void setLiquidacionCollection(Collection<Liquidacion> liquidacionCollection) {
+        this.liquidacionCollection = liquidacionCollection;
+    }
+
+    /**
+     * @return the usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * @return the idformaCobro
+     */
+    public FormaCobro getIdformaCobro() {
+        return idformaCobro;
+    }
+
+    /**
+     * @param idformaCobro the idformaCobro to set
+     */
+    public void setIdformaCobro(FormaCobro idformaCobro) {
+        this.idformaCobro = idformaCobro;
+    }
+
+    @XmlTransient
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
+    }
+
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
 
   

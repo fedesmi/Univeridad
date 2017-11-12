@@ -44,6 +44,10 @@ public class AlquilerVehiculoFacade extends AbstractFacade<AlquilerVehiculo> {
 
     }
     
+        public void cancelarClase(AlquilerVehiculo alquiler) {
+       getEntityManager().createNamedQuery("AlquilerVehiculo.").setParameter("alquiler", alquiler).executeUpdate();
+
+    }
     
 
 }

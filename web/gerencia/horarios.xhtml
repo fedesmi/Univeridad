@@ -1,0 +1,47 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="horariosDefine">
+        <h:form id="formhorarios">
+             <f:metadata>
+                 <f:viewAction action="#{horarioBean.onloadHorarios()}" />
+            </f:metadata>
+            <p:growl id="msgs" showDetail="true" />
+            <p:outputLabel value="Configuración" />
+            
+            <br/>
+
+            <p:dataTable id="tablaHorarios" widgetVar="varWidget" var="horario" editable="true"  value="#{horarioBean.horarios}"  emptyMessage="sin registros" >
+                <f:facet name="header">
+                    Lista de Horarios
+                </f:facet>
+             
+                
+                 <p:column  headerText="Hora inicio">
+                    <h:outputText value="#{horario.inicio}" >
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Hora fin">
+                    <h:outputText value="#{horario.fin}"  >
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3"/>
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Dia">
+                    <h:outputText value="#{horarioBean.getNombreFromNumberDate(horario.diaSemana)}" />
+                </p:column>
+       
+            </p:dataTable>
+
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

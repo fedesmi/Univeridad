@@ -46,6 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")})
 public class Alumno implements Serializable {
 
+  
+
     @OneToMany(mappedBy = "idAlumno")
     private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
 
@@ -83,7 +85,14 @@ public class Alumno implements Serializable {
 
     @OneToMany(mappedBy = "idAlumno")
     private Collection<Clase> claseCollection;
-     
+      
+    @Size(max = 20)
+    @Column(name = "telefono")
+    private String telefono;
+
+    @Size(max = 30)
+    @Column(name = "email")
+    private String email;
     
     public Alumno() {
     }
@@ -199,6 +208,22 @@ public class Alumno implements Serializable {
 
     public void setAlquilerVehiculoCollection(Collection<AlquilerVehiculo> alquilerVehiculoCollection) {
         this.alquilerVehiculoCollection = alquilerVehiculoCollection;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
     
