@@ -16,6 +16,7 @@ import com.repositorios.ClaseFacade;
 import com.repositorios.FormaPagoFacade;
 import com.repositorios.IngresoFacade;
 import com.repositorios.ConceptoFacade;
+import com.repositorios.UsuarioFacade;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
@@ -69,6 +70,10 @@ public class AlumnosMorososBean implements Serializable {
     private FormaPagoFacade formaPagoFacade;
     private List<FormaPago> formasDePago;
     private FormaPago formaDePago;
+    
+    @Inject
+    private UsuarioFacade usuarioFacade;
+    
 
     /**
      * Creates a new instance of AlumnosMorososBean
@@ -213,6 +218,7 @@ public class AlumnosMorososBean implements Serializable {
         ingreso.setFecha(new Date());
         ingreso.setClaseCollection(clasesAlumnosMorososSeleccionada);
         ingreso.setAlquilerVehiculoCollection(alquilerVehiculoListSeleccionado);
+        ingreso.setIdUsuario(usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
         ingresoFacade.create(ingreso);
         
         

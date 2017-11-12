@@ -46,6 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByFechaBaja", query = "SELECT u FROM Usuario u WHERE u.fechaBaja = :fechaBaja")})
 public class Usuario implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private Collection<Ingreso> ingresoCollection;
+
     @OneToMany(mappedBy = "idUsuario")
     private Collection<Egreso> egresoCollection;
     @OneToMany(mappedBy = "idUsuario")
@@ -207,6 +210,15 @@ public class Usuario implements Serializable {
 
     public void setLiquidacionCollection(Collection<Liquidacion> liquidacionCollection) {
         this.liquidacionCollection = liquidacionCollection;
+    }
+
+    @XmlTransient
+    public Collection<Ingreso> getIngresoCollection() {
+        return ingresoCollection;
+    }
+
+    public void setIngresoCollection(Collection<Ingreso> ingresoCollection) {
+        this.ingresoCollection = ingresoCollection;
     }
 
   

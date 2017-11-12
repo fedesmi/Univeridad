@@ -28,6 +28,12 @@
                 <p:outputLabel value="#{clasesListInstructorBean.usuarioVar.idEmpleado.fechaAlta}">
                      <f:convertDateTime pattern="dd/MM/yyyy" />
                 </p:outputLabel> 
+                
+                <p:selectOneMenu value="#{clasesListInstructorBean.usuarioVar.idEmpleado.idformaCobro}" converter="omnifaces.SelectItemsConverter" >
+                    <f:selectItems var="fcobro" value="#{clasesListInstructorBean.formasCobro}" itemLabel="#{fcobro.descripcion}" itemValue="#{fcobro}"  />
+                </p:selectOneMenu>
+                <p:commandButton  ajax="false" value="Guardar" actionListener="#{clasesListInstructorBean.guardarFormaCobro()}" />
+                
             </p:panelGrid>
             <br/><br/>
             <p:outputLabel value="Vehiculo Asignado "  />

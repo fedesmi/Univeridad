@@ -8,10 +8,15 @@ package com.controladores;
 import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Evaluacion;
+import com.entidades.FormaCobro;
+import com.entidades.FormaPago;
 import com.entidades.Usuario;
 import com.entidades.Vehiculo;
 import com.repositorios.ClaseFacade;
+import com.repositorios.EmpleadoFacade;
 import com.repositorios.EvaluacionFacade;
+import com.repositorios.FormaCobroFacade;
+import com.repositorios.FormaPagoFacade;
 import com.repositorios.UsuarioFacade;
 import com.repositorios.VehiculoFacade;
 import java.io.Serializable;
@@ -41,6 +46,11 @@ public class ClasesListInstructorBean implements Serializable {
     private EvaluacionFacade evaluacionFacade;
     @Inject
     private VehiculoFacade vehiculoFacade;
+    @Inject
+    private FormaCobroFacade formaCobroFacade;
+    
+    @Inject
+    private EmpleadoFacade empleadoFacade;
     
     private Alumno alumnoSeleccionado;
     
@@ -48,6 +58,7 @@ public class ClasesListInstructorBean implements Serializable {
     
     private Usuario usuarioVar;
     private Vehiculo vehiculoVar;
+    private List<FormaCobro> formasCobro;
     
     
     /**
@@ -68,7 +79,7 @@ public class ClasesListInstructorBean implements Serializable {
          String nombreUsuario = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
          usuarioVar = usuarioFacade.getUsuario(nombreUsuario);
          vehiculoVar = vehiculoFacade.buscarVehiculoPorEmpleado(usuarioVar.getIdEmpleado());
-        
+         formasCobro = formaCobroFacade.findAll();
     }
 
     public void actualizarListaClases() {
@@ -145,6 +156,12 @@ public class ClasesListInstructorBean implements Serializable {
         this.evaluacion = evaluacion;
     }
     
+    public void guardarFormaCobro(){
+        empleadoFacade.edit(usuarioVar.getIdEmpleado());
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La forma de cobro fue registrada exitosamente"));
+    }
+    
     
     public void guardarEvaluacion(){
         Evaluacion evaluacionVar = new Evaluacion();
@@ -218,6 +235,22 @@ public class ClasesListInstructorBean implements Serializable {
      */
     public void setVehiculoVar(Vehiculo vehiculoVar) {
         this.vehiculoVar = vehiculoVar;
+    }
+
+   
+
+    /**
+     * @return the formasCobro
+     */
+    public List<FormaCobro> getFormasCobro() {
+        return formasCobro;
+    }
+
+    /**
+     * @param formasCobro the formasCobro to set
+     */
+    public void setFormasCobro(List<FormaCobro> formasCobro) {
+        this.formasCobro = formasCobro;
     }
 
     
