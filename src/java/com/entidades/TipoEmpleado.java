@@ -42,6 +42,9 @@ import javax.xml.bind.annotation.XmlTransient;
     })
 public class TipoEmpleado implements Serializable {
 
+    @ManyToMany(mappedBy = "tipoEmpleadoCollection")
+    private Collection<ItemRecibo> itemReciboCollection;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "sueldoBase")
     private Float sueldoBase;
@@ -152,6 +155,15 @@ public class TipoEmpleado implements Serializable {
 
     public void setSueldoBase(Float sueldoBase) {
         this.sueldoBase = sueldoBase;
+    }
+
+    @XmlTransient
+    public Collection<ItemRecibo> getItemReciboCollection() {
+        return itemReciboCollection;
+    }
+
+    public void setItemReciboCollection(Collection<ItemRecibo> itemReciboCollection) {
+        this.itemReciboCollection = itemReciboCollection;
     }
     
 }

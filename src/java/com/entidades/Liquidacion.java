@@ -6,7 +6,9 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Liquidacion.findByYear", query = "SELECT l FROM Liquidacion l WHERE l.year = :year")
     , @NamedQuery(name = "Liquidacion.findBySueldoBase", query = "SELECT l FROM Liquidacion l WHERE l.sueldoBase = :sueldoBase")})
 public class Liquidacion implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLiquidacion")
+    private Collection<ReciboSueldo> reciboSueldoCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -143,6 +150,15 @@ public class Liquidacion implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Liquidacion[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ReciboSueldo> getReciboSueldoCollection() {
+        return reciboSueldoCollection;
+    }
+
+    public void setReciboSueldoCollection(Collection<ReciboSueldo> reciboSueldoCollection) {
+        this.reciboSueldoCollection = reciboSueldoCollection;
     }
     
 }

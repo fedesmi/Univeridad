@@ -69,7 +69,7 @@ public class VariablesBean {
         this.conceptos = conceptos;
     }
     
-        public void onRowEdit(RowEditEvent event)  {
+    public void onRowEdit(RowEditEvent event)  {
         Concepto var = (Concepto) event.getObject();
         this.conceptoFacade.edit(var);
         FacesMessage msg = new FacesMessage("Concepto Editada", String.valueOf(var.getDescripcion()));
