@@ -51,6 +51,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Empleado.findByFechaAlta", query = "SELECT e FROM Empleado e WHERE e.fechaAlta = :fechaAlta")
     , @NamedQuery(name = "Empleado.findByFechaBaja", query = "SELECT e FROM Empleado e WHERE e.fechaBaja = :fechaBaja")
     , @NamedQuery(name = "Empleado.findByAutorizo", query = "SELECT e FROM Empleado e WHERE e.autorizo = :autorizo")
+    , @NamedQuery(name = "Empleado.todosSinFechaBaja", query = "SELECT e FROM Empleado e WHERE e.fechaBaja IS NULL")
     , @NamedQuery(name = "Empleado.todosAutorizados",
             query = "SELECT m "
             + "FROM Empleado m "
@@ -80,11 +81,7 @@ import javax.xml.bind.annotation.XmlTransient;
             + "AND m.autorizo IS NOT NULL "
             + "AND m.idTipoEmpleado.rol =:instructor "
             + "ORDER BY m.legajo ")
-     , @NamedQuery(name = "Empleado.todosSinFechaBaja",
-            query = "SELECT e "
-            + "FROM Empleado e "
-            + "WHERE e.fechaBaja IS NULL "
-            + "ORDER BY e.legajo ") 
+     
        
 })
 

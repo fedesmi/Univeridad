@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,@NamedQuery(name = "Clase.findClasesImpagasAlumnos", query = "SELECT c FROM Clase c WHERE c.idIngreso IS NULL  GROUP BY c.idAlumno")
     , @NamedQuery(name = "Clase.findByIdInstructor", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor ORDER BY c.fecha DESC")
     ,@NamedQuery(name = "Clase.findByIdInstructorAndMes", query = "SELECT c FROM Clase c WHERE c.idInstructor = :instructor AND   FUNC('MONTH', c.fecha) = :mes  ORDER BY c.fecha DESC")
-    ,@NamedQuery(name = "Clase.findByIdInstructorAndMesCantidad", query = "SELECT COUNT(c) FROM Clase c WHERE c.idInstructor = :instructor AND  FUNC('MONTH', c.fecha) = :mes  ORDER BY c.fecha DESC")
+    ,@NamedQuery(name = "Clase.findByIdInstructorAndMesCantidad", query = "SELECT COUNT(c) FROM Clase c WHERE c.idInstructor = :instructor ")
     , @NamedQuery(name = "Clase.findAlumnosByIdInstructor", query = "SELECT c.idAlumno FROM Clase c WHERE c.idInstructor = :instructor GROUP BY c.idAlumno")
     , @NamedQuery(name = "Clase.cancelarClase", query = "UPDATE Clase c SET c.fechaCancelado = FUNC('CURDATE')  WHERE c = :clase")
  

@@ -1,0 +1,75 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="defineLiquidacion">
+        <h:form id="formLiquidacion">
+            <p:growl id="msgs" showDetail="true" />
+            <f:metadata>
+                <f:viewAction action="#{liquidacionSueldosBean.onLoadLiquidacion()}" />
+            </f:metadata>
+
+            <p:outputLabel value="Empleados - Liquidación de Sueldos" />
+
+            <br/><br/>
+            <p:panelGrid columns="5" style="font-size: 14px;">
+                <p:outputLabel value="Mes"/>
+                <p:selectOneMenu value="#{liquidacionSueldosBean.mesSeleccionado}"  >
+                    <f:selectItem itemLabel="ENERO" itemValue="1" />
+                    <f:selectItem itemLabel="FEBRERO" itemValue="2" />
+                    <f:selectItem itemLabel="MARZO" itemValue="3" />
+                    <f:selectItem itemLabel="ABRIL" itemValue="4" />
+                    <f:selectItem itemLabel="MAYO" itemValue="5" />
+                    <f:selectItem itemLabel="JUNIO" itemValue="6" />
+                    <f:selectItem itemLabel="JULIO" itemValue="7" />
+                    <f:selectItem itemLabel="AGOSTO" itemValue="8" />
+                    <f:selectItem itemLabel="SEPTIEMBRE" itemValue="9" />
+                    <f:selectItem itemLabel="OCTUBRE" itemValue="10" />
+                    <f:selectItem itemLabel="NOVIEMBRE" itemValue="11" />
+                    <f:selectItem itemLabel="DICIEMBRE" itemValue="12" />
+                </p:selectOneMenu>
+                <h:outputLabel for="anio" value="Año" />
+                <p:spinner id="anio" value="#{liquidacionSueldosBean.yearSeleccionado}" min="2017" max="3000" />
+                <p:commandButton value="Liquidar" update="formGer:formLiquidacion:msgs,formGer:formLiquidacion:tablaLiquidacion" actionListener="#{liquidacionSueldosBean.liquidar()}" />
+            </p:panelGrid>
+
+            <br/>
+
+            <p:dataTable id="tablaLiquidacion" widgetVar="varWidget" var="liq"   value="#{liquidacionSueldosBean.liquidaciones}"  emptyMessage="sin registros" >
+                <f:facet name="header">
+                    Lista de Liquidaciones
+                </f:facet>
+
+
+                <p:column  headerText="Mes" width="150px;">
+                    <h:outputText value="#{liquidacionSueldosBean.getNombreMes(liq.mes)}"/>
+                </p:column>
+                <p:column  headerText="Año" width="80px;">
+                    <h:outputText value="#{liq.year}"/>
+                </p:column>
+                <p:column  headerText="Empleado">
+                    <h:outputText value="#{liq.idEmpleado.nombre} #{liq.idEmpleado.apellido}"  />
+                </p:column>
+                <p:column  headerText="Sueldo Base" width="150px;">
+                    <h:outputText value="#{liq.sueldoBase}" >
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Sueldo Neto" width="150px;">
+                    <h:outputText value="#{liq.idEgreso.monto}" >
+                        <f:convertNumber type="currency" currencySymbol="$" />
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

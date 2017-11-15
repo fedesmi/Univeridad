@@ -117,5 +117,8 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> {
          return (int) getEntityManager().createNamedQuery("Empleado.ultimoLegajo").getSingleResult();
     }
     
-   
+       public List<Empleado> todosSinFechaBaja() {
+         return getEntityManager().createNamedQuery("Empleado.todosSinFechaBaja").getResultList();
+    }
+      
 }

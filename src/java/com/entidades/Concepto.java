@@ -6,6 +6,7 @@
 package com.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +36,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Concepto.findByDescripcion", query = "SELECT c FROM Concepto c WHERE c.descripcion = :descripcion")
     , @NamedQuery(name = "Concepto.findByValor", query = "SELECT c FROM Concepto c WHERE c.valor = :valor")})
 public class Concepto implements Serializable {
+
+    @Column(name = "fecha_inicio_vigencia")
+    @Temporal(TemporalType.DATE)
+    private Date fechaInicioVigencia;
+    @Column(name = "fecha_fin_vigencia")
+    @Temporal(TemporalType.DATE)
+    private Date fechaFinVigencia;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -101,6 +111,22 @@ public class Concepto implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.Concepto[ id=" + id + " ]";
+    }
+
+    public Date getFechaInicioVigencia() {
+        return fechaInicioVigencia;
+    }
+
+    public void setFechaInicioVigencia(Date fechaInicioVigencia) {
+        this.fechaInicioVigencia = fechaInicioVigencia;
+    }
+
+    public Date getFechaFinVigencia() {
+        return fechaFinVigencia;
+    }
+
+    public void setFechaFinVigencia(Date fechaFinVigencia) {
+        this.fechaFinVigencia = fechaFinVigencia;
     }
     
 }

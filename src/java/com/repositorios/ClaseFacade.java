@@ -5,11 +5,16 @@
  */
 package com.repositorios;
 
+import com.controladores.ConexionBaseDatos;
 import com.entidades.Alumno;
 import com.entidades.Clase;
 import com.entidades.Empleado;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -61,8 +66,29 @@ public class ClaseFacade extends AbstractFacade<Clase> {
 
     }
      public int getCantidadClasesByInstructorAndMes(Empleado instructor, int mes) {
-        return (int)getEntityManager().createNamedQuery("Clase.findByIdInstructorAndMesCantidad").setParameter("instructor", instructor).setParameter("mes", mes).getSingleResult();
+        //return (int)getEntityManager().createNamedQuery("Clase.findByIdInstructorAndMesCantidad").setParameter("instructor", instructor).setParameter("mes", mes).getSingleResult();
+        int cantidad = 0;
+        try {
 
+            String consulta = "SELECT COUNT(*) FROM clase as c WHERE c.id_instructor = "+ instructor.getId() +"  "
+                    + "AND  MONTH(c.fecha) = "+mes+" ; ";
+
+            
+            ConexionBaseDatos connMysql = new ConexionBaseDatos();
+            java.sql.ResultSet resultado = connMysql.ejecutarConsulta(consulta);
+
+            try {
+                while (resultado.next()) {
+                   cantidad = resultado.getInt(1);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            connMysql.cerrarConexion();
+        } catch (IOException ex) {
+            Logger.getLogger(ClaseFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cantidad;
     }
     
     public List<Alumno> getAlumnosByInstructor(Empleado instructor) {

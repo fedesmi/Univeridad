@@ -22,14 +22,6 @@
                 <p:ajax event="rowEdit" listener="#{variablesBean.onRowEdit}" update="formGer:formVariables:msgs" oncomplete="PF('varWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
                 <p:ajax event="rowEditCancel" listener="#{variablesBean.onRowCancel}" update="formGer:formVariables:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
-                <!--<p:column   headerText="Descripcion" style="text-align: center;" >
-                      <div style="text-align: center; font-size: 14px;" >
-                    <p:cellEditor>
-                        <f:facet name="output"> <h:outputText  value="#{concepto.descripcion}" ></h:outputText></f:facet>
-                        <f:facet name="input"><p:inputText value="#{concepto.descripcion}" /></f:facet>
-                    </p:cellEditor>
-                    </div>  
-                </p:column>-->
                 <p:column   headerText="Descripcion" style="text-align: center;" >
                     <div style="text-align: center; font-size: 14px;" >
                         <h:outputText  value="#{concepto.descripcion}" />
@@ -44,7 +36,22 @@
                         </p:cellEditor>
                     </div>
                 </p:column>
+                <p:column   headerText="Inicio Vigencia" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{concepto.fechaInicioVigencia}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                        </h:outputText>
 
+                    </div>
+                </p:column>
+                <p:column   headerText="Fin Vigencia" style="text-align: center;" >
+                    <div style="text-align: center; font-size: 14px;" >
+                        <h:outputText value="#{concepto.fechaFinVigencia}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                        </h:outputText>
+
+                    </div>
+                </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
