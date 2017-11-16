@@ -7,6 +7,7 @@ package com.entidades;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Usuario
  */
 @Entity
+@Cacheable(false)
 @Table(name = "recibo_sueldo")
 @XmlRootElement
 @NamedQueries({
@@ -49,6 +51,8 @@ public class ReciboSueldo implements Serializable {
     @JoinColumn(name = "id_liquidacion", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Liquidacion idLiquidacion;
+     @Column(name = "monto")
+    private Float monto;
 
     public ReciboSueldo() {
     }
@@ -117,6 +121,20 @@ public class ReciboSueldo implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.ReciboSueldo[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the monto
+     */
+    public Float getMonto() {
+        return monto;
+    }
+
+    /**
+     * @param monto the monto to set
+     */
+    public void setMonto(Float monto) {
+        this.monto = monto;
     }
     
 }

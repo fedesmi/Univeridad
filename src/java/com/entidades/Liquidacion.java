@@ -8,6 +8,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,17 +29,18 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Usuario
  */
 @Entity
+@Cacheable(false)
 @Table(name = "liquidacion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Liquidacion.findAll", query = "SELECT l FROM Liquidacion l ORDER BY l.mes DESC, l.year")
+    @NamedQuery(name = "Liquidacion.findAll", query = "SELECT l FROM Liquidacion l ORDER BY l.mes ASC, l.year")
     , @NamedQuery(name = "Liquidacion.findById", query = "SELECT l FROM Liquidacion l WHERE l.id = :id")
     , @NamedQuery(name = "Liquidacion.findByMes", query = "SELECT l FROM Liquidacion l WHERE l.mes = :mes")
     , @NamedQuery(name = "Liquidacion.findByYear", query = "SELECT l FROM Liquidacion l WHERE l.year = :year")
     , @NamedQuery(name = "Liquidacion.findBySueldoBase", query = "SELECT l FROM Liquidacion l WHERE l.sueldoBase = :sueldoBase")})
 public class Liquidacion implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLiquidacion")
+    @OneToMany(mappedBy = "idLiquidacion")
     private Collection<ReciboSueldo> reciboSueldoCollection;
 
     private static final long serialVersionUID = 1L;
@@ -65,7 +67,7 @@ public class Liquidacion implements Serializable {
     private Usuario idUsuario;
 
     public Liquidacion() {
-    }
+    } 
 
     public Liquidacion(Integer id) {
         this.id = id;

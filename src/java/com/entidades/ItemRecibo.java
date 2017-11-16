@@ -8,6 +8,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Usuario
  */
 @Entity
+@Cacheable(false)
 @Table(name = "item_recibo")
 @XmlRootElement
 @NamedQueries({

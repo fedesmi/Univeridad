@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Cacheable(false)
 @Table(name = "empleado", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Empleado.findAll", query = "SELECT e FROM Empleado e")

@@ -8,6 +8,7 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Usuario
  */
 @Entity
+@Cacheable(false)
 @Table(name = "forma_cobro")
 @XmlRootElement
 @NamedQueries({

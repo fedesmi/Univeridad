@@ -9,18 +9,22 @@ import com.entidades.Egreso;
 import com.entidades.Empleado;
 import com.entidades.ItemRecibo;
 import com.entidades.Liquidacion;
+import com.entidades.ReciboSueldo;
 import com.entidades.Usuario;
 import com.repositorios.ClaseFacade;
 import com.repositorios.EgresoFacade;
 import com.repositorios.EmpleadoFacade;
 import com.repositorios.LiquidacionFacade;
+import com.repositorios.ReciboSueldoFacade;
 import com.repositorios.UsuarioFacade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -30,7 +34,7 @@ import javax.inject.Inject;
  * @author fmichel
  */
 @Named(value = "liquidacionSueldosBean")
-@RequestScoped
+@SessionScoped
 public class LiquidacionSueldosBean implements Serializable {
 
     private int mesSeleccionado;
@@ -46,10 +50,14 @@ public class LiquidacionSueldosBean implements Serializable {
     private LiquidacionFacade liquidacionFacade;
     @Inject
     private ClaseFacade claseFacade;
+    
+    @Inject
+    private ReciboSueldoFacade reciboSueldoFacade;
 
     private List<Empleado> empleados;
     private List<Liquidacion> liquidaciones;
 
+    private Liquidacion liquidacionSeleccionada;
     /**
      * Creates a new instance of LiquidacionSueldosBean
      */
@@ -95,18 +103,29 @@ public class LiquidacionSueldosBean implements Serializable {
             empleados = empleadoFacade.todosSinFechaBaja();
             for (Empleado empleado : empleados) {
                 int clasesDadas = claseFacade.getCantidadClasesByInstructorAndMes(empleado, mesSeleccionado);
-                //System.out.println("clases dadas "+clasesDadas);
                 float sueldoBase = empleado.getIdTipoEmpleado().getSueldoBase();
-                float total = sueldoBase;
-                //System.out.println("total1 "+total);
+                float total = 0;
+                List<ReciboSueldo> recibos = new ArrayList<>();
+                
+                
                 for (ItemRecibo item : empleado.getIdTipoEmpleado().getItemReciboCollection()) {
+                    ReciboSueldo recibo= new ReciboSueldo();
+                    
+                     float subtotal = (item.getPorcentaje() * sueldoBase);
                     if (item.getItem().equals("Clase")) {
-                        //System.out.println("cuenta "+ total +"+(("+item.getPorcentaje()+"*"+ sueldoBase+")"+ " * " +clasesDadas+")");
-                        total = total + ((item.getPorcentaje() * sueldoBase) * clasesDadas);
+                        subtotal = subtotal * clasesDadas;
+                        total = total + (subtotal);
+                        recibo.setUnidades(clasesDadas);   
+                    }else{
+                        recibo.setUnidades(1);
+                        total = total + subtotal;
                     }
-                    total = total + (item.getPorcentaje() * sueldoBase);
+                      recibo.setMonto(subtotal);
+                      recibo.setIdItem(item);
+                      recibos.add(recibo);
+                      //reciboSueldoFacade.
                 }
-               // System.out.println("total2 "+total);
+               
                 Egreso egreso = new Egreso();
                 egreso.setFecha(new Date());
                 Usuario usuario = usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
@@ -124,8 +143,14 @@ public class LiquidacionSueldosBean implements Serializable {
                 liquidacion.setSueldoBase(sueldoBase);
                 liquidacion.setYear(yearSeleccionado);
                 liquidacion.setMes(mesSeleccionado);
-
+               
                 liquidacionFacade.create(liquidacion);
+                for (ReciboSueldo recibo : recibos) {
+                    recibo.setIdLiquidacion(liquidacion);
+                    reciboSueldoFacade.create(recibo);
+                }
+ 
+                
 
             }
             
@@ -188,6 +213,20 @@ public class LiquidacionSueldosBean implements Serializable {
 
     private boolean isLiquidado(int mesSeleccionado, int yearSeleccionado) {
         return liquidacionFacade.isLiquidacion(mesSeleccionado, yearSeleccionado);
+    }
+
+    /**
+     * @return the liquidacionSeleccionada
+     */
+    public Liquidacion getLiquidacionSeleccionada() {
+        return liquidacionSeleccionada;
+    }
+
+    /**
+     * @param liquidacionSeleccionada the liquidacionSeleccionada to set
+     */
+    public void setLiquidacionSeleccionada(Liquidacion liquidacionSeleccionada) {
+        this.liquidacionSeleccionada = liquidacionSeleccionada;
     }
 
 }
