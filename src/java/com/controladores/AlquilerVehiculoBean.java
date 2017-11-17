@@ -166,7 +166,7 @@ public class AlquilerVehiculoBean implements Serializable {
       
      public void cancelarAlquiler() {
         if (alquilerSeleccionado != null) {
-            alquilerVehiculoFacade.cancelarClase(alquilerSeleccionado);
+            alquilerVehiculoFacade.cancelarAlquiler(alquilerSeleccionado);
             actualizarDisponibilidad();
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se anulo el alquiler seleccionada"));

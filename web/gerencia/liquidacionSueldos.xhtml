@@ -64,8 +64,8 @@
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </p:column>
-                <p:column  headerText="Cantidad de items">
-                    <h:outputText value="#{liq.reciboSueldoCollection.size()}"  />
+                <p:column  headerText="Autorizado">
+                    <h:outputText value="#{liq.idEgreso.idGerenteAutorizo==null?'NO':'SI'}"  />
                 </p:column>
                 <p:column  headerText="Recibo">
                     <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:formLiquidacion:recibosDetallePanel" oncomplete="PF('dlgRecibosDetalle').show();">

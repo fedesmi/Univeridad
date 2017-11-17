@@ -34,34 +34,24 @@ import javax.inject.Inject;
 @ViewScoped
 public class AlumnosMorososBean implements Serializable {
 
-    
-    
-    
-    
-    
-    
-    
-
     private int cuotas;
     private double montoFinal = 0;
-
-    
 
     @Inject
     private ClaseFacade claseFacade;
     private List<Clase> clasesAlumnosMorososSeleccionada;
-    
+
     @Inject
     private IngresoFacade ingresoFacade;
-    
+
     @Inject
     private ConceptoFacade conceptoFacade;
 
     @Inject
     private AlquilerVehiculoFacade alquilerVehiculoFacade;
     private List<AlquilerVehiculo> alquilerVehiculoListSeleccionado;
-    
-     @Inject
+
+    @Inject
     private AlumnoFacade alumnoFacade;
     private List<Alumno> alumnosMorosos;
     private Alumno alumnoSeleccionado;
@@ -70,10 +60,9 @@ public class AlumnosMorososBean implements Serializable {
     private FormaPagoFacade formaPagoFacade;
     private List<FormaPago> formasDePago;
     private FormaPago formaDePago;
-    
+
     @Inject
     private UsuarioFacade usuarioFacade;
-    
 
     /**
      * Creates a new instance of AlumnosMorososBean
@@ -82,14 +71,11 @@ public class AlumnosMorososBean implements Serializable {
     }
 
     public void onLoadMorosos() {
-        
+
         setAlumnosMorosos(alumnoFacade.getAlumnosMorosos());
         formasDePago = formaPagoFacade.findAll();
 
     }
-
-  
-
 
     /**
      * @return the claseFacade
@@ -192,22 +178,18 @@ public class AlumnosMorososBean implements Serializable {
     }
 
     public void calcularMonto() {
-      
-        
-        
-     double valorClase = conceptoFacade.getValorHoraClase().getValor();
-     double valorVehiculo = conceptoFacade.getValorHoraVehiculo().getValor();
-     
-     montoFinal = (clasesAlumnosMorososSeleccionada.size() * valorClase) + (alquilerVehiculoListSeleccionado.size() * valorVehiculo);
-       
-    
-        
-    if(formaDePago.getPorcentajeRecargo()>0){
-        double porcentaje = (formaDePago.getPorcentajeRecargo()*0.01)+1;
-        montoFinal = montoFinal * porcentaje;
-     }
-     montoFinal =(double) Math.round(montoFinal);
-     
+
+        double valorClase = conceptoFacade.getValorHoraClase().getValor();
+        double valorVehiculo = conceptoFacade.getValorHoraVehiculo().getValor();
+
+        montoFinal = (clasesAlumnosMorososSeleccionada.size() * valorClase) + (alquilerVehiculoListSeleccionado.size() * valorVehiculo);
+
+        if (formaDePago.getPorcentajeRecargo() > 0) {
+            double porcentaje = (formaDePago.getPorcentajeRecargo() * 0.01) + 1;
+            montoFinal = montoFinal * porcentaje;
+        }
+        montoFinal = (double) Math.round(montoFinal);
+
     }
 
     public void efectuarPago() {
@@ -220,24 +202,20 @@ public class AlumnosMorososBean implements Serializable {
         ingreso.setAlquilerVehiculoCollection(alquilerVehiculoListSeleccionado);
         ingreso.setIdUsuario(usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
         ingresoFacade.create(ingreso);
-        
-        
+
         for (AlquilerVehiculo alquilerVehiculoListSeleccionado1 : alquilerVehiculoListSeleccionado) {
             alquilerVehiculoListSeleccionado1.setIdIngreso(ingreso);
             alquilerVehiculoFacade.edit(alquilerVehiculoListSeleccionado1);
         }
-        
+
         for (Clase clasesAlumnosMorososSeleccionada1 : clasesAlumnosMorososSeleccionada) {
             clasesAlumnosMorososSeleccionada1.setIdIngreso(ingreso);
             claseFacade.edit(clasesAlumnosMorososSeleccionada1);
         }
-        
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El Pago fue registrado exitosamente"));
 
-        
-        
     }
 
     /**
@@ -296,8 +274,6 @@ public class AlumnosMorososBean implements Serializable {
         this.conceptoFacade = conceptoFacade;
     }
 
-   
-
     /**
      * @return the alumnoFacade
      */
@@ -340,4 +316,12 @@ public class AlumnosMorososBean implements Serializable {
         this.alumnoSeleccionado = alumnoSeleccionado;
     }
 
+    public List<Clase> getClasesImpagasAlumnoSeleccionado() {
+        return claseFacade.getClasesImpagasByAlumno(alumnoSeleccionado);
+    }
+
+      public List<AlquilerVehiculo> getAlquilerImpagosAlumnoSeleccionado() {
+         return alquilerVehiculoFacade.getAlquileresImpagosByAlumno(alumnoSeleccionado);
+         
+    }
 }

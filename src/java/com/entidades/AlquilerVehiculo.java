@@ -39,7 +39,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagos", query = "SELECT a FROM AlquilerVehiculo a  WHERE a.idAlumno = :alumno AND a.idIngreso IS NULL")
     , @NamedQuery(name = "AlquilerVehiculo.findByFecha", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha")
     , @NamedQuery(name = "AlquilerVehiculo.findByFechaYHorario", query = "SELECT a FROM AlquilerVehiculo a WHERE a.fecha = :fecha AND a.idHorario = :horario AND a.fechaCancelado IS NULL ")
-         , @NamedQuery(name = "AlquilerVehiculo.cancelarAlquiler", query = "UPDATE AlquilerVehiculo av SET av.fechaCancelado = FUNC('CURDATE()')  WHERE av = :alquiler")
+    , @NamedQuery(name = "AlquilerVehiculo.cancelarAlquiler", query = "UPDATE AlquilerVehiculo av SET av.fechaCancelado = FUNC('CURDATE()')  WHERE av = :alquiler")
+ , @NamedQuery(name = "AlquilerVehiculo.findImpagosByAlumno", query = "SELECT a FROM AlquilerVehiculo a WHERE a.idAlumno = :alumno "
+         + "AND a.idIngreso IS NULL AND a.fechaCancelado IS NULL OR (a.fechaCancelado IS NOT NULL AND a.fecha-a.fechaCancelado<2)")
+
+
 })
 
 public class AlquilerVehiculo implements Serializable {

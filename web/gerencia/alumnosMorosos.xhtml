@@ -57,7 +57,7 @@
 
                     <!-- SE FILTRAN SOLO LAS CLASES CON INGRESO NULO  -->
                     <p:panelGrid columns="2"  >
-                        <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.alumnoSeleccionado.claseCollection}" 
+                        <p:dataTable id="tablaClasesImpagasSeleccionada" widgetVar="clasesImpagasSeleccionadaWidget" var="clasImp"   value="#{alumnosMorososBean.clasesImpagasAlumnoSeleccionado}" 
                                      scrollable="true" scrollHeight="150" emptyMessage="sin registros"
                                      style="height: 200px; font-size: 12px; "  rowStyleClass="highlightTableRow"
                                      selection="#{alumnosMorososBean.clasesAlumnosMorososSeleccionada}" rowKey="#{clasImp.id}"
@@ -71,18 +71,18 @@
                             <p:ajax event="rowUnselectCheckbox" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" />
                             <p:ajax event="toggleSelect" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" partialSubmit="true" />
 
-                            <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" />
-                            <p:column   headerText="Fecha" style="text-align: center;" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" >
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"  />
+                            <p:column   headerText="Fecha" style="text-align: center;" >
                                 <h:outputText value="#{clasImp.fecha}" > 
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Inicio" style="text-align: center;" rendered="#{clasImp.idIngreso==NULL?'true':'false'}" >
+                            <p:column   headerText="Inicio" style="text-align: center;" >
                                 <h:outputText value="#{clasImp.idHorario.inicio}" >
                                     <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Fin" style="text-align: center;"  rendered="#{clasImp.idIngreso==NULL?'true':'false'}">
+                            <p:column   headerText="Fin" style="text-align: center;">
                                 <h:outputText value="#{clasImp.idHorario.fin}" >
                                     <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
@@ -90,7 +90,7 @@
 
                         </p:dataTable>
 
-                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="alqveh"   value="#{alumnosMorososBean.alumnoSeleccionado.alquilerVehiculoCollection}" 
+                        <p:dataTable id="tablaVehiculoImpagos" widgetVar="vehiculoImpagoSeleccionadaWidget" var="alqveh"   value="#{alumnosMorososBean.alquilerImpagosAlumnoSeleccionado}" 
                                      paginator="false" scrollable="true" scrollHeight="150" emptyMessage="sin registros"
                                      style="height: 200px; font-size: 12px; " rowStyleClass="highlightTableRow"
                                      selection="#{alumnosMorososBean.alquilerVehiculoListSeleccionado}" rowKey="#{alqveh.id}"
@@ -106,17 +106,17 @@
                             <p:ajax event="toggleSelect" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" partialSubmit="true" />
 
                             <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{alqveh.idIngreso==NULL?'true':'false'}"/>
-                            <p:column   headerText="Fecha" style="text-align: center;" rendered="#{alqveh.idIngreso==NULL?'true':'false'}" >
+                            <p:column   headerText="Fecha" style="text-align: center;"  >
                                 <h:outputText value="#{alqveh.fecha}"  > 
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Inicio" style="text-align: center;" rendered="#{alqveh.idIngreso==NULL?'true':'false'}">
+                            <p:column   headerText="Inicio" style="text-align: center;" >
                                 <h:outputText value="#{alqveh.idHorario.inicio}" >
                                     <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>
                             </p:column>
-                            <p:column   headerText="Fin" style="text-align: center;"  rendered="#{alqveh.idIngreso==NULL?'true':'false'}">
+                            <p:column   headerText="Fin" style="text-align: center;"  >
                                 <h:outputText value="#{alqveh.idHorario.fin}" >
                                     <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
                                 </h:outputText>

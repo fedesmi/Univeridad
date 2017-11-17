@@ -41,8 +41,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumno.findByDni", query = "SELECT a FROM Alumno a WHERE a.dni = :dni")
     , @NamedQuery(name = "Alumno.findByNombre", query = "SELECT a FROM Alumno a WHERE a.nombre = :nombre")
     , @NamedQuery(name = "Alumno.findByApellido", query = "SELECT a FROM Alumno a WHERE a.apellido = :apellido")        
-    , @NamedQuery(name = "Alumno.findMorosos", query = "SELECT a FROM Alumno a INNER JOIN a.claseCollection Clase LEFT JOIN a.alquilerVehiculoCollection AlquilerVehiculo "
-            + "WHERE (Clase.id IS NOT NULL AND Clase.idIngreso IS NULL) OR (AlquilerVehiculo.id IS NOT NULL AND AlquilerVehiculo.idIngreso IS NULL)  GROUP BY a.id") 
+    , @NamedQuery(name = "Alumno.findMorosos", query = "SELECT a FROM Alumno a INNER JOIN a.claseCollection Clase LEFT JOIN a.alquilerVehiculoCollection AlquilerVehiculo  "
+            + "WHERE ((Clase.id IS NOT NULL AND Clase.idIngreso IS NULL) AND (Clase.fechaCancelado IS NULL OR (Clase.fechaCancelado IS NOT NULL AND  Clase.fecha-Clase.fechaCancelado<2))) "
+            + "OR ((AlquilerVehiculo.id IS NOT NULL AND AlquilerVehiculo.idIngreso IS NULL) AND (AlquilerVehiculo.fechaCancelado IS NULL OR (AlquilerVehiculo.fechaCancelado IS NOT NULL AND AlquilerVehiculo.fecha-AlquilerVehiculo.fechaCancelado<2))) "
+            + "GROUP BY a.id") 
     , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")})
 public class Alumno implements Serializable {
 

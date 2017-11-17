@@ -100,5 +100,8 @@ public class ClaseFacade extends AbstractFacade<Clase> {
        getEntityManager().createNamedQuery("Clase.cancelarClase").setParameter("clase", clase).executeUpdate();
 
     }
+   public List<Clase> getClasesImpagasByAlumno(Alumno alumno) {
+        return getEntityManager().createNamedQuery("Clase.findClasesImpagasByAlumno").setParameter("alumno", alumno).getResultList();
 
+    }
 }

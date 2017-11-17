@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,@NamedQuery(name = "Clase.findByIdInstructorAndMesCantidad", query = "SELECT COUNT(c) FROM Clase c WHERE c.idInstructor = :instructor ")
     , @NamedQuery(name = "Clase.findAlumnosByIdInstructor", query = "SELECT c.idAlumno FROM Clase c WHERE c.idInstructor = :instructor GROUP BY c.idAlumno")
     , @NamedQuery(name = "Clase.cancelarClase", query = "UPDATE Clase c SET c.fechaCancelado = FUNC('CURDATE')  WHERE c = :clase")
- 
+    , @NamedQuery(name = "Clase.findClasesImpagasByAlumno", query = "SELECT c FROM Clase c WHERE c.idAlumno = :alumno "
+            + "AND c.idIngreso IS NULL AND c.fechaCancelado IS NULL OR (c.fechaCancelado IS NOT NULL AND  c.fecha-c.fechaCancelado<2) ")
 })
 public class Clase implements Serializable {
 
