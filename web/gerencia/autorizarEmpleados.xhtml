@@ -13,39 +13,40 @@
             <p:outputLabel value="Empleados" />
 
             <br/>
-            <p:dataTable id="tablaEmpleadosSinAutorizar" widgetVar="sinAutorizar" var="emp"   value="#{empleadoBean.empleadosSinAutorizar}"  paginator="true" rows="8" emptyMessage="sin registros" >
+            <p:dataTable id="tablaEmpleadosSinAutorizar" widgetVar="sinAutorizar" var="emp"  style="font-size: 14px;"
+                         value="#{empleadoBean.empleadosSinAutorizar}"  emptyMessage="sin registros" >
 
                 <f:facet name="header">
                     Lista de Empleados a ser Autorizados
                 </f:facet>
 
                 <p:column   headerText="Legajo" style="text-align: center;" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{emp.legajo}" />
                     </div>
                 </p:column>
                 <p:column  headerText="Nombre">
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{emp.nombre}" />
                     </div>
                 </p:column>
                 <p:column headerText="Apellido" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{emp.apellido}" />
                     </div>
                 </p:column>
                 <p:column  headerText="DNI" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{emp.dni}" />
                     </div>
                 </p:column>
                 <p:column  headerText="Telefono" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{emp.telefono}" />
                     </div>
                 </p:column>
                 <p:column  headerText="Tipo">
-                    <div  style="text-align: left; font-size: 14px;">
+                    <div  style="text-align: left; font-size: 12px;">
                         <h:outputText value="#{emp.idTipoEmpleado.rol}" />
                     </div>
                 </p:column>

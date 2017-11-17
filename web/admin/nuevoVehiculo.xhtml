@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="administrativoIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="source">
+        <h:form>
+            <p:outputLabel value="Vehiculos" />
+            <br/>
+            <p:panelGrid columns="2" style="font-size: 14px;">
+                <p:outputLabel value="Patente"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.patente}" />
+                <p:outputLabel value="Marca"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.marca}" />
+                <p:outputLabel value="Modelo"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.modelo}" />
+                <p:outputLabel value="Número de Chasis"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.numeroChasis}" />
+                <p:outputLabel value="Número de Motor"  />
+                <p:inputText value="#{vehiculoBean.vehiculoVar.numeroMotor}" />
+                 <p:outputLabel value="Año"  />
+                 <p:inputText value="#{vehiculoBean.vehiculoVar.year}" />
+                <br/>
+                <p:commandButton  ajax="false" value="Guardar Nuevo" actionListener="#{vehiculoBean.guardar()}" />
+                 
+            </p:panelGrid>
+           
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

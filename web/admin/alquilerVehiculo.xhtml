@@ -1,0 +1,143 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="administrativoIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="source"   id="defineAlquiler" >
+        <h:form id="formInscripcionAlquiler" >
+            <h:outputScript library="js" name="calendar_es.js"  />
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:outputLabel value="Alquiler de Vehiculos" />
+            <br/>
+
+            <f:metadata>
+                <f:viewAction action="#{alquilerVehiculoBean.onload()}" />
+            </f:metadata>
+
+
+            <p:calendar style="font-size: 10px;"   pages="4"   mindate="#{now}" mode="inline"  beforeShowDay="domingoDisabled" locale="es" pattern="dd-MM-yyyy" value="#{alquilerVehiculoBean.fechaConsulta}" >
+                <p:ajax event="dateSelect" listener="#{alquilerVehiculoBean.actualizarDisponibilidad()}" update="formGer:formInscripcionAlquiler:tablaDisponiblidadAlquiler" />
+            </p:calendar>
+
+            <p:dataTable  id="tablaDisponiblidadAlquiler" widgetVar="disponibilidadAlquilerWidget" var="dis" 
+                          value="#{alquilerVehiculoBean.horarioCompuestoAlquiler}" 
+                          style="border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
+                          emptyMessage="sin registros" >
+
+
+                <f:facet name="header">
+                    <p:panelGrid styleClass="ui-panelgrid-blank" columns="2">
+                        <p:row>
+                            <p:column >
+                                <p:outputLabel style="color: white; font-size: 15px;" value="#{alquilerVehiculoBean.fechaConsultaFormato}" />
+                            </p:column>
+
+                        </p:row>  
+                    </p:panelGrid>
+                </f:facet>
+
+                <p:column  headerText="Hora inicio">
+                    <h:outputText value="#{dis.horario.inicio}" >
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
+                    </h:outputText>
+                </p:column>
+                <p:column  headerText="Hora fin">
+                    <h:outputText value="#{dis.horario.fin}"  >
+                        <f:convertDateTime pattern="HH:mm" timeZone="GMT-3" />
+                    </h:outputText>
+                </p:column>
+                <p:column width="80px;" headerText="Vacantes" styleClass="#{dis.vehiculosLibres.size()>0?'highlightTableRowGreen':'highlightTableRow'}">
+                    <h:outputText value="#{dis.vehiculosLibres.size()} " />
+                    <p:commandButton update="formGer:formInscripcionAlquiler:inscribirDlg" disabled="#{dis.vehiculosLibres.size()==0}" oncomplete="PF('alquilarW').show()" icon="ui-icon-pencil" title="Alquilar">
+                        <f:setPropertyActionListener value="#{dis}" target="#{alquilerVehiculoBean.horarioSeleccionado}" />
+                    </p:commandButton>
+
+                </p:column>
+                <p:column width="80px;" headerText="Alquilados" >
+
+                    <p:commandButton update=":formGer:formInscripcionAlquiler:verAlquiler"  oncomplete="PF('verInscriptosW').show()" icon="ui-icon-search" title="Ver">
+                        <f:setPropertyActionListener value="#{dis}" target="#{alquilerVehiculoBean.horarioSeleccionadoVer}" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable> 
+
+
+            <p:dialog id="inscribirDlg" header="Alquilar Vehiculo" widgetVar="alquilarW" modal="false"
+                      resizable="false" height="170" width="400" style="font-size: 12px;">
+                <p:outputPanel id="alquilarVehiculos" >
+
+
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >
+                        <p:outputLabel value="Elegir Vehiculo"  />
+                        <p:selectOneMenu style="width:160px" value="#{alquilerVehiculoBean.vehiculoSeleccionado}"  converter="omnifaces.SelectItemsConverter"> 
+                            <f:selectItems value="#{alquilerVehiculoBean.horarioSeleccionado.vehiculosLibres}" var="veh" itemLabel="#{veh.patente} #{veh.marca} #{veh.modelo}" itemValue="#{veh}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Elegir Alumno"  />
+                        <p:selectOneMenu style="width:160px" value="#{alquilerVehiculoBean.alumno}" filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItems value="#{alquilerVehiculoBean.horarioSeleccionado.alumnosDisponibles}" var="alu" itemLabel="#{alu.nombre} #{alu.apellido}" itemValue="#{alu}" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <div style="text-align: right;">
+
+                        <p:commandButton   ajax="false" update=":formGer:formInscripcionAlquiler:tablaDisponiblidadAlquiler"  value="Alquilar" actionListener="#{alquilerVehiculoBean.crearAlquiler()}"   />
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
+
+            <p:dialog id="verInscriptosDlg" header="Ver Alquileres" widgetVar="verInscriptosW" modal="false"
+                      resizable="false" height="170" width="400" style="font-size: 12px;">
+                <p:outputPanel id="verAlquiler" >
+
+
+                    <p:dataTable  id="tablaAlquilados" widgetVar="verInscriptosWidget" var="veh" 
+                                  value="#{alquilerVehiculoBean.horarioSeleccionadoVer.alquileres}" 
+                                  style="border-style: solid; font-weight: 500;  color:slategrey;  border-color: #dbdbdb; border-width: thin; font-size: 12px; color: darkgray; text-align: center;"
+                                  selection="#{alquilerVehiculoBean.alquilerSeleccionado}" selectionMode="single" rowKey="#{veh.id}"
+                                  emptyMessage="sin registros" >
+
+
+
+                        <p:column width="80px;" headerText="Patente" >
+                            <h:outputText value="#{veh.idVehiculo.patente}" />
+                        </p:column> 
+                        <p:column width="80px;" headerText="Marca Modelo" >
+                            <h:outputText value="#{veh.idVehiculo.marca}  #{veh.idVehiculo.modelo} " />
+                        </p:column>
+                        <p:column width="80px;" headerText="Alumno" >
+                            <h:outputText value="#{veh.idAlumno.nombre}  #{veh.idAlumno.apellido} " />
+                        </p:column> 
+
+                    </p:dataTable> 
+                    <div style="text-align: right;">
+                        <p:commandButton   ajax="false" update=":formGer:formInscripcion:tablaDisponiblidad"  value="Anular Clase" actionListener="#{alquilerVehiculoBean.cancelarClase()}"    />    
+                    </div>
+
+                </p:outputPanel>
+            </p:dialog>
+
+
+
+
+
+
+            <script type="text/javascript">
+                //<![CDATA[
+                function domingoDisabled(date)
+                {
+                    var day = date.getDay();
+                    return [(day != 0), '']
+                }
+                //]]>
+            </script> 
+        </h:form> 
+    </ui:define>
+
+
+
+</ui:composition>

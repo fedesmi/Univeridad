@@ -3,7 +3,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    template="gerenteIndex.xhtml"
+    template="administrativoIndex.xhtml"
     xmlns:p="http://primefaces.org/ui"> 
 
     <ui:define name="source"  id="itemsDefine">
@@ -16,15 +16,11 @@
 
             <br/>
 
-            <p:dataTable id="tablaValores" widgetVar="varWidget" var="items" editable="true"  style="font-size: 14px;"
+            <p:dataTable id="tablaValores" widgetVar="varWidget" var="items"   style="font-size: 14px;"
                          value="#{itemsBean.items}"  emptyMessage="sin registros" >
                 <f:facet name="header">
                     Lista de Items
                 </f:facet>
-                <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{itemsBean.onRowEdit}" update="formGer:formItems:msgs" oncomplete="PF('varWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
-                <p:ajax event="rowEditCancel" listener="#{itemsBean.onRowCancel}" update="formGer:formItems:msgs"  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
-
 
                 <p:column   headerText="Item" style="text-align: center;" >
                     <div style="text-align: center; font-size: 12px;" >
@@ -34,15 +30,8 @@
                 </p:column>
                 <p:column   headerText="Porcentaje" style="text-align: center;" >
                     <div style="text-align: center; font-size: 12px;" >
-                        <p:cellEditor>
-                            <f:facet name="output"> <h:outputText value="#{items.porcentaje}" ></h:outputText></f:facet>
-                            <f:facet name="input"><p:inputText value="#{items.porcentaje}" /></f:facet> 
-                        </p:cellEditor>
-                    </div>
-                </p:column>
-
-                <p:column style="width:32px">
-                    <p:rowEditor />
+                        <h:outputText value="#{items.porcentaje}" ></h:outputText>
+                </div> 
                 </p:column>
             </p:dataTable>
 

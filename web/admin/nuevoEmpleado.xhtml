@@ -3,7 +3,7 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    template="administradorIndex.xhtml"
+    template="administrativoIndex.xhtml"
     xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="source">
@@ -24,10 +24,14 @@
                     <f:selectItem itemLabel="Seleccionar..." itemValue="" />
                     <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.rol}" itemValue="#{templeado}"  />
                 </p:selectOneMenu>
+                <p:outputLabel value="Nombre Usuario"  />
+                <p:inputText value="#{empleadoBean.usuario.usuario}" />
+                
                 <br/>
                  <p:commandButton  ajax="false" value="Guardar Nuevo" actionListener="#{empleadoBean.guardar()}" />
                  
             </p:panelGrid>
+           
         </h:form>
     </ui:define>
 

@@ -1,0 +1,77 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="administrativoIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define  name="source">
+        <h:form id="formAsignar">
+            <p:outputLabel value="Vehiculos" />
+            <f:metadata>
+                <f:viewAction action="#{vehiculoBean.onloadAsignar()}" />
+            </f:metadata>
+             <p:growl id="msgs" showDetail="true" />
+            <br/>
+            <h:panelGrid columns="2">
+                <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp"  value="#{empleadoBean.instructores}" 
+                         paginator="false" scrollable="true" scrollHeight="250" emptyMessage="sin registros"
+                         selectionMode="single" selection="#{empleadoBean.empleadoSeleccionado}" rowKey="#{emp.id}" 
+                         style="font-size: 12px; border: solid thin #dbdbdb;">
+
+                <f:facet name="header">
+                    Lista de Instructores
+                </f:facet>
+               
+                <p:column   headerText="Legajo" style="text-align: center;" >
+                        <h:outputText value="#{emp.legajo}" />
+                </p:column>
+                 <p:column  headerText="Nombre">
+                     <h:outputText value="#{emp.nombre}" />
+                </p:column>
+                <p:column headerText="Apellido" >
+                    <h:outputText value="#{emp.apellido}" />
+                </p:column>
+               <p:column headerText="Asignado" >
+                   <h:outputText value="#{emp.vehiculo.patente}" />
+                </p:column>
+            </p:dataTable>
+                
+            <p:dataTable id="tablaAsignarVehiculos" widgetVar="tablaAsignarVehiculosWidget" var="veh"
+                         selectionMode="single" selection="#{vehiculoBean.vehiculoSelected}" rowKey="#{veh.id}"
+                          value="#{vehiculoBean.vehiculos}"   paginator="false" scrollable="true" scrollHeight="250" 
+                         emptyMessage="sin registros" 
+                         rowStyleClass="#{veh.apto==1?'highlightTableRow':''}"
+                         style="font-size: 12px; border: solid thin #dbdbdb; width: 600px;">
+
+                <f:facet name="header">
+                    Lista de Vehiculos
+                </f:facet>
+
+                <p:column   headerText="Patente" width="15%" style="text-align: center;" >
+                    <h:outputText value="#{veh.patente}" />
+                </p:column>
+                <p:column  headerText="Marca">
+                    <h:outputText value="#{veh.marca}" />
+                </p:column>
+                <p:column headerText="Modelo" >
+                  <h:outputText value="#{veh.modelo}" />
+                </p:column>
+    
+            </p:dataTable>
+ 
+            </h:panelGrid>
+          
+            
+            <p:commandButton value="Asignar"  oncomplete="PF('empleadosWidget').filter()"  update="formGer:formAsignar:msgs" actionListener="#{vehiculoBean.asignarEmpleadoVehiculo(empleadoBean.empleadoSeleccionado)}" />
+        </h:form>
+        
+        
+        
+        
+    </ui:define>
+
+
+
+</ui:composition>

@@ -45,6 +45,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT d FROM Mantenimiento d WHERE d.idVehiculo = :idVehiculo")})
 public class Mantenimiento implements Serializable {
 
+    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Vehiculo idVehiculo;
+
     @JoinColumn(name = "id_egreso", referencedColumnName = "id")
     @ManyToOne
     private Egreso idEgreso;
@@ -85,8 +89,7 @@ public class Mantenimiento implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     
-    @Column(name = "id_vehiculo")
-    private Integer idVehiculo;
+   
 
     public Mantenimiento() {
     }
@@ -186,19 +189,7 @@ public class Mantenimiento implements Serializable {
         return "com.entidades.Mantenimiento[ id=" + id + " ]";
     }
 
-    /**
-     * @return the idVehiculo
-     */
-    public Integer getIdVehiculo() {
-        return idVehiculo;
-    }
-
-    /**
-     * @param idVehiculo the idVehiculo to set
-     */
-    public void setIdVehiculo(Integer idVehiculo) {
-        this.idVehiculo = idVehiculo;
-    }
+   
 
     public Egreso getIdEgreso() {
         return idEgreso;
@@ -206,6 +197,14 @@ public class Mantenimiento implements Serializable {
 
     public void setIdEgreso(Egreso idEgreso) {
         this.idEgreso = idEgreso;
+    }
+
+    public Vehiculo getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(Vehiculo idVehiculo) {
+        this.idVehiculo = idVehiculo;
     }
 
 

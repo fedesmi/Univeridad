@@ -1,0 +1,40 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="administrativoIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="source">
+        <h:form>
+             <h:outputScript library="js" name="calendar_es.js"  />
+            
+            <p:outputLabel value="Alumnos" />
+            <br/>
+            <p:panelGrid columns="2" style="font-size: 14px;">
+                <p:outputLabel value="Nombre"  />
+                <p:inputText value="#{alumnoBean.nombre}" />
+                <p:outputLabel value="Apellido"  />
+                <p:inputText value="#{alumnoBean.apellido}" />
+                <p:outputLabel value="DNI"  />
+                <p:inputText value="#{alumnoBean.dni}" />
+                <p:outputLabel value="Fecha Nacimiento"  />
+                <p:calendar navigator="true" yearRange="c-80:c-17" locale="es" pattern="dd-MM-yyyy" value="#{alumnoBean.fechaNacimiento}" />
+                <p:outputLabel value="Telefono"  />
+                <p:inputText value="#{alumnoBean.telefono}" />
+                <p:outputLabel value="E-mail"  />
+                <p:inputText value="#{alumnoBean.email}" />
+                
+
+            </p:panelGrid>
+            <br/>
+            <p:commandButton  ajax="false" value="Guardar Nuevo" actionListener="#{alumnoBean.guardar()}" />
+
+            
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

@@ -169,7 +169,7 @@ public class Authorization implements Serializable {
             if (user.getIdEmpleado().getIdTipoEmpleado().getRol().equals("gerente")) {
                 redireccion+="gerencia/gerenteIndex.xhtml";
             } else if (user.getIdEmpleado().getIdTipoEmpleado().getRol().equals("administrativo")) {
-                redireccion+="admin/administradorIndex.xhtml";
+                redireccion+="admin/administrativoIndex.xhtml";
             } else if (user.getIdEmpleado().getIdTipoEmpleado().getRol().equals("instructor")) {
                 redireccion+="instructor/instructorIndex.xhtml";
             }

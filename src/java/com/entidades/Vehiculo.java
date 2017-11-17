@@ -55,6 +55,9 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Vehiculo implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
+    private Collection<Mantenimiento> mantenimientoCollection;
+
     
 
 
@@ -238,6 +241,15 @@ public class Vehiculo implements Serializable {
 
     public void setAlquilerVehiculoCollection(Collection<AlquilerVehiculo> alquilerVehiculoCollection) {
         this.alquilerVehiculoCollection = alquilerVehiculoCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mantenimiento> getMantenimientoCollection() {
+        return mantenimientoCollection;
+    }
+
+    public void setMantenimientoCollection(Collection<Mantenimiento> mantenimientoCollection) {
+        this.mantenimientoCollection = mantenimientoCollection;
     }
 
     

@@ -33,6 +33,7 @@ public class VehiculoBean implements Serializable {
    
     private Vehiculo vehiculoVar;
     private Vehiculo vehiculoSelected;
+    private Vehiculo vehiculoSelectedMantenimiento;
     private List<Vehiculo> vehiculos;
 
     /**
@@ -138,6 +139,20 @@ public class VehiculoBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El vehiculo fue asignado Correctamente"));
 
+    }
+
+    /**
+     * @return the vehiculoSelectedMantenimiento
+     */
+    public Vehiculo getVehiculoSelectedMantenimiento() {
+        return vehiculoSelectedMantenimiento;
+    }
+
+    /**
+     * @param vehiculoSelectedMantenimiento the vehiculoSelectedMantenimiento to set
+     */
+    public void setVehiculoSelectedMantenimiento(Vehiculo vehiculoSelectedMantenimiento) {
+        this.vehiculoSelectedMantenimiento = vehiculoSelectedMantenimiento;
     }
 
     

@@ -1,0 +1,67 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="defineMantenimientos">
+        <h:form id="formMantenimientos">
+            <f:metadata>
+                <f:viewAction action="#{mantenimientosBean.onLoadMantenimientos()}" />
+            </f:metadata>
+            <h:outputStylesheet library="css" name="cssweb.css" />
+            <p:growl id="msgs" showDetail="true" />
+            <p:outputLabel value="Mantenimientos" />
+
+            <br/>
+
+            
+            <p:dataTable id="tablaMantenimientos" widgetVar="mantenimientosWidget" var="man"
+                         value="#{mantenimientosBean.mantenimientos}"
+                         scrollable="true" scrollHeight="300" style="border-style: solid; border-color: #dbdbdb; border-width: thin; font-size: 14px;"
+                         selection="#{mantenimientosBean.mantenimientoSeleccionado}" selectionMode="single" rowKey="#{man.id}"
+                         emptyMessage="sin registros" >
+                <f:facet name="header">
+                    Lista de Mantenimientos
+                </f:facet>
+                <p:column  headerText="Fecha">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{man.fecha}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                        </div>
+                </p:column>
+                <p:column  headerText="Descripción">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{man.descripcion}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Patente">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{man.idVehiculo.patente}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Marca">
+                    <div style="text-align: center; font-size: 12px;" >
+                    <h:outputText value="#{man.idVehiculo.marca}" />
+                    </div>
+                </p:column>
+                <p:column  headerText="Modelo">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{man.idVehiculo.modelo}" />
+                    </div>
+                </p:column>
+
+            </p:dataTable> 
+
+            <p:commandButton value="Autorizar"   />
+
+
+
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

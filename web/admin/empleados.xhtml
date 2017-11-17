@@ -3,113 +3,193 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    template="administradorIndex.xhtml"
+    template="administrativoIndex.xhtml"
     xmlns:p="http://primefaces.org/ui"> 
 
     <ui:define name="source"  id="define1">
         <h:form id="form1">
-         
-           <p:growl id="msgs" showDetail="true" />
+
+            <p:growl id="msgs" showDetail="true" />
             <p:outputLabel value="Empleados" />
 
             <br/>
-            
-            <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{empleadoBean.empleados}"  paginator="true" rows="8" emptyMessage="sin registros" >
-                
+
+            <p:dataTable id="tablaEmpleados" widgetVar="empleadosWidget" var="emp" editable="true"  value="#{empleadoBean.empleados}" 
+                         paginator="false" scrollable="true" scrollHeight="390" emptyMessage="sin registros"
+                         style="height: 300px; font-size: 14px;">
+
                 <f:facet name="header">
                     Lista de Empleados
                 </f:facet>
                 <p:ajax event="rowEditInit"   oncomplete="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','hidden')});" />
-                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}"  update="formAdm:form1:tablaEmpleados,formAdm:form1:msgs" oncomplete="PF('empleadosWidget').filter(),PF('empleadosAWidget').filter() "  onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
-                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}"  update="formAdm:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
+                <p:ajax event="rowEdit" listener="#{empleadoBean.onRowEdit}" update="formGer:form1:msgs" oncomplete="PF('empleadosWidget').filter()" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});"/>
+                <p:ajax event="rowEditCancel" listener="#{empleadoBean.onRowCancel}" update="formGer:form1:msgs" onstart="$('.ui-row-editor span.ui-icon-pencil').each(function(){$(this).css('visibility','visible')});" />
 
                 <p:column   headerText="Legajo" style="text-align: center;" >
-                    <div style="text-align: center; font-size: 14px;" >
+                    <div style="text-align: center; font-size: 12px;" >
                         <h:outputText value="#{emp.legajo}" />
                     </div>
                 </p:column>
-                <p:column  headerText="Nombre">
-                    <div style="text-align: center; font-size: 14px;" >
-                     <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
-                    </p:cellEditor>
-                       
-                    </div>
-                </p:column>
-                <p:column headerText="Apellido" >
-                    <div style="text-align: center; font-size: 14px;" >
+                <p:column  headerText="DNI" filterBy="#{emp.dni}"  filterMatchMode="contains">
+                    <div style="text-align: center; font-size: 12px;" >
                         <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
-                    </p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
+                        </p:cellEditor>
                     </div>
                 </p:column>
-                <p:column  headerText="DNI" >
-                    <p:cellEditor>
-                                <f:facet name="output"> <h:outputText value="#{emp.dni}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.dni}" /></f:facet>
-                    </p:cellEditor>
+                <p:column  headerText="Nombre">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.nombre}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.nombre}" /></f:facet>
+                        </p:cellEditor>
+
+                    </div>
+                </p:column>
+                <p:column headerText="Apellido" filterBy="#{emp.apellido}" filterMatchMode="contains" >
+                    <div style="text-align: center; font-size: 12px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.apellido}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.apellido}" /></f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>
+                <p:column headerText="Usuario" filterBy="#{emp.usuario.usuario}" filterMatchMode="contains" >
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{emp.usuario.usuario}" />
+                    </div>
                 </p:column>
                 <p:column  headerText="Telefono" >
-                   <p:cellEditor>
-                       <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
-                                <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
-                    </p:cellEditor>
-                </p:column>
-                <p:column  headerText="Tipo">
-                    <div  style="text-align: left; font-size: 14px;">
-                        <h:outputText value="#{emp.idTipoEmpleado.rol}" />
+                    <div style="text-align: center; font-size: 12px;" >
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{emp.telefono}" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{emp.telefono}" /></f:facet>
+                        </p:cellEditor>
                     </div>
                 </p:column>
-
-                <p:column style="width:32px">
+                <p:column  headerText="Tipo">
+                    <div  style="text-align: left; font-size: 12px;">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{emp.idTipoEmpleado.rol}" /></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{emp.idTipoEmpleado}" converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="Seleccionar..." itemValue="" />
+                                    <f:selectItems var="templeado" value="#{empleadoBean.tipo_Empleados}" itemLabel="#{templeado.rol}" itemValue="#{templeado}"  />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </div>
+                </p:column>
+                <p:column style="width:62px" headerText="Editar">
                     <p:rowEditor />
                 </p:column>
-                
-            </p:dataTable>
-            
-            
-            <br/>
-            <p:dataTable id="tablaEmpleadosSinAutorizar" var="emp"  widgetVar="empleadosAWidget" value="#{empleadoBean.empleadosSinAutorizar}"  paginator="true" rows="8" emptyMessage="sin registros" >
-                
-                <f:facet name="header">
-                    Lista de Empleados a ser Autorizados
-                </f:facet>
-                
-                <p:column   headerText="Legajo" style="text-align: center;" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.legajo}" />
-                    </div>
-                </p:column>
-                <p:column  headerText="Nombre">
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.nombre}" />
-                    </div>
-                </p:column>
-                <p:column headerText="Apellido" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.apellido}" />
-                    </div>
-                </p:column>
-                <p:column  headerText="DNI" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.dni}" />
-                    </div>
-                </p:column>
-                <p:column  headerText="Telefono" >
-                    <div style="text-align: center; font-size: 14px;" >
-                        <h:outputText value="#{emp.telefono}" />
-                    </div>
-                </p:column>
-                <p:column  headerText="Tipo">
-                    <div  style="text-align: left; font-size: 14px;">
-                        <h:outputText value="#{emp.idTipoEmpleado.rol}" />
-                    </div>
+
+                <p:column  headerText="Recibos">
+                    <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:form1:recibosPanel" oncomplete="PF('dlgRecibos').show();">
+                        <f:setPropertyActionListener value="#{emp}" target="#{recibosBean.empleadoSeleccionado}" />
+                    </p:commandButton>
                 </p:column>
 
-                
             </p:dataTable>
+
+
+
+            <p:dialog id="dlgRecibosID" header="Liquidaciones" widgetVar="dlgRecibos" modal="false"
+                      resizable="false" height="400" width="750" style="font-size: 12px;">
+                <p:outputPanel id="recibosPanel" >
+
+                    <p:outputLabel value="Empleado: #{recibosBean.empleadoSeleccionado.nombre} #{recibosBean.empleadoSeleccionado.apellido}"  />
+                    <br/> <br/>
+                    
+                    <p:dataTable id="tablaRecibos" widgetVar="recibosWidget" var="rec"
+                                 value="#{recibosBean.empleadoSeleccionado.liquidacionCollection}"  rows="8"
+                                 scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                 emptyMessage="sin registros">
+
+                        <f:facet name="header">
+                            Recibos
+                        </f:facet>
+
+                        <p:column  headerText="Mes">
+                            <h:outputText value="#{rec.mes}" />
+                        </p:column>
+
+                        <p:column  headerText="Año">
+                            <h:outputText value="#{rec.year}" />
+                        </p:column>
+
+                        <p:column  headerText="Sueldo Base">
+                            <h:outputText value="#{rec.sueldoBase}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  headerText="Sueldo Percibido">
+                            <h:outputText value="#{rec.idEgreso.monto}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+
+                        
+                        <p:column  headerText="Detalle">
+                            <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:form1:recibosDetallePanel" oncomplete="PF('dlgRecibosDetalle').show();">
+                                <f:setPropertyActionListener value="#{rec}" target="#{recibosBean.liquidacionSeleccionado}" />
+                            </p:commandButton>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:dialog>
+            
+            <p:dialog id="dlgRecibosDetalleID" header="Detalle Sueldo" widgetVar="dlgRecibosDetalle" modal="false"
+                      resizable="false" height="300" width="600" style="font-size: 12px;">
+                <p:outputPanel id="recibosDetallePanel" >
+
+                    <p:outputLabel value="Empleado: #{recibosBean.empleadoSeleccionado.nombre} #{recibosBean.empleadoSeleccionado.apellido}"  />
+                    <br/> <br/>
+                    
+                    <p:dataTable id="tablaRecibosDetalle" widgetVar="recibosDetalleWidget" var="det"
+                                 value="#{recibosBean.liquidacionSeleccionado.reciboSueldoCollection}"  rows="8"
+                                 scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
+                                 emptyMessage="sin registros">
+
+                       <f:facet name="header">
+                            Recibo
+                        </f:facet>
+
+                        <p:column  headerText="item">
+                            <h:outputText value="#{det.idItem.item}" />
+                        </p:column>
+
+                        <p:column  headerText="Porcentaje">
+                            <h:outputText value="#{det.idItem.porcentaje}" >
+                                <f:convertNumber type="percent" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column  headerText="Unidades">
+                            <h:outputText value="#{det.unidades}" />
+                        </p:column>
+                        <p:column  headerText="Sueldo Neto" width="150px;">
+                            <h:outputText value="#{det.monto}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+                                                
+                    </p:dataTable>
+                     <br/>
+                    <div style="font-size: 14px; font-weight: bold; text-align: right;">
+                        <p:outputLabel value="Total: "/>
+                        <p:outputLabel  value="#{recibosBean.liquidacionSeleccionado.idEgreso.monto}" >
+                            <f:convertNumber type="currency" currencySymbol="$"  />
+                        </p:outputLabel>
+                    </div>
+                    <br/>
+                </p:outputPanel>
+            </p:dialog>
+
+
         </h:form>
     </ui:define>
 

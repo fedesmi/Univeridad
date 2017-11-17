@@ -6,6 +6,7 @@
 package com.controladores;
 
 import com.entidades.Mantenimiento;
+import com.entidades.Vehiculo;
 import com.repositorios.MantenimientoFacade;
 import java.io.Serializable;
 
@@ -23,25 +24,25 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Usuario
  */
-@Named(value = "mantenimientosBean") 
+@Named(value = "mantenimientosBean")
 @RequestScoped
 public class MantenimientoBean implements Serializable {
-
-    
 
     @Inject
     private MantenimientoFacade mantenimientoFacade;
     private Mantenimiento mantenimientoVar;
-   
+
     private Date fecha;
     private String lugar;
     private int valor;
     private String factura;
     private int kilometraje;
     private String descripcion;
-    
-    
+
     private List<Mantenimiento> mantenimientosDeVehiculo;
+
+    private List<Mantenimiento> mantenimientos;
+    private List<Mantenimiento> mantenimientoSeleccionado;
 
     /**
      * Creates a new instance of MantenimientosBean
@@ -52,6 +53,11 @@ public class MantenimientoBean implements Serializable {
     @PostConstruct
     public void init() {
         mantenimientoVar = new Mantenimiento();
+
+    }
+
+    public void onLoadMantenimientos() {
+        mantenimientos = mantenimientoFacade.findAll();
 
     }
 
@@ -87,7 +93,7 @@ public class MantenimientoBean implements Serializable {
      * @return the mantenimientosDeVehiculo
      * @param idVehiculo the idVehiculo to set
      */
-    public List<Mantenimiento> getMantenimientosDeVehiculo(int idVehiculo) {
+    public List<Mantenimiento> getMantenimientosDeVehiculo(Vehiculo idVehiculo) {
         return this.mantenimientoFacade.getMantenimientosDeVehiculo(idVehiculo);
     }
 
@@ -98,26 +104,22 @@ public class MantenimientoBean implements Serializable {
         this.mantenimientosDeVehiculo = mantenimientosDeVehiculo;
     }
 
-    public void guardar() {
-        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String  propiedad= request.getParameter("propiedadVal2");
-  
-        mantenimientoVar.setIdVehiculo(Integer.valueOf(propiedad));
+    public void guardar(Vehiculo vehiculo) {
+        mantenimientoVar.setIdVehiculo(vehiculo);
         mantenimientoVar.setFactura(factura);
         mantenimientoVar.setFecha(fecha);
         mantenimientoVar.setLugar(lugar);
         mantenimientoVar.setDescripcion(descripcion);
         mantenimientoVar.setKilometraje(kilometraje);
         mantenimientoVar.setValor(valor);
-        
-        
+
         this.mantenimientoFacade.create(mantenimientoVar);
-        
+
         mantenimientoVar = null;
         borrarVariables();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El mantenimiento fue registrado exitosamente"));
-        
+
     }
 
     /**
@@ -204,8 +206,6 @@ public class MantenimientoBean implements Serializable {
         this.descripcion = descripcion;
     }
 
-    
-
     /**
      * @return the mantenimientosDeVehiculo
      */
@@ -222,7 +222,32 @@ public class MantenimientoBean implements Serializable {
         this.setValor(0);
     }
 
-   
+    /**
+     * @return the mantenimientos
+     */
+    public List<Mantenimiento> getMantenimientos() {
+        return mantenimientos;
+    }
 
+    /**
+     * @param mantenimientos the mantenimientos to set
+     */
+    public void setMantenimientos(List<Mantenimiento> mantenimientos) {
+        this.mantenimientos = mantenimientos;
+    }
+
+    /**
+     * @return the mantenimientoSeleccionado
+     */
+    public List<Mantenimiento> getMantenimientoSeleccionado() {
+        return mantenimientoSeleccionado;
+    }
+
+    /**
+     * @param mantenimientoSeleccionado the mantenimientoSeleccionado to set
+     */
+    public void setMantenimientoSeleccionado(List<Mantenimiento> mantenimientoSeleccionado) {
+        this.mantenimientoSeleccionado = mantenimientoSeleccionado;
+    }
 
 }
