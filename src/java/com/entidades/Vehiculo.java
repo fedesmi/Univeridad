@@ -107,9 +107,7 @@ public class Vehiculo implements Serializable {
     private Empleado idEmpleado;
     
     
-    @OneToMany(mappedBy = "idVehiculo")
-    private Collection<Desperfecto> desperfectoCollection;
-    
+   
     
     public Vehiculo() {
     }
@@ -200,14 +198,7 @@ public class Vehiculo implements Serializable {
         this.idEmpleado = empleado;
     }
 
-    @XmlTransient
-    public Collection<Desperfecto> getDesperfectoCollection() {
-        return desperfectoCollection;
-    }
-
-    public void setDesperfectoCollection(Collection<Desperfecto> desperfectoCollection) {
-        this.desperfectoCollection = desperfectoCollection;
-    }
+   
 
     @Override
     public int hashCode() {

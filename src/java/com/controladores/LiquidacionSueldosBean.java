@@ -128,17 +128,17 @@ public class LiquidacionSueldosBean implements Serializable {
                
                 Egreso egreso = new Egreso();
                 egreso.setFecha(new Date());
-                Usuario usuario = usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-                egreso.setIdUsuario(usuario);
+                
                 egreso.setMonto(total);
                 egreso.setConcepto("SUELDO");
      
 
                 egresoFacade.create(egreso);
+                Usuario usuario = usuarioFacade.getUsuario(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 
                 Liquidacion liquidacion = new Liquidacion();
                 liquidacion.setIdEmpleado(empleado);
-                liquidacion.setIdUsuario(empleado.getUsuario());
+                liquidacion.setIdUsuario(usuario);
                 liquidacion.setIdEgreso(egreso);
                 liquidacion.setSueldoBase(sueldoBase);
                 liquidacion.setYear(yearSeleccionado);

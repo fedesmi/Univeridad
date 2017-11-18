@@ -8,13 +8,14 @@
 
     <ui:define name="source"  id="define1">
         <h:form id="form1">
+            <f:metadata>
+                 <f:viewAction action="#{vehiculoBean.onloadLista()}" />
+            </f:metadata>
              <h:outputScript library="js" name="calendar_es.js"  />
             <h:outputStylesheet library="css" name="cssweb.css" />
             <p:growl id="msgs" showDetail="true" />
             <p:outputLabel value="Vehiculos" />
-             <f:metadata>
-                 <f:viewAction action="#{vehiculoBean.onloadLista()}" />
-            </f:metadata>
+             
             <br/>
 
             <p:dataTable id="tablaVehiculos" widgetVar="vehiculosWidget" var="veh"
@@ -100,14 +101,10 @@
                 </p:column>
                 
                 
-                <p:column style="width:40px"  headerText="Desp">
-                    <p:commandButton icon="ui-icon-search" ajax="true" update="formGer:form1:detail" oncomplete="PF('dlgDesperfecto').show();">
-                        <f:setPropertyActionListener value="#{veh}" target="#{vehiculoBean.vehiculoSelected}" />
-                    </p:commandButton>
-                </p:column>
+               
                 <p:column style="width:40px"  headerText="Mant">
                     <p:commandButton icon="ui-icon-search" ajax="true" update="formGer:form1:detail2" oncomplete="PF('dlgMantenimiento').show();">
-                        <f:setPropertyActionListener value="#{veh}" target="#{vehiculoBean.vehiculoSelectedMantenimiento}" />
+                        <f:setPropertyActionListener value="#{veh}" target="#{mantenimientosBean.vehiculoSeleccionado}" />
                     </p:commandButton>
                 </p:column>
 
@@ -118,89 +115,23 @@
             </p:dataTable>
 
 
-
-
-            <p:dialog header="Desperfectos"  
-                      widgetVar="dlgDesperfecto" modal="false" resizable="false" height="300" width="850" style="font-size: 12px;">
-
-                <p:outputPanel id="detail" >
-                  
-                    <p:panelGrid columns="6" >
-                        <h:outputText value="Marca: " />
-                        <h:outputText value="#{vehiculoBean.vehiculoSelected.marca}" />
-                        <h:outputText value="Modelo: " />
-                        <h:outputText value="#{vehiculoBean.vehiculoSelected.modelo}" />
-                        <h:outputText value="Patente: " />
-                        <h:outputText value="#{vehiculoBean.vehiculoSelected.patente}" />
-                    </p:panelGrid>
-                  
-                    <p:panel style="border-style: none; height: 200px;">
-                        <div style="text-align: right;">
-                            <p:commandButton icon="ui-icon-plus" ajax="true"   oncomplete="PF('dlgAgregarD').show();" />
-                        </div> 
-                        
-                        <p:dataTable id="tablaDesperfectos" widgetVar="desperfectosWidget" var="des"
-                                     value="#{desperfectosBean.getDesperfectosDeVehiculo(vehiculoBean.vehiculoSelected.id)}"
-                                     scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
-                                     selection="#{desperfectosBean.desperfectoSeleccionado}" selectionMode="single" rowKey="#{des.id}"
-                                     emptyMessage="sin registros" >
-                            <f:facet name="header">
-                                Desperfectos
-                            </f:facet>
-                            <p:column  headerText="Fecha">
-                                <h:outputText value="#{des.fecha}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column  headerText="Descripción">
-                                <h:outputText value="#{des.descripcion}" />
-                            </p:column>
-                            
-                        </p:dataTable> 
-                            
-                        
-                        
-                        <p:dialog id="dlgAgregarID" header="Nuevo registro de desperfecto" widgetVar="dlgAgregarD" modal="false"
-                                  resizable="false" height="170" width="400" style="font-size: 12px;">
-                            <p:outputPanel id="abmDesperfectos" >
-                                
-                                <p:outputLabel value="Descripcion"  />
-                                <br/>
-                                <br/>
-                                <div style="text-align: right;">
-                                    <p:inputTextarea autoResize="true" cols="50" rows="5" maxlength="255"  value="#{desperfectosBean.desperfectoVar.descripcion}" />
-                                </div>
-                                <br/>
-                                <input type="text" hidden="true" id="propiedadVal" name="propiedadVal" value="#{vehiculoBean.vehiculoSelected.id}"  />
-                                <br/>
-                                <div style="text-align: right;">
-                                    <p:commandButton   ajax="false"  value="Guardar"   action="#{desperfectosBean.guardar(vehiculoBean.vehiculoSelected)}" />
-                                </div>
-                            </p:outputPanel>
-                        </p:dialog>
-                        
-                    </p:panel>
-                        
-                </p:outputPanel>
-            </p:dialog>
-
             <p:dialog header="Mantenimientos" widgetVar="dlgMantenimiento" modal="false" resizable="false"
                       height="300" width="850" style="font-size: 12px;">
                 <p:outputPanel id="detail2" >
                     <p:panelGrid columns="6" >
                         <h:outputText value="Marca: " />
-                        <h:outputText value="#{vehiculoBean.vehiculoSelectedMantenimiento.marca}" />
+                        <h:outputText value="#{mantenimientosBean.vehiculoSeleccionado.marca}" />
                         <h:outputText value="Modelo: " />
-                        <h:outputText value="#{vehiculoBean.vehiculoSelectedMantenimiento.modelo}" />
+                        <h:outputText value="#{mantenimientosBean.vehiculoSeleccionado.modelo}" />
                         <h:outputText value="Patente: " />
-                        <h:outputText value="#{vehiculoBean.vehiculoSelectedMantenimiento.patente}" />
+                        <h:outputText value="#{mantenimientosBean.vehiculoSeleccionado.patente}" />
                     </p:panelGrid>
                     <p:panel style="border-style: none; height: 200px; ">
                         <div style="text-align: right;">
                             <p:commandButton icon="ui-icon-plus" ajax="true"  oncomplete="PF('dlgAgregarMan').show();" />
                         </div>
                         <p:dataTable id="tablaMantenimientos" widgetVar="mantenimientosWidget" var="man"
-                                     value="#{mantenimientosBean.getMantenimientosDeVehiculo(vehiculoBean.vehiculoSelectedMantenimiento)}"  rows="8"
+                                     value="#{mantenimientosBean.getMantenimientosDeVehiculoDB()}"  rows="8"
                                      scrollable="true" scrollHeight="150" style="border-style: solid; border-color: #dbdbdb; border-width: thin;"
                                      emptyMessage="sin registros">
 
@@ -219,7 +150,7 @@
                             </p:column>
 
                             <p:column  headerText="Valor">
-                                <h:outputText value="#{man.valor}" >
+                                <h:outputText value="#{man.presupuesto}" >
                                     <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText>
                             </p:column>
@@ -238,22 +169,16 @@
                         <p:dialog id="dlgAgregarM" header="Nuevo registro Mantenimiento" widgetVar="dlgAgregarMan" modal="false"
                                   resizable="false" height="220" width="450" style="font-size: 12px;">
                             <p:outputPanel id="abmMantenimientos" >
-                                <input type="text" hidden="true" id="propiedadVal2" name="propiedadVal2" value="#{vehiculoBean.vehiculoSelectedMantenimiento.id}"  />
                                 <h:panelGrid columns="2">
-                                    <p:outputLabel value="Fecha"  />
-                                    <p:calendar locale="es" value="#{mantenimientosBean.fecha}" />
-                                    <p:outputLabel value="Valor"  />
-                                    <p:inputNumber value="#{mantenimientosBean.valor}"  maxValue="99999"/>
+                                    
                                     <p:outputLabel value="Kilometraje"  />
                                     <p:inputNumber  value="#{mantenimientosBean.kilometraje}" maxValue="999999" />
-                                     <p:outputLabel value="Lugar"  />
-                                    <p:inputText value="#{mantenimientosBean.lugar}" maxlength="50" size="50"/>
-                                    <p:outputLabel value="Descripcion"  />
+                                     <p:outputLabel value="Descripcion"  />
                                     <p:inputText value="#{mantenimientosBean.descripcion}" maxlength="50" size="50"/>
                                 </h:panelGrid> 
                                 <br/>
                                 <div style="text-align: right;">
-                                    <p:commandButton   ajax="false"  value="Guardar"   action="#{mantenimientosBean.guardar(vehiculoBean.vehiculoSelected)}" />
+                                    <p:commandButton   ajax="false"  value="Guardar"   action="#{mantenimientosBean.guardar()}" />
                                 </div>
                             </p:outputPanel>
                         </p:dialog>

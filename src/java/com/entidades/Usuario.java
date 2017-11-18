@@ -49,8 +49,7 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<Ingreso> ingresoCollection;
 
-    @OneToMany(mappedBy = "idUsuario")
-    private Collection<Egreso> egresoCollection;
+    
     @OneToMany(mappedBy = "idUsuario")
     private Collection<Liquidacion> liquidacionCollection;
 
@@ -194,15 +193,7 @@ public class Usuario implements Serializable {
         return idRol;
     }
 
-    @XmlTransient
-    public Collection<Egreso> getEgresoCollection() {
-        return egresoCollection;
-    }
-
-    public void setEgresoCollection(Collection<Egreso> egresoCollection) {
-        this.egresoCollection = egresoCollection;
-    }
-
+ 
     @XmlTransient
     public Collection<Liquidacion> getLiquidacionCollection() {
         return liquidacionCollection;

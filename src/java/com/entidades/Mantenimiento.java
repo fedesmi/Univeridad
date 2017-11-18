@@ -8,7 +8,6 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,10 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fmichel
+ * @author Usuario
  */
 @Entity
-@Cacheable(false)
 @Table(name = "mantenimiento")
 @XmlRootElement
 @NamedQueries({
@@ -38,21 +36,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Mantenimiento.findById", query = "SELECT m FROM Mantenimiento m WHERE m.id = :id")
     , @NamedQuery(name = "Mantenimiento.findByFecha", query = "SELECT m FROM Mantenimiento m WHERE m.fecha = :fecha")
     , @NamedQuery(name = "Mantenimiento.findByLugar", query = "SELECT m FROM Mantenimiento m WHERE m.lugar = :lugar")
-    , @NamedQuery(name = "Mantenimiento.findByValor", query = "SELECT m FROM Mantenimiento m WHERE m.valor = :valor")
+    , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT d FROM Mantenimiento d WHERE d.idVehiculo = :idVehiculo")
+    , @NamedQuery(name = "Mantenimiento.findByPresupuesto", query = "SELECT m FROM Mantenimiento m WHERE m.presupuesto = :presupuesto")
     , @NamedQuery(name = "Mantenimiento.findByFactura", query = "SELECT m FROM Mantenimiento m WHERE m.factura = :factura")
     , @NamedQuery(name = "Mantenimiento.findByKilometraje", query = "SELECT m FROM Mantenimiento m WHERE m.kilometraje = :kilometraje")
-    , @NamedQuery(name = "Mantenimiento.findByDescripcion", query = "SELECT m FROM Mantenimiento m WHERE m.descripcion = :descripcion")
-    , @NamedQuery(name = "Mantenimiento.findByIdVehiculo", query = "SELECT d FROM Mantenimiento d WHERE d.idVehiculo = :idVehiculo")})
+    , @NamedQuery(name = "Mantenimiento.findByDescripcion", query = "SELECT m FROM Mantenimiento m WHERE m.descripcion = :descripcion")})
 public class Mantenimiento implements Serializable {
-
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Vehiculo idVehiculo;
-
-    @JoinColumn(name = "id_egreso", referencedColumnName = "id")
-    @ManyToOne
-    private Egreso idEgreso;
-
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,23 +49,16 @@ public class Mantenimiento implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "lugar")
     private String lugar;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "valor")
-    private int valor;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "presupuesto")
+    private Float presupuesto;
+    @Size(max = 20)
     @Column(name = "factura")
     private String factura;
     @Basic(optional = false)
@@ -85,11 +67,18 @@ public class Mantenimiento implements Serializable {
     private int kilometraje;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 50)
     @Column(name = "descripcion")
     private String descripcion;
-    
-   
+    @JoinColumn(name = "id_egreso", referencedColumnName = "id")
+    @ManyToOne
+    private Egreso idEgreso;
+    @JoinColumn(name = "id_autorizacion", referencedColumnName = "id")
+    @ManyToOne
+    private Empleado idAutorizacion;
+    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Vehiculo idVehiculo;
 
     public Mantenimiento() {
     }
@@ -98,12 +87,8 @@ public class Mantenimiento implements Serializable {
         this.id = id;
     }
 
-    public Mantenimiento(Integer id, Date fecha, String lugar, int valor, String factura, int kilometraje, String descripcion) {
+    public Mantenimiento(Integer id, int kilometraje, String descripcion) {
         this.id = id;
-        this.fecha = fecha;
-        this.lugar = lugar;
-        this.valor = valor;
-        this.factura = factura;
         this.kilometraje = kilometraje;
         this.descripcion = descripcion;
     }
@@ -132,12 +117,12 @@ public class Mantenimiento implements Serializable {
         this.lugar = lugar;
     }
 
-    public int getValor() {
-        return valor;
+    public Float getPresupuesto() {
+        return presupuesto;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
+    public void setPresupuesto(Float presupuesto) {
+        this.presupuesto = presupuesto;
     }
 
     public String getFactura() {
@@ -164,6 +149,30 @@ public class Mantenimiento implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Egreso getIdEgreso() {
+        return idEgreso;
+    }
+
+    public void setIdEgreso(Egreso idEgreso) {
+        this.idEgreso = idEgreso;
+    }
+
+    public Empleado getIdAutorizacion() {
+        return idAutorizacion;
+    }
+
+    public void setIdAutorizacion(Empleado idAutorizacion) {
+        this.idAutorizacion = idAutorizacion;
+    }
+
+    public Vehiculo getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(Vehiculo idVehiculo) {
+        this.idVehiculo = idVehiculo;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -188,25 +197,5 @@ public class Mantenimiento implements Serializable {
     public String toString() {
         return "com.entidades.Mantenimiento[ id=" + id + " ]";
     }
-
-   
-
-    public Egreso getIdEgreso() {
-        return idEgreso;
-    }
-
-    public void setIdEgreso(Egreso idEgreso) {
-        this.idEgreso = idEgreso;
-    }
-
-    public Vehiculo getIdVehiculo() {
-        return idVehiculo;
-    }
-
-    public void setIdVehiculo(Vehiculo idVehiculo) {
-        this.idVehiculo = idVehiculo;
-    }
-
-
     
 }

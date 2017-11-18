@@ -30,7 +30,7 @@ public class VehiculoBean implements Serializable {
 
     @Inject
     private VehiculoFacade vehiculoFacade;
-   
+
     private Vehiculo vehiculoVar;
     private Vehiculo vehiculoSelected;
     private Vehiculo vehiculoSelectedMantenimiento;
@@ -45,19 +45,20 @@ public class VehiculoBean implements Serializable {
     // This is the required method to get the datatable list.
     @PostConstruct
     public void init() {
-    //vehiculoVar = new Vehiculo();
+        //vehiculoVar = new Vehiculo();
 
     }
-    
-      public void onloadLista() {
+
+    public void onloadLista() {
 
         vehiculos = getVehiculosAll();
 
     }
-        public void onloadAsignar() {
+
+    public void onloadAsignar() {
 
         vehiculos = getVehiculosParaClase();
-   
+
     }
 
     /**
@@ -77,6 +78,7 @@ public class VehiculoBean implements Serializable {
     private List<Vehiculo> getVehiculosParaClase() {
         return this.vehiculoFacade.getVehiculosParaClases();
     }
+
     private List<Vehiculo> getVehiculosAll() {
         return this.vehiculoFacade.findAll();
     }
@@ -149,15 +151,11 @@ public class VehiculoBean implements Serializable {
     }
 
     /**
-     * @param vehiculoSelectedMantenimiento the vehiculoSelectedMantenimiento to set
+     * @param vehiculoSelectedMantenimiento the vehiculoSelectedMantenimiento to
+     * set
      */
     public void setVehiculoSelectedMantenimiento(Vehiculo vehiculoSelectedMantenimiento) {
         this.vehiculoSelectedMantenimiento = vehiculoSelectedMantenimiento;
     }
-
-    
- 
-    
-    
 
 }
