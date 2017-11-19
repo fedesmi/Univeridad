@@ -122,7 +122,8 @@ public class MantenimientoBean implements Serializable {
         mantenimientoVar.setFecha(new Date());
         this.mantenimientoFacade.create(mantenimientoVar);
 
-        mantenimientoVar = null;
+        mantenimientoVar = new Mantenimiento();
+        vehiculoSeleccionado= new Vehiculo();
         borrarVariables();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El mantenimiento fue registrado exitosamente"));

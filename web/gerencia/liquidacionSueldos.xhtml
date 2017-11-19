@@ -77,13 +77,20 @@
                 </p:column>
                 <p:column  headerText="Autorizado">
                       <div style="text-align: center; font-size: 12px;" >
-                    <h:outputText value="#{liq.idEgreso.idGerenteAutorizo==null?'NO':'SI'}"  />
+                          <h:outputText value="#{liq.idEmpleado==null?'NO':'SI'}"  />
                     </div>
                 </p:column>
+                <p:column  headerText="Recibo">
+                  
+                    <p:commandButton icon="ui-icon-gear" ajax="false" actionListener="#{liquidacionSueldosBean.printPDF()}" />
+                  <p:commandButton icon="ui-icon-star" rendered="#{liquidacionSueldosBean.media ne null}" ajax="false"  actionListener="#{liquidacionSueldosBean.downloadFile()}" />
+                  </p:column>
                 <p:column  headerText="Recibo">
                     <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:formLiquidacion:recibosDetallePanel" oncomplete="PF('dlgRecibosDetalle').show();">
                         <f:setPropertyActionListener value="#{liq}" target="#{liquidacionSueldosBean.liquidacionSeleccionada}" />
                     </p:commandButton>
+                  
+                       
                 </p:column>
             </p:dataTable>
             <p:dialog id="dlgRecibosDetalleID" header="Detalle Sueldo" widgetVar="dlgRecibosDetalle" modal="false"
@@ -142,7 +149,7 @@
             </p:dialog>
         </h:form>
     </ui:define>
-
+    
 
 
 </ui:composition>

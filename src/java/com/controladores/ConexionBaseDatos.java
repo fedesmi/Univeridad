@@ -56,8 +56,8 @@ public class ConexionBaseDatos {
     public void conectarBD( String userp,String pwp ){ 
         try {
             Class.forName(driver);//CARGA EL DRIVER SUN.JDBC.... PERMITE LA COMUNICACION ENTRE EL PROG JAVA Y EL DRIVER DEL MOTOR
-            conexion = DriverManager.getConnection(url,userp, pwp);//se crea una conexion con bd especificada
-            sentencia = conexion.createStatement(); //se crea una sentencia p ejecutar comandos sql y se asocia con conexion
+            setConexion(DriverManager.getConnection(url,userp, pwp));//se crea una conexion con bd especificada
+            sentencia = getConexion().createStatement(); //se crea una sentencia p ejecutar comandos sql y se asocia con conexion
            
             conectado=true;   
             //System.out.println("conecto con la BD");
@@ -76,7 +76,7 @@ public class ConexionBaseDatos {
        ResultSet resultado2=null;
        
        try{
-           sentencia = conexion.createStatement();
+           sentencia = getConexion().createStatement();
            
            resultado2 = sentencia.executeQuery(con);   
        }catch(SQLException e){
@@ -128,13 +128,27 @@ public class ConexionBaseDatos {
     public void cerrarConexion(){
         try{
             sentencia.close();
-            conexion.close();
+            getConexion().close();
             if(resultado!=null)
                 resultado.close();
               
 	  }catch( Exception e ) {
             System.out.println( e.toString() );
           }
+    }
+
+    /**
+     * @return the conexion
+     */
+    public Connection getConexion() {
+        return conexion;
+    }
+
+    /**
+     * @param conexion the conexion to set
+     */
+    public void setConexion(Connection conexion) {
+        this.conexion = conexion;
     }
 
 }

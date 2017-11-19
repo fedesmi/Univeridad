@@ -99,9 +99,6 @@
                         <h:outputText value="#{(veh.idEmpleado.nombre != null ? veh.idEmpleado.nombre.toUpperCase().concat(' ').concat(veh.idEmpleado.apellido.toUpperCase()) : ' - ')}" />
                    </div>
                 </p:column>
-                
-                
-               
                 <p:column style="width:40px"  headerText="Mant">
                     <p:commandButton icon="ui-icon-search" ajax="true" update="formGer:form1:detail2" oncomplete="PF('dlgMantenimiento').show();">
                         <f:setPropertyActionListener value="#{veh}" target="#{mantenimientosBean.vehiculoSeleccionado}" />

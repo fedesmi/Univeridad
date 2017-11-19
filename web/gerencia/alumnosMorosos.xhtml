@@ -105,7 +105,7 @@
                             <p:ajax event="rowUnselectCheckbox" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" />
                             <p:ajax event="toggleSelect" listener="#{alumnosMorososBean.calcularMonto()}" update=":formGer:formAlumnosMorosos:montoFinalLbl" partialSubmit="true" />
 
-                            <p:column selectionMode="multiple" style="width:16px;text-align:center" rendered="#{alqveh.idIngreso==NULL?'true':'false'}"/>
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center" />
                             <p:column   headerText="Fecha" style="text-align: center;"  >
                                 <h:outputText value="#{alqveh.fecha}"  > 
                                     <f:convertDateTime pattern="dd/MM/yyyy" />

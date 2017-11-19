@@ -41,6 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ingreso.findAll", query = "SELECT i FROM Ingreso i")
     , @NamedQuery(name = "Ingreso.findById", query = "SELECT i FROM Ingreso i WHERE i.id = :id")
     , @NamedQuery(name = "Ingreso.findByFecha", query = "SELECT i FROM Ingreso i WHERE i.fecha = :fecha")
+         , @NamedQuery(name = "Ingreso.findDesdeHasta", query = "SELECT i FROM Ingreso i WHERE i.fecha >= :fechaD AND i.fecha <= :fechaH ")
+    , @NamedQuery(name = "Ingreso.findTotal", query = "SELECT FUNC('SUM', i.monto) FROM Ingreso i WHERE i.fecha >= :fechaD AND i.fecha <= :fechaH")
     , @NamedQuery(name = "Ingreso.findByMonto", query = "SELECT i FROM Ingreso i WHERE i.monto = :monto")})
 
 public class Ingreso implements Serializable {
@@ -55,9 +57,7 @@ public class Ingreso implements Serializable {
 
     @Column(name = "cuotas")
     private Integer cuotas;
-    
-   
-    
+
     @JoinColumn(name = "id_forma_pago", referencedColumnName = "id")
     @OneToOne
     private FormaPago idFormaPago;
@@ -72,7 +72,7 @@ public class Ingreso implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @Size(max = 50)
-   
+
     @OneToMany(mappedBy = "idIngreso")
     private Collection<AlquilerVehiculo> alquilerVehiculoCollection;
     @OneToMany(mappedBy = "idIngreso")
@@ -100,9 +100,6 @@ public class Ingreso implements Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-
-
-  
 
     @XmlTransient
     public Collection<AlquilerVehiculo> getAlquilerVehiculoCollection() {
@@ -178,5 +175,5 @@ public class Ingreso implements Serializable {
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
+
 }

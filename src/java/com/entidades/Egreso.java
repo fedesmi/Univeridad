@@ -32,7 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Egreso.findAll", query = "SELECT e FROM Egreso e")
     , @NamedQuery(name = "Egreso.findById", query = "SELECT e FROM Egreso e WHERE e.id = :id")
     , @NamedQuery(name = "Egreso.findByFecha", query = "SELECT e FROM Egreso e WHERE e.fecha = :fecha")
+    , @NamedQuery(name = "Egreso.findDesdeHasta", query = "SELECT e FROM Egreso e WHERE e.fecha >= :fechaD AND e.fecha <= :fechaH ")
     , @NamedQuery(name = "Egreso.findByMonto", query = "SELECT e FROM Egreso e WHERE e.monto = :monto")
+    , @NamedQuery(name = "Egreso.findTotal", query = "SELECT FUNC('SUM', e.monto) FROM Egreso e WHERE e.fecha >= :fechaD AND e.fecha <= :fechaH")
     , @NamedQuery(name = "Egreso.findByConcepto", query = "SELECT e FROM Egreso e WHERE e.concepto = :concepto")})
 public class Egreso implements Serializable {
 
@@ -115,5 +117,5 @@ public class Egreso implements Serializable {
     public String toString() {
         return "com.entidades.Egreso[ id=" + id + " ]";
     }
-    
+
 }

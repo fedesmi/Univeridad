@@ -1,0 +1,117 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="ingresosEgresosDefine">
+        <h:form id="formingresosEgresos">
+            <f:metadata>
+                <f:viewAction action="#{ingresoEgresoBean.onLoadIngresosEgresos()}" />
+            </f:metadata>
+            <p:growl id="msgs" showDetail="true" />
+            <p:outputLabel value="Configuración" />
+
+            <br/><br/>
+            <div style="font-size: 11px;">
+                <p:panelGrid columns="5">
+                    <p:outputLabel value="Desde"  />
+                    <p:calendar navigator="true"  locale="es" pattern="dd-MM-yyyy" value="#{ingresoEgresoBean.fechaDesde}" />
+                    <p:outputLabel value="Hasta"  />
+                    <p:calendar navigator="true"  locale="es" pattern="dd-MM-yyyy" value="#{ingresoEgresoBean.fechaHasta}" />
+                    <p:commandButton  ajax="true" update="formGer:formingresosEgresos:ingresosyegresos" value="Filtrar" actionListener="#{ingresoEgresoBean.filtrar()}" />
+                </p:panelGrid>
+                
+            </div>
+            <br/>
+            <p:panelGrid id="ingresosyegresos" columns="2">
+                <p:dataTable id="tablaIngresos" widgetVar="ingresosW" var="ingreso" style="font-size: 14px;"
+                             editable="true" scrollable="true" scrollHeight="390" value="#{ingresoEgresoBean.ingresosDia}"  emptyMessage="sin registros" >
+                    <f:facet name="header">
+                        Lista de ingresos
+                    </f:facet>
+                    <p:column  headerText="Fecha">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{ingreso.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </div>
+                    </p:column>
+
+                    <p:column  headerText="Forma Pago">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{ingreso.idFormaPago.descripcion}" />
+                        </div>
+                    </p:column>
+                    <p:column  headerText="Cuotas">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{ingreso.cuotas}" />
+                        </div>
+                    </p:column>
+                    <p:column  headerText="Monto">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{ingreso.monto}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </div>
+                    </p:column>
+                    <p:column  headerText="Clases">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{ingreso.claseCollection.size()}" />
+                        </div>
+                    </p:column>
+                    <p:column  headerText="Alquileres">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{ingreso.alquilerVehiculoCollection.size()}" />
+                        </div>
+                    </p:column>
+                </p:dataTable>
+
+                <p:dataTable id="tablaEgresos" widgetVar="EgresosW" var="egreso" style="font-size: 14px;"
+                             editable="true" scrollable="true" scrollHeight="390" value="#{ingresoEgresoBean.egresosDia}"  emptyMessage="sin registros" >
+                    <f:facet name="header">
+                        Lista de Egresos
+                    </f:facet>
+                    <p:column  headerText="Fecha">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{egreso.fecha}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </div>
+                    </p:column>
+                    <p:column  headerText="Monto">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{egreso.monto}" >
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </div>
+                    </p:column>
+                    <p:column  headerText="Concepto">
+                        <div style="text-align: center; font-size: 12px;" >
+                            <h:outputText value="#{egreso.concepto}" />
+                        </div>
+                    </p:column>
+                </p:dataTable>
+
+                <p:outputPanel>
+                    <p:outputLabel value="Total: "/>
+                    <p:outputLabel  value="#{ingresoEgresoBean.totalIngresos}" >
+                        <f:convertNumber type="currency" currencySymbol="$"  />
+                    </p:outputLabel>
+                </p:outputPanel>
+                <p:outputPanel>
+                    <p:outputLabel value="Total: "/>
+                    <p:outputLabel  value="#{ingresoEgresoBean.totalEgresos}" >
+                        <f:convertNumber type="currency" currencySymbol="$"  />
+                    </p:outputLabel>
+                </p:outputPanel>
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>
