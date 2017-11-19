@@ -12,12 +12,12 @@ package com.clases;
 public class ReciboReporte {
     
     private String item;
-    private double porcentaje;
+    private float porcentaje;
     private int unidades;
-    private double monto;
+    private float monto;
     
     
-    public ReciboReporte(String itemP, double porcentajeP, int unidadesP, double montoP){
+    public ReciboReporte(String itemP, float porcentajeP, int unidadesP, float montoP){
         this.item=itemP;
         this.porcentaje = porcentajeP;
         this.unidades= unidadesP;
@@ -41,14 +41,14 @@ public class ReciboReporte {
     /**
      * @return the porcentaje
      */
-    public double getPorcentaje() {
+    public float getPorcentaje() {
         return porcentaje;
     }
 
     /**
      * @param porcentaje the porcentaje to set
      */
-    public void setPorcentaje(double porcentaje) {
+    public void setPorcentaje(float porcentaje) {
         this.porcentaje = porcentaje;
     }
 
@@ -69,14 +69,14 @@ public class ReciboReporte {
     /**
      * @return the monto
      */
-    public double getMonto() {
+    public float getMonto() {
         return monto;
     }
 
     /**
      * @param monto the monto to set
      */
-    public void setMonto(double monto) {
+    public void setMonto(float monto) {
         this.monto = monto;
     }
     

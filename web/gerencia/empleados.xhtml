@@ -85,7 +85,7 @@
                     <p:rowEditor />
                 </p:column>
 
-                <p:column  headerText="Recibos">
+                <p:column  headerText="Liquidaciones">
                     <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:form1:recibosPanel" oncomplete="PF('dlgRecibos').show();">
                         <f:setPropertyActionListener value="#{emp}" target="#{recibosBean.empleadoSeleccionado}" />
                     </p:commandButton>
@@ -132,10 +132,11 @@
                         </p:column>
 
                         
-                        <p:column  headerText="Detalle">
+                        <p:column  headerText="Recibo">
                             <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:form1:recibosDetallePanel" oncomplete="PF('dlgRecibosDetalle').show();">
                                 <f:setPropertyActionListener value="#{rec}" target="#{recibosBean.liquidacionSeleccionado}" />
                             </p:commandButton>
+                            <p:commandButton icon="ui-icon-circle-arrow-s" ajax="false" actionListener="#{liquidacionSueldosBean.printPDF(rec)}"  />
                         </p:column>
                         
                     </p:dataTable>

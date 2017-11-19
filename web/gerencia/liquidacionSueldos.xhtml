@@ -48,49 +48,44 @@
 
                 <p:column  headerText="Mes" width="150px;">
                     <div style="text-align: center; font-size: 12px;" >
-                    <h:outputText value="#{liquidacionSueldosBean.getNombreMes(liq.mes)}"/>
+                        <h:outputText value="#{liquidacionSueldosBean.getNombreMes(liq.mes)}"/>
                     </div>
                 </p:column>
                 <p:column  headerText="Año" width="80px;">
-                      <div style="text-align: center; font-size: 12px;" >
-                    <h:outputText value="#{liq.year}"/>
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{liq.year}"/>
                     </div>
                 </p:column>
                 <p:column  headerText="Empleado">
-                      <div style="text-align: center; font-size: 12px;" >
-                    <h:outputText value="#{liq.idEmpleado.nombre} #{liq.idEmpleado.apellido}"  />
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{liq.idEmpleado.nombre} #{liq.idEmpleado.apellido}"  />
                     </div>
                 </p:column>
                 <p:column  headerText="Sueldo Base" width="150px;">
-                      <div style="text-align: center; font-size: 12px;" >
-                    <h:outputText value="#{liq.sueldoBase}" >
-                        <f:convertNumber type="currency" currencySymbol="$" />
-                    </h:outputText>
-                          </div>
-                </p:column>
-                <p:column  headerText="Sueldo Percibido" width="150px;">
-                      <div style="text-align: center; font-size: 12px;" >
-                    <h:outputText value="#{liq.idEgreso.monto}" >
-                        <f:convertNumber type="currency" currencySymbol="$" />
-                    </h:outputText>
-                          </div>
-                </p:column>
-                <p:column  headerText="Autorizado">
-                      <div style="text-align: center; font-size: 12px;" >
-                          <h:outputText value="#{liq.idEmpleado==null?'NO':'SI'}"  />
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{liq.sueldoBase}" >
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
                     </div>
                 </p:column>
-                <p:column  headerText="Recibo">
-                  
-                    <p:commandButton icon="ui-icon-gear" ajax="false" actionListener="#{liquidacionSueldosBean.printPDF()}" />
-                  <p:commandButton icon="ui-icon-star" rendered="#{liquidacionSueldosBean.media ne null}" ajax="false"  actionListener="#{liquidacionSueldosBean.downloadFile()}" />
-                  </p:column>
-                <p:column  headerText="Recibo">
+                <p:column  headerText="Sueldo Percibido" width="150px;">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{liq.idEgreso.monto}" >
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </div>
+                </p:column>
+                <p:column  headerText="Autorizado">
+                    <div style="text-align: center; font-size: 12px;" >
+                        <h:outputText value="#{liq.idEmpleado==null?'NO':'SI'}"  /> 
+                    </div>
+                </p:column>
+                
+                <p:column  headerText="Recibo" width="100px;">
                     <p:commandButton icon="ui-icon-search" ajax="true"  update="formGer:formLiquidacion:recibosDetallePanel" oncomplete="PF('dlgRecibosDetalle').show();">
                         <f:setPropertyActionListener value="#{liq}" target="#{liquidacionSueldosBean.liquidacionSeleccionada}" />
                     </p:commandButton>
-                  
-                       
+                    <p:commandButton icon="ui-icon-circle-arrow-s" ajax="false" actionListener="#{liquidacionSueldosBean.printPDF(liq)}"  />
                 </p:column>
             </p:dataTable>
             <p:dialog id="dlgRecibosDetalleID" header="Detalle Sueldo" widgetVar="dlgRecibosDetalle" modal="false"
@@ -111,45 +106,47 @@
 
                         <p:column  headerText="item">
                             <div style="text-align: center; font-size: 12px;" >
-                            <h:outputText value="#{det.idItem.item}" />
+                                <h:outputText value="#{det.idItem.item}" />
                             </div>
                         </p:column>
 
                         <p:column  headerText="Porcentaje">
                             <div style="text-align: center; font-size: 12px;" >
-                            <h:outputText value="#{det.idItem.porcentaje}" >
-                                <f:convertNumber type="percent" minFractionDigits="2" />
-                            </h:outputText>
-                                </div>
+                                <h:outputText value="#{det.idItem.porcentaje}" >
+                                    <f:convertNumber type="percent" minFractionDigits="2" />
+                                </h:outputText>
+                            </div>
                         </p:column>
 
                         <p:column  headerText="Unidades">
                             <div style="text-align: center; font-size: 12px;" >
-                            <h:outputText value="#{det.unidades}" />
+                                <h:outputText value="#{det.unidades}" />
                             </div>
                         </p:column>
                         <p:column  headerText="Valor" width="150px;">
                             <div style="text-align: center; font-size: 12px;" >
-                            <h:outputText value="#{det.monto}" >
-                                <f:convertNumber type="currency" currencySymbol="$" />
-                            </h:outputText>
-                                </div>
+                                <h:outputText value="#{det.monto}" >
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </div>
                         </p:column>
                     </p:dataTable>
                     <br/>
-       
+
+                    
+                     <div style="font-size: 14px; font-weight: bold; text-align: right;">
                         <p:outputLabel value="Total: "/>
                         <p:outputLabel  value="#{liquidacionSueldosBean.liquidacionSeleccionada.idEgreso.monto}" >
                             <f:convertNumber type="currency" currencySymbol="$"  />
                         </p:outputLabel>
-                        
-                   
+                    </div>
+
                     <br/>
                 </p:outputPanel>
             </p:dialog>
         </h:form>
     </ui:define>
-    
+
 
 
 </ui:composition>

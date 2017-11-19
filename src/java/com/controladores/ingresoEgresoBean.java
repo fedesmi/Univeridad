@@ -5,17 +5,38 @@
  */
 package com.controladores;
 
+import com.clases.EgresoReporte;
+import com.clases.IngresoReporte;
+import com.clases.ReciboReporte;
 import com.entidades.Egreso;
 import com.entidades.Ingreso;
+import com.entidades.Liquidacion;
+import com.entidades.ReciboSueldo;
 import com.repositorios.EgresoFacade;
 import com.repositorios.IngresoFacade;
+import java.io.File;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -153,6 +174,76 @@ public class ingresoEgresoBean implements Serializable {
         egresosDia = egresoFacade.getEgresosByFechas(fechaDesde, fechaHasta);
         setTotalEgresos(egresoFacade.getTotalEgresos(fechaDesde, fechaHasta));
         setTotalIngresos(ingresoFacade.getTotalIngresos(fechaDesde, fechaHasta));
+    }
+    
+    
+    
+    
+    public void printPDFIngresos() throws JRException, IOException {
+        List<IngresoReporte> dataSource = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        if (ingresosDia!= null) {
+         for (Ingreso ingreso : ingresosDia) {
+                dataSource.add(new IngresoReporte(sdf.format(ingreso.getFecha()),
+                        ingreso.getIdFormaPago().getDescripcion(), String.valueOf(ingreso.getCuotas()), 
+                        String.valueOf(ingreso.getMonto()), String.valueOf(ingreso.getClaseCollection().size()), 
+                        String.valueOf(ingreso.getAlquilerVehiculoCollection().size())));
+            }
+            
+            
+            String filename = "Ingresos_"+sdf.format(fechaDesde)+"_"+sdf.format(fechaHasta)+".pdf";
+            String jasperPath = "/resources/report/Ingresos.jasper";
+
+            Map<String, Object> hm = new HashMap<>();
+           
+            hm.put("fechaDesde", sdf.format(fechaDesde));
+            hm.put("fechaHasta", sdf.format(fechaHasta));
+           
+            this.PDF(hm, jasperPath, dataSource, filename);
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Error al Genrara PDF"));
+
+        }
+    }
+    
+     public void printPDFEgresos() throws JRException, IOException {
+        List<EgresoReporte> dataSource = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        if (ingresosDia!= null) {
+         for (Egreso egreso : egresosDia) {
+                dataSource.add(new EgresoReporte(sdf.format(egreso.getFecha()),
+                        String.valueOf(egreso.getMonto()), egreso.getConcepto()));
+            }
+            
+            
+            String filename = "Egresos_"+sdf.format(fechaDesde)+"_"+sdf.format(fechaHasta)+".pdf";
+            String jasperPath = "/resources/report/Egresos.jasper";
+
+            Map<String, Object> hm = new HashMap<>();
+           
+            hm.put("fechaDesde", sdf.format(fechaDesde));
+            hm.put("fechaHasta", sdf.format(fechaHasta));
+           
+            this.PDF(hm, jasperPath, dataSource, filename);
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Error al Genrara PDF"));
+
+        }
+    }
+
+    public void PDF(Map<String, Object> params, String jasperPath, List<?> dataSource, String fileName) throws JRException, IOException {
+        String relativeWebPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(jasperPath);
+        File file = new File(relativeWebPath);
+        JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(dataSource, false);
+        JasperPrint print = JasperFillManager.fillReport(file.getPath(), params, source);
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        response.addHeader("Content-disposition", "attachment;filename=" + fileName);
+        ServletOutputStream stream = response.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(print, stream);
+        FacesContext.getCurrentInstance().responseComplete();
+
     }
 
 }

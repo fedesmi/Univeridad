@@ -5,7 +5,6 @@
  */
 package com.controladores;
 
-import com.clases.JasperReportUtil;
 import com.clases.ReciboReporte;
 import com.entidades.Egreso;
 import com.entidades.Empleado;
@@ -22,17 +21,12 @@ import com.repositorios.UsuarioFacade;
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -46,10 +40,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 import org.primefaces.model.StreamedContent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.OutputStream;
+import java.net.URL;
 import javax.servlet.ServletOutputStream;
 import net.sf.jasperreports.engine.JasperExportManager;
-import org.mariadb.jdbc.internal.logging.LoggerFactory;
 
 /**
  *
@@ -253,93 +246,43 @@ public class LiquidacionSueldosBean implements Serializable {
         this.liquidacionSeleccionada = liquidacionSeleccionada;
     }
 
-    /*public void viewReportPDF() {
-        try {
-            
-            
-            //Fill Map with params values
-            HashMap hm = new HashMap();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            //String valor = liquidacionSeleccionadaPDF.getIdEmpleado().getApellido()+" "+ liquidacionSeleccionadaPDF.getIdEmpleado().getNombre();
-            hm.put("nombreApellido","federico" );
-            //valor= String.valueOf(liquidacionSeleccionadaPDF.getIdEmpleado().getLegajo());
-            hm.put("legajo","925" );
-            //valor = getNombreMes(liquidacionSeleccionadaPDF.getMes());
-            hm.put("mes", "OCTUBRE");
-            //valor= sdf.format(liquidacionSeleccionadaPDF.getIdEgreso().getFecha());
-            hm.put("fechaPago", "20/11/2012");
-            //valor=String.valueOf(liquidacionSeleccionadaPDF.getIdEmpleado().getDni());
-            hm.put("dni", "31376213");
-            //valor=sdf.format(liquidacionSeleccionadaPDF.getIdEmpleado().getFechaAlta());
-            hm.put("fechaIngreso", "22/1/2015");
-           // hm.put("tipoEmpleado", liquidacionSeleccionadaPDF.getIdEmpleado().getIdTipoEmpleado().getRol());
-            hm.put("tipoEmpleado", "gerente");
-            //valor=String.format ("%.2f",liquidacionSeleccionadaPDF.getIdEgreso().getMonto());
-            hm.put("total", "35.548");
-            hm.put("id_liquidacion", 2 );
-            
-            //Connect with local datasource
-            /*Context ctx = new InitialContext();
-            DataSource ds = (DataSource) ctx.lookup("jdbc/Dam");
-            conexion = null;
-            conexion = ds.;*/
-    //conexion.setAutoCommit(true);
-    /*   ConexionBaseDatos conn = new ConexionBaseDatos();
-            Connection conexion = conn.getConexion();
-            
-            JasperPrint jasperPrint = JasperFillManager.fillReport("C:\\recibo.jasper", hm, conexion);
-            
-            byte[] bytes;
-            
-                bytes = JasperExportManager.exportReportToPdf(jasperPrint);
-            
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpServletResponse response = (HttpServletResponse) context
-                    .getExternalContext().getResponse();
-            /**
-             * *********************************************************************
-             * Pour afficher une bo�te de dialogue pour enregistrer le fichier sous
-             * le nom rapport.pdf
-             * ********************************************************************
-     */
- /* response.addHeader("Content-disposition",
-                    "attachment;filename=reporte.pdf");
-            response.setContentLength(bytes.length);
-            response.getOutputStream().write(bytes);
-            response.setContentType("application/pdf");
-            context.responseComplete();
-            
-        } catch (IOException | JRException ex) {
-           System.out.println("mensajewe "+ex.getMessage());
-        }
-    }*/
-    public void printPDF() throws JRException, IOException {
+    public void printPDF(Liquidacion liqui) throws JRException, IOException {
         List<ReciboReporte> dataSource = new ArrayList<>();
-        dataSource.add(new ReciboReporte("SueldoBase", 1.0, 1, 35.000));
-        dataSource.add(new ReciboReporte("Presentismo", 0.05, 1, 1.750));
+        if (liqui!= null) {
+            for (ReciboSueldo recibo : liqui.getReciboSueldoCollection()) {
+                dataSource.add(new ReciboReporte(recibo.getIdItem().getItem(), recibo.getIdItem().getPorcentaje(), recibo.getUnidades(), recibo.getMonto()));
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String filename = getNombreMes(liqui.getMes())+"_"+liqui.getIdEmpleado().getApellido()+"_recibo.pdf";
+            String jasperPath = "/resources/report/recibo.jasper";
 
-        String filename = "pdfNombre.pdf";
-        String jasperPath = "/resources/report/recibo.jasper";
+            Map<String, Object> hm = new HashMap<>();
+            String valor;
+            valor= String.valueOf(liqui.getIdEmpleado().getApellido() +" "+liqui.getIdEmpleado().getNombre());
+            hm.put("nombreApellido", valor);
+            valor= String.valueOf(liqui.getIdEmpleado().getLegajo());
+            hm.put("legajo", valor);
+            valor = getNombreMes(liqui.getMes());
+            hm.put("mes", valor);
+            valor= sdf.format(liqui.getIdEgreso().getFecha());
+            hm.put("fechaPago", valor);
+            valor=String.valueOf(liqui.getIdEmpleado().getDni());
+            hm.put("dni", valor);
+            valor=sdf.format(liqui.getIdEmpleado().getFechaAlta());
+            hm.put("fechaIngreso", valor);
+            valor = liqui.getIdEmpleado().getIdTipoEmpleado().getRol();
+            hm.put("tipoEmpleado", valor);
+            valor=String.format ("%.2f",liqui.getIdEgreso().getMonto());
+            hm.put("total", valor);
+            URL url = this.getClass().getClassLoader().getResource("/img/logo.png");
+            hm.put("logo", url);
+            
+            this.PDF(hm, jasperPath, dataSource, filename);
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "noooo"));
 
-        Map<String, Object> hm = new HashMap<>();
-        hm.put("nombreApellido", "federico");
-        //valor= String.valueOf(liquidacionSeleccionadaPDF.getIdEmpleado().getLegajo());
-        hm.put("legajo", "925");
-        //valor = getNombreMes(liquidacionSeleccionadaPDF.getMes());
-        hm.put("mes", "OCTUBRE");
-        //valor= sdf.format(liquidacionSeleccionadaPDF.getIdEgreso().getFecha());
-        hm.put("fechaPago", "20/11/2012");
-        //valor=String.valueOf(liquidacionSeleccionadaPDF.getIdEmpleado().getDni());
-        hm.put("dni", "31376213");
-        //valor=sdf.format(liquidacionSeleccionadaPDF.getIdEmpleado().getFechaAlta());
-        hm.put("fechaIngreso", "22/1/2015");
-        // hm.put("tipoEmpleado", liquidacionSeleccionadaPDF.getIdEmpleado().getIdTipoEmpleado().getRol());
-        hm.put("tipoEmpleado", "gerente");
-        //valor=String.format ("%.2f",liquidacionSeleccionadaPDF.getIdEgreso().getMonto());
-        hm.put("total", "35.548");
-        hm.put("id_liquidacion", 2);
-        this.PDF(hm, jasperPath, dataSource, filename);
-
+        }
     }
 
     public void PDF(Map<String, Object> params, String jasperPath, List<?> dataSource, String fileName) throws JRException, IOException {
@@ -355,72 +298,7 @@ public class LiquidacionSueldosBean implements Serializable {
 
     }
 
-    public void generateReport() {
-        System.out.println("hola hola");
-
-        try {
-            //List<country> countries = getListCountriesDummy();
-
-            Map<String, Object> hm = new HashMap<>();
-            hm.put("nombreApellido", "federico");
-            //valor= String.valueOf(liquidacionSeleccionadaPDF.getIdEmpleado().getLegajo());
-            hm.put("legajo", "925");
-            //valor = getNombreMes(liquidacionSeleccionadaPDF.getMes());
-            hm.put("mes", "OCTUBRE");
-            //valor= sdf.format(liquidacionSeleccionadaPDF.getIdEgreso().getFecha());
-            hm.put("fechaPago", "20/11/2012");
-            //valor=String.valueOf(liquidacionSeleccionadaPDF.getIdEmpleado().getDni());
-            hm.put("dni", "31376213");
-            //valor=sdf.format(liquidacionSeleccionadaPDF.getIdEmpleado().getFechaAlta());
-            hm.put("fechaIngreso", "22/1/2015");
-            // hm.put("tipoEmpleado", liquidacionSeleccionadaPDF.getIdEmpleado().getIdTipoEmpleado().getRol());
-            hm.put("tipoEmpleado", "gerente");
-            //valor=String.format ("%.2f",liquidacionSeleccionadaPDF.getIdEgreso().getMonto());
-            hm.put("total", "35.548");
-            hm.put("id_liquidacion", 2);
-
-            outputStream = JasperReportUtil.getOutputStreamFromReport(hm, "c:\\recibo.jasper");
-            media = JasperReportUtil.getStreamContentFromOutputStream(outputStream, "application/pdf", "recibo.pdf");
-        } catch (Exception e) {
-            System.out.println("mensajewe " + e.getMessage());
-            //log.e error(e.getMessage(), e);
-        }
-    }
-
-    public void downloadFile() {
-        try {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-
-            HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-            response.reset();
-            response.setContentType("application/pdf");
-            response.setHeader("Content-disposition", "attachment; filename=" + "recibo.pdf");
-
-            OutputStream output = response.getOutputStream();
-            output.write(outputStream.toByteArray());
-            output.close();
-
-            facesContext.responseComplete();
-        } catch (Exception e) {
-            //log.error(e.getMessage(), e);
-        }
-    }
-
-    public StreamedContent getMedia() {
-        return media;
-    }
-
-    public void setMedia(StreamedContent media) {
-        this.media = media;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
+   
 
     /**
      * @return the liquidacionSeleccionadaPDF

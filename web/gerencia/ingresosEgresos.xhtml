@@ -12,20 +12,21 @@
                 <f:viewAction action="#{ingresoEgresoBean.onLoadIngresosEgresos()}" />
             </f:metadata>
             <p:growl id="msgs" showDetail="true" />
-            <p:outputLabel value="Configuración" />
+            <p:outputLabel value="Ingresos y Egresos    " />
 
             <br/><br/>
             <div style="font-size: 11px;">
-                <p:panelGrid columns="5">
+                <p:panelGrid columns="7">
                     <p:outputLabel value="Desde"  />
                     <p:calendar navigator="true"  locale="es" pattern="dd-MM-yyyy" value="#{ingresoEgresoBean.fechaDesde}" />
                     <p:outputLabel value="Hasta"  />
                     <p:calendar navigator="true"  locale="es" pattern="dd-MM-yyyy" value="#{ingresoEgresoBean.fechaHasta}" />
                     <p:commandButton  ajax="true" update="formGer:formingresosEgresos:ingresosyegresos" value="Filtrar" actionListener="#{ingresoEgresoBean.filtrar()}" />
+                    <p:commandButton  ajax="false" icon="ui-icon-circle-arrow-s" value="Ingresos" actionListener="#{ingresoEgresoBean.printPDFIngresos()}" />
+                    <p:commandButton  ajax="false" icon="ui-icon-circle-arrow-s" value="Egresos" actionListener="#{ingresoEgresoBean.printPDFEgresos()}" />
                 </p:panelGrid>
                 
             </div>
-            <br/>
             <p:panelGrid id="ingresosyegresos" columns="2">
                 <p:dataTable id="tablaIngresos" widgetVar="ingresosW" var="ingreso" style="font-size: 14px;"
                              editable="true" scrollable="true" scrollHeight="390" value="#{ingresoEgresoBean.ingresosDia}"  emptyMessage="sin registros" >
@@ -40,7 +41,7 @@
                         </div>
                     </p:column>
 
-                    <p:column  headerText="Forma Pago">
+                    <p:column  headerText="Pago">
                         <div style="text-align: center; font-size: 12px;" >
                             <h:outputText value="#{ingreso.idFormaPago.descripcion}" />
                         </div>
