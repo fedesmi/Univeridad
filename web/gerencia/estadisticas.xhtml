@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="gerenteIndex.xhtml"
+    xmlns:p="http://primefaces.org/ui"> 
+
+    <ui:define name="source"  id="estadisticasDefine">
+
+
+        <h:form id="formestadisticas">
+            <f:metadata>
+                <f:viewAction action="#{chartBean.onLoadCharts()}" />
+            </f:metadata>
+            <p:growl id="msgs" showDetail="true" />
+            <p:outputLabel value="Estadisticas" />
+
+            <br/>
+
+            <p:chart type="pie" model="#{chartBean.pieModel1}" style="width:300px;height:200px" />
+            <p:chart type="bar" model="#{chartBean.barModel}" style="width:700px;height:200px"/>
+
+
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

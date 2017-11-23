@@ -10,6 +10,7 @@ import com.entidades.AlquilerVehiculo;
 import com.entidades.Alumno;
 import com.entidades.Vehiculo;
 import com.repositorios.AlquilerVehiculoFacade;
+import com.repositorios.ConceptoFacade;
 import com.repositorios.HorarioFacade;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -39,7 +40,8 @@ public class AlquilerVehiculoBean implements Serializable {
     private Vehiculo vehiculoSeleccionado;
     private Alumno alumno;
     private AlquilerVehiculo alquilerSeleccionado;
-    
+    @Inject
+    private ConceptoFacade conceptoFacade;
     @Inject
     private HorarioFacade horarioFacade;
 
@@ -158,6 +160,7 @@ public class AlquilerVehiculoBean implements Serializable {
         av.setIdAlumno(alumno);
         av.setIdVehiculo(vehiculoSeleccionado);
         av.setFecha(fechaConsulta);
+        av.setValor(conceptoFacade.getValorHoraVehiculo().getValor());
         alquilerVehiculoFacade.create(av);
         actualizarDisponibilidad();
         FacesContext context = FacesContext.getCurrentInstance();

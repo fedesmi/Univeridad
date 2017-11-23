@@ -15,6 +15,7 @@ import com.entidades.Empleado;
 import com.entidades.ListaEsperaClase;
 import com.repositorios.AlumnoFacade;
 import com.repositorios.ClaseFacade;
+import com.repositorios.ConceptoFacade;
 import com.repositorios.EmpleadoFacade;
 import com.repositorios.HorarioFacade;
 import com.repositorios.ListaEsperaClaseFacade;
@@ -43,6 +44,8 @@ public class ClaseBean implements Serializable {
     private HorarioFacade horarioFacade;
     @Inject
     private ClaseFacade claseFacade;
+    @Inject
+    private ConceptoFacade conceptoFacade;
     @Inject
     private ListaEsperaClaseFacade listaEsperaClaseFacade;
 
@@ -281,6 +284,7 @@ public class ClaseBean implements Serializable {
             clase.setIdAlumno(alumno);
             clase.setIdInstructor(instructor);
             clase.setFecha(fechaConsulta);
+            clase.setValor(conceptoFacade.getValorHoraClase().getValor());
             claseFacade.create(clase);
             actualizarDisponibilidad();
             FacesContext context = FacesContext.getCurrentInstance();

@@ -8,7 +8,6 @@ package com.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,11 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Usuario
  */
 @Entity
-@Cacheable(false)
 @Table(name = "alquiler_vehiculo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AlquilerVehiculo.findAll", query = "SELECT a FROM AlquilerVehiculo a")
+     @NamedQuery(name = "AlquilerVehiculo.findAll", query = "SELECT a FROM AlquilerVehiculo a")
     , @NamedQuery(name = "AlquilerVehiculo.findById", query = "SELECT a FROM AlquilerVehiculo a WHERE a.id = :id")
     ,@NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagosAlumnos", query = "SELECT a FROM AlquilerVehiculo a WHERE a.idIngreso IS NULL GROUP BY a.idAlumno")
     , @NamedQuery(name = "AlquilerVehiculo.findAlquileresImpagos", query = "SELECT a FROM AlquilerVehiculo a  WHERE a.idAlumno = :alumno AND a.idIngreso IS NULL")
@@ -44,20 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
          + "AND a.idIngreso IS NULL AND a.fechaCancelado IS NULL OR (a.fechaCancelado IS NOT NULL AND a.fecha-a.fechaCancelado<2)")
 
 
-})
-
+    , @NamedQuery(name = "AlquilerVehiculo.findByValor", query = "SELECT a FROM AlquilerVehiculo a WHERE a.valor = :valor")})
 public class AlquilerVehiculo implements Serializable {
-
-    @Column(name = "fecha_cancelado")
-    @Temporal(TemporalType.DATE)
-    private Date fechaCancelado;
-
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id")
-    @ManyToOne
-    private Alumno idAlumno;
-    @JoinColumn(name = "id_horario", referencedColumnName = "id")
-    @ManyToOne
-    private Horario idHorario;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,10 +54,22 @@ public class AlquilerVehiculo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
+    @Column(name = "fecha_cancelado")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCancelado;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor")
+    private Double valor;
+    @JoinColumn(name = "id_alumno", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    private Alumno idAlumno;
+    @JoinColumn(name = "id_horario", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Horario idHorario;
+    @JoinColumn(name = "id_ingreso", referencedColumnName = "id")
+    @ManyToOne
     private Ingreso idIngreso;
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -103,6 +101,38 @@ public class AlquilerVehiculo implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public Date getFechaCancelado() {
+        return fechaCancelado;
+    }
+
+    public void setFechaCancelado(Date fechaCancelado) {
+        this.fechaCancelado = fechaCancelado;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Alumno getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Alumno idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public Horario getIdHorario() {
+        return idHorario;
+    }
+
+    public void setIdHorario(Horario idHorario) {
+        this.idHorario = idHorario;
     }
 
     public Ingreso getIdIngreso() {
@@ -144,30 +174,6 @@ public class AlquilerVehiculo implements Serializable {
     @Override
     public String toString() {
         return "com.entidades.AlquilerVehiculo[ id=" + id + " ]";
-    }
-
-    public Alumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(Alumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
-    public Horario getIdHorario() {
-        return idHorario;
-    }
-
-    public void setIdHorario(Horario idHorario) {
-        this.idHorario = idHorario;
-    }
-
-    public Date getFechaCancelado() {
-        return fechaCancelado;
-    }
-
-    public void setFechaCancelado(Date fechaCancelado) {
-        this.fechaCancelado = fechaCancelado;
     }
     
 }

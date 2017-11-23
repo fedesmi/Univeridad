@@ -47,6 +47,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class Clase implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor")
+    private Double valor;
+
     @Column(name = "fecha_cancelado")
     @Temporal(TemporalType.DATE)
     private Date fechaCancelado;
@@ -161,6 +165,14 @@ public class Clase implements Serializable {
 
     public void setFechaCancelado(Date fechaCancelado) {
         this.fechaCancelado = fechaCancelado;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
    

@@ -179,10 +179,17 @@ public class AlumnosMorososBean implements Serializable {
 
     public void calcularMonto() {
 
-        double valorClase = conceptoFacade.getValorHoraClase().getValor();
-        double valorVehiculo = conceptoFacade.getValorHoraVehiculo().getValor();
-
-        montoFinal = (clasesAlumnosMorososSeleccionada.size() * valorClase) + (alquilerVehiculoListSeleccionado.size() * valorVehiculo);
+        //double valorClase = conceptoFacade.getValorHoraClase().getValor();
+        //double valorVehiculo = conceptoFacade.getValorHoraVehiculo().getValor();
+        double totalClases=0;
+        for(Clase clase:clasesAlumnosMorososSeleccionada){
+            totalClases=totalClases+clase.getValor();
+        }
+        double totalVehiculos=0;
+        for(AlquilerVehiculo alquiler : alquilerVehiculoListSeleccionado){
+            totalVehiculos=totalVehiculos+alquiler.getValor();
+        }
+        montoFinal = totalClases+totalVehiculos;
 
         if (formaDePago.getPorcentajeRecargo() > 0) {
             double porcentaje = (formaDePago.getPorcentajeRecargo() * 0.01) + 1;
